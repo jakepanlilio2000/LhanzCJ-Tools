@@ -1,20 +1,32 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LhanzCJ Installer", "LhanzCJ Installer\LhanzCJ Installer.csproj", "{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LhanzCJ Tools", "LhanzCJ Installer\LhanzCJ Tools.csproj", "{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Lhanz CJ Tools|Any CPU = Lhanz CJ Tools|Any CPU
+		Lhanz CJ Tools|x64 = Lhanz CJ Tools|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Debug|x64.ActiveCfg = Debug|x64
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Debug|x64.Build.0 = Debug|x64
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Lhanz CJ Tools|Any CPU.ActiveCfg = Lhanz CJ Tools|Any CPU
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Lhanz CJ Tools|Any CPU.Build.0 = Lhanz CJ Tools|Any CPU
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Lhanz CJ Tools|x64.ActiveCfg = Lhanz CJ Tools|x64
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Lhanz CJ Tools|x64.Build.0 = Lhanz CJ Tools|x64
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Release|x64.ActiveCfg = Release|x64
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

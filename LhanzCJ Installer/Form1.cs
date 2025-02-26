@@ -5,20 +5,29 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Security.Principal;
 using System.Runtime.InteropServices;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text.RegularExpressions;
+using System.Media;
+using System.Threading.Tasks;
+
 
 namespace LhanzCJ_Installer
 {
 
     public partial class LhanzCJ : Form
     {
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern uint GetFileAttributes(string lpFileName);
+
+        // Wow64 File System Redirection
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool Wow64DisableWow64FsRedirection(ref IntPtr ptr);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool Wow64RevertWow64FsRedirection(IntPtr ptr);
+
+        // Send Message to Windows API
+        [DllImport("user32.dll")]
+        private static extern int SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+
         public LhanzCJ()
         {
             InitializeComponent();
@@ -43,6 +52,13 @@ namespace LhanzCJ_Installer
             }
         }
 
+        private void SetMaxVolume()
+        {
+            for (int i = 0; i < 50; i++) // Increase volume to max
+            {
+                SendMessageW(this.Handle, 0x319, this.Handle, (IntPtr)0xA0000);
+            }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -89,75 +105,28 @@ namespace LhanzCJ_Installer
             }
         }
 
+
+
+
+
         private void button3_Click(object sender, EventArgs e)
         {
-            IntPtr oldValue = IntPtr.Zero;
-            bool redirectionDisabled = false;
-
             try
             {
-                ProcessStartInfo psi = new ProcessStartInfo
-                {
-                    FileName = "cmd.exe",
-                    Arguments = "/c net use \\\\technical",
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-
-                using (Process process = new Process { StartInfo = psi })
-                {
-                    process.Start();
-
-                    string output = process.StandardOutput.ReadToEnd();
-                    string error = process.StandardError.ReadToEnd();
-
-                    if (!string.IsNullOrWhiteSpace(error))
-                    {
-                        if (error.Contains("The network path was not found"))
-                        {
-                            richTextBox1.Clear();
-                            richTextBox1.Text = "Error: The network path was not found.\n\n" +
-                                                "Possible Fix:\n" +
-                                                "1. Enable SMB 1.0/CIFS File Sharing Support.\n" +
-                                                "2. Open Windows Features\n" +
-                                                "3. Check 'SMB 1.0/CIFS File Sharing Support' and click OK.\n" +
-                                                "4. Restart your computer.\n\n" +
-                                                "Opening Windows Features...\n";
-
-                            if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
-                            {
-                                redirectionDisabled = Wow64DisableWow64FsRedirection(ref oldValue);
-                            }
-                            string exePath = Path.Combine(
-                                Environment.GetFolderPath(Environment.SpecialFolder.System),
-                                "OptionalFeatures.exe"
-                            );
-                            Process.Start(exePath);
-
-                        }
-                        else
-                        {
-                            richTextBox1.Text = "Error: " + error;
-                        }
-                    }
-                    else
-                    {
-                        richTextBox1.Text = output;
-                    }
-
-                    process.WaitForExit();
-                }
+                Process.Start("explorer.exe", @"\\technical");
             }
             catch (Exception ex)
             {
-                richTextBox1.Text = "Failed to open network location: " + ex.Message;
+                richTextBox1.Clear();
+                richTextBox1.Text = "Error: The network path was not found.\n\n" +
+                                    "Possible Fix:\n" +
+                                    "1. Enable SMB 1.0/CIFS File Sharing Support.\n" +
+                                    "2. Open Windows Features\n" +
+                                    "3. Check 'SMB 1.0/CIFS File Sharing Support' and click OK.\n" +
+                                    "4. Restart your computer.\n\n" +
+                                    $"Error: {ex.Message}";
             }
         }
-
-
-
         private void button4_Click(object sender, EventArgs e)
         {
             try
@@ -389,7 +358,7 @@ namespace LhanzCJ_Installer
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to open activation program: " + ex.Message, "Error",
+                MessageBox.Show("Failed to open program: " + ex.Message, "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -399,6 +368,131 @@ namespace LhanzCJ_Installer
                     Wow64RevertWow64FsRedirection(oldValue);
                 }
             }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://johnholbrook.github.io/webcam-test/",
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open the website: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            MicTest micTest = new MicTest(); 
+            micTest.Show(); 
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            IntPtr oldValue = IntPtr.Zero;
+            bool redirectionDisabled = false;
+
+            try
+            {
+                if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
+                {
+                    redirectionDisabled = Wow64DisableWow64FsRedirection(ref oldValue);
+                }
+
+                string exePath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.System),
+                    "devmgmt.msc"
+                );
+                Process.Start(exePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open program: " + ex.Message, "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (redirectionDisabled)
+                {
+                    Wow64RevertWow64FsRedirection(oldValue);
+                }
+            }
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://hhc97.github.io/keyboard-checker/",
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open the website: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://www.eizo.be/monitor-test/",
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open the website: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://accounts.google.com/AccountChooser/signinchooser?service=mail&continue=https://mail.google.com/mail/&flowName=GlifWebSignIn&flowEntry=AccountChooser&ec=asw-gmail-globalnav-signin",
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open the website: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            SetMaxVolume(); // Set volume to max
+
+            string defaultMusic = @"C:\Windows\Media\Windows Unlock.wav"; // Default Windows sound
+            SoundPlayer player = new SoundPlayer(defaultMusic);
+
+            try
+            {
+                player.Play(); // Play sound
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error playing sound: " + ex.Message);
+            }
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            RecordSN recordSN = new RecordSN();
+            recordSN.Show();
         }
     }
 }
