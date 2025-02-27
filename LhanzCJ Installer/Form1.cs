@@ -2,11 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
 using System.Security.Principal;
 using System.Runtime.InteropServices;
-using System.Media;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 
 namespace LhanzCJ_Installer
@@ -372,18 +370,8 @@ namespace LhanzCJ_Installer
 
         private void button8_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "https://johnholbrook.github.io/webcam-test/",
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to open the website: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            CamTest camTest = new CamTest();
+            camTest.Show();
         }
 
         private void button9_Click(object sender, EventArgs e)
@@ -426,34 +414,14 @@ namespace LhanzCJ_Installer
 
         private void button12_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "https://hhc97.github.io/keyboard-checker/",
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to open the website: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            KeyboardTester KBTest = new KeyboardTester();
+            KBTest.Show();
         }
 
         private void button13_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "https://www.eizo.be/monitor-test/",
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to open the website: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            MonitorTester LCDTest = new MonitorTester();
+            LCDTest.Show();
         }
 
         private void button14_Click(object sender, EventArgs e)
@@ -474,25 +442,39 @@ namespace LhanzCJ_Installer
 
         private void button11_Click(object sender, EventArgs e)
         {
-            SetMaxVolume(); // Set volume to max
+            SetMaxVolume();
 
-            string defaultMusic = @"C:\Windows\Media\Windows Unlock.wav"; // Default Windows sound
-            SoundPlayer player = new SoundPlayer(defaultMusic);
-
-            try
-            {
-                player.Play(); // Play sound
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error playing sound: " + ex.Message);
-            }
+            SoundCheck sCheck = new SoundCheck();
+            sCheck.Show();
         }
 
         private void button15_Click(object sender, EventArgs e)
         {
             RecordSN recordSN = new RecordSN();
             recordSN.Show();
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://phcorner.org/threads/collection-of-epson-and-cannon-printer-resetter.974406/",
+                    UseShellExecute = true
+                });
+
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://phcorner.org/threads/epson-canon-resetter.2177613/#post-29320468",
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open the website: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }
