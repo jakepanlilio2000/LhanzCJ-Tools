@@ -180,7 +180,7 @@ namespace LhanzCJ_Installer
                     "winget install -e --id Microsoft.VCRedist.2013.x64 --silent --accept-source-agreements",
                     "winget install -e --id Microsoft.VCRedist.2015+.x64 --silent --accept-source-agreements",
                     "winget install -e --id Microsoft.VCRedist.2015+.x86 --silent --accept-source-agreements",
-
+                    
                     "echo Installing DirectX...",
                     "curl -o directx.exe https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe",
                     "mkdir C:\\DirectX",
