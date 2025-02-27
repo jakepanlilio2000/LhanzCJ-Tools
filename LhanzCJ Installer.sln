@@ -5,10 +5,14 @@ VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LhanzCJ Tools", "LhanzCJ Installer\LhanzCJ Tools.csproj", "{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}"
 EndProject
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "LhanzCJ Setup", "LhanzCJ Setup\LhanzCJ Setup.aiproj", "{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
+		DefaultBuild|Any CPU = DefaultBuild|Any CPU
+		DefaultBuild|x64 = DefaultBuild|x64
 		Lhanz CJ Tools|Any CPU = Lhanz CJ Tools|Any CPU
 		Lhanz CJ Tools|x64 = Lhanz CJ Tools|x64
 		Release|Any CPU = Release|Any CPU
@@ -19,6 +23,10 @@ Global
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Debug|x64.ActiveCfg = Debug|x64
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Debug|x64.Build.0 = Debug|x64
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.DefaultBuild|Any CPU.ActiveCfg = Lhanz CJ Tools|Any CPU
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.DefaultBuild|Any CPU.Build.0 = Lhanz CJ Tools|Any CPU
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.DefaultBuild|x64.ActiveCfg = Lhanz CJ Tools|x64
+		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.DefaultBuild|x64.Build.0 = Lhanz CJ Tools|x64
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Lhanz CJ Tools|Any CPU.ActiveCfg = Lhanz CJ Tools|Any CPU
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Lhanz CJ Tools|Any CPU.Build.0 = Lhanz CJ Tools|Any CPU
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Lhanz CJ Tools|x64.ActiveCfg = Lhanz CJ Tools|x64
@@ -27,6 +35,22 @@ Global
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Release|x64.ActiveCfg = Release|x64
 		{F6A6B4A9-3A6A-4B0D-823F-D010CF456CBB}.Release|x64.Build.0 = Release|x64
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Debug|Any CPU.ActiveCfg = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Debug|Any CPU.Build.0 = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Debug|x64.ActiveCfg = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Debug|x64.Build.0 = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.DefaultBuild|Any CPU.ActiveCfg = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.DefaultBuild|Any CPU.Build.0 = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.DefaultBuild|x64.ActiveCfg = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.DefaultBuild|x64.Build.0 = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Lhanz CJ Tools|Any CPU.ActiveCfg = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Lhanz CJ Tools|Any CPU.Build.0 = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Lhanz CJ Tools|x64.ActiveCfg = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Lhanz CJ Tools|x64.Build.0 = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Release|Any CPU.ActiveCfg = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Release|Any CPU.Build.0 = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Release|x64.ActiveCfg = DefaultBuild
+		{8125E1CD-3A58-4E04-AB7C-A3C6E9A6C2F7}.Release|x64.Build.0 = DefaultBuild
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

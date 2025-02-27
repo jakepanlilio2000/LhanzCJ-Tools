@@ -201,6 +201,11 @@
     <Compile Include="Record.Designer.cs">
       <DependentUpon>Record.cs</DependentUpon>
     </Compile>
+    <Compile Include="Record1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Record.resx</DependentUpon>
+    </Compile>
     <Compile Include="SoundCheck.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -241,6 +246,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Record.resx">
+      <DependentUpon>Record.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Record1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="SoundCheck.resx">
       <DependentUpon>SoundCheck.cs</DependentUpon>
     </EmbeddedResource>

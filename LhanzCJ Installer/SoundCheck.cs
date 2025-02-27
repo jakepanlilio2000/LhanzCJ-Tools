@@ -200,7 +200,7 @@ namespace LhanzCJ_Installer
             }
             else
             {
-                currentIndex = start;  // Loop back to the start
+                currentIndex = start;
             }
         }
 
