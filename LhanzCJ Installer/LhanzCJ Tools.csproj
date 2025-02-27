@@ -274,23 +274,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="audio\2left.m4a" />
-    <Content Include="audio\2right.m4a" />
-    <Content Include="audio\3center.m4a" />
-    <Content Include="audio\3left.m4a" />
-    <Content Include="audio\3right.m4a" />
-    <Content Include="audio\5backleft.m4a" />
-    <Content Include="audio\5backright.m4a" />
-    <Content Include="audio\5center.m4a" />
-    <Content Include="audio\5left.m4a" />
-    <Content Include="audio\5right.m4a" />
-    <Content Include="audio\7backleft.m4a" />
-    <Content Include="audio\7backright.m4a" />
-    <Content Include="audio\7center.m4a" />
-    <Content Include="audio\7left.m4a" />
-    <Content Include="audio\7right.m4a" />
-    <Content Include="audio\7surroundleft.m4a" />
-    <Content Include="audio\7surroundright.m4a" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

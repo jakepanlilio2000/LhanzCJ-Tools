@@ -15,14 +15,12 @@ namespace LhanzCJ_Installer
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern uint GetFileAttributes(string lpFileName);
 
-        // Wow64 File System Redirection
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool Wow64DisableWow64FsRedirection(ref IntPtr ptr);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool Wow64RevertWow64FsRedirection(IntPtr ptr);
 
-        // Send Message to Windows API
         [DllImport("user32.dll")]
         private static extern int SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
@@ -52,7 +50,7 @@ namespace LhanzCJ_Installer
 
         private void SetMaxVolume()
         {
-            for (int i = 0; i < 50; i++) // Increase volume to max
+            for (int i = 0; i < 50; i++) 
             {
                 SendMessageW(this.Handle, 0x319, this.Handle, (IntPtr)0xA0000);
             }
@@ -76,13 +74,13 @@ namespace LhanzCJ_Installer
 
             try
             {
-                // Disable redirection for 32-bit apps on 64-bit Windows
+
                 if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
                 {
                     redirectionDisabled = Wow64DisableWow64FsRedirection(ref oldValue);
                 }
 
-                // Use the direct path to OptionalFeatures.exe
+
                 string exePath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.System),
                     "OptionalFeatures.exe"
@@ -149,7 +147,6 @@ namespace LhanzCJ_Installer
                 {
                     "echo Checking if App Installer is installed...",
 
-                    // Check for Winget and install it if necessary
                     "where winget >nul 2>nul && echo App Installer is already installed. || (echo Installing App Installer... && powershell -Command \"$ProgressPreference = 'SilentlyContinue'; irm https://github.com/asheroto/winget-install/releases/latest/download/winget-install.ps1 | iex\")",
 
                     "echo Installing 7zip...",
@@ -180,10 +177,20 @@ namespace LhanzCJ_Installer
                     "winget install -e --id Microsoft.VCRedist.2013.x64 --silent --accept-source-agreements",
                     "winget install -e --id Microsoft.VCRedist.2015+.x64 --silent --accept-source-agreements",
                     "winget install -e --id Microsoft.VCRedist.2015+.x86 --silent --accept-source-agreements",
-                    
+
                     "echo Installing DirectX...",
-                    "curl -o directx.exe https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe",
+                    "if exist directx.exe (",
+                    "    echo DirectX installer already exists, skipping download.",
+                    ") else (",
+                    "    echo Downloading DirectX installer...",
+                    "    curl -o directx.exe https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe",
+                    ")",
+
+                    "if exist C:\\DirectX (",
+                    "    rmdir /s /q C:\\DirectX",
+                    ")",
                     "mkdir C:\\DirectX",
+
                     "directx.exe /Q /T:C:\\DirectX",
                     "C:\\DirectX\\DXSETUP.exe /silent && echo DirectX installation successful! || echo DirectX installation failed.",
 
@@ -247,7 +254,6 @@ namespace LhanzCJ_Installer
         {
             if (command.Contains("winget install"))
             {
-                // Extract app name from the command (remove 'winget install -e --id ')
                 string appName = command.Replace("winget install -e --id ", "").Replace("--silent", "").Replace("--accept-source-agreements", "").Trim();
 
                 if (output.Contains("Successfully installed"))
@@ -265,7 +271,7 @@ namespace LhanzCJ_Installer
             }
             else if (command.Contains("echo"))
             {
-                richTextBox1.AppendText(output + "\n"); // Display regular messages
+                richTextBox1.AppendText(output + "\n"); 
             }
         }
 
@@ -308,13 +314,13 @@ namespace LhanzCJ_Installer
 
             try
             {
-                // Disable redirection for 32-bit apps on 64-bit Windows
+
                 if (Environment.Is64BitOperatingSystem && !Environment.Is64BitProcess)
                 {
                     redirectionDisabled = Wow64DisableWow64FsRedirection(ref oldValue);
                 }
 
-                // Use the direct path to slui.exe
+
                 string exePath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.System),
                     "slui.exe"
@@ -328,7 +334,7 @@ namespace LhanzCJ_Installer
             }
             finally
             {
-                // Re-enable redirection if it was disabled
+          
                 if (redirectionDisabled)
                 {
                     Wow64RevertWow64FsRedirection(oldValue);

@@ -10,7 +10,6 @@ namespace LhanzCJ_Installer
     public partial class CamTest : Form
     {
         private VideoCapture videoCapture;
-        private Mat frame;
 
         public CamTest()
         {
@@ -55,12 +54,10 @@ namespace LhanzCJ_Installer
 
                     if (!frame.Empty())
                     {
-                        // Preserve original aspect ratio
                         var aspectRatio = (double)frame.Width / frame.Height;
                         var newHeight = (int)(pictureBox1.Height);
                         var newWidth = (int)(newHeight * aspectRatio);
 
-                        // Resize while maintaining aspect ratio
                         using (var resizedFrame = new Mat())
                         {
                             Cv2.Resize(frame, resizedFrame, new Size(newWidth, newHeight));
@@ -93,7 +90,7 @@ namespace LhanzCJ_Installer
             videoCapture.Release();
         }
         videoCapture.Dispose();
-        videoCapture = null; // This is the crucial fix
+        videoCapture = null; 
     }
 
     if (pictureBox1.Image != null)
