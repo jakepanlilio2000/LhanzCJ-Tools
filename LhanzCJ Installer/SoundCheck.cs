@@ -1,212 +1,262 @@
-﻿using NAudio.Wave;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using NAudio.Wave;
 
 namespace LhanzCJ_Installer
 {
     public partial class SoundCheck : Form
     {
-        private Player player;
-        private List<string> audioFiles = new List<string>
-        {
-            @"audio\2left.m4a",
-            @"audio\2right.m4a",
-            @"audio\3center.m4a",
-            @"audio\3left.m4a",
-            @"audio\3right.m4a",
-            @"audio\5backleft.m4a",
-            @"audio\5backright.m4a",
-            @"audio\5center.m4a",
-            @"audio\5left.m4a",
-            @"audio\5right.m4a",
-            @"audio\7backleft.m4a",
-            @"audio\7backright.m4a",
-            @"audio\7center.m4a",
-            @"audio\7left.m4a",
-            @"audio\7right.m4a",
-            @"audio\7surroundleft.m4a",
-            @"audio\7surroundright.m4a"
-        };
+        private WaveOutEvent outputDevice;
+        private AudioFileReader audioFile;
+        private string selectedFilePath;
+        private List<AudioFile> audioFiles = new List<AudioFile>();
+        private Timer progressTimer;
 
         public SoundCheck()
         {
             InitializeComponent();
-            player = new Player(audioFiles);
-            alternatingRadio.Checked = true;
-            channels2Radio.Checked = true;
+            outputDevice = new WaveOutEvent();
+            outputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
+            progressTimer = new Timer { Interval = 500 };
+            progressTimer.Tick += ProgressTimer_Tick;
+            this.Load += SoundCheck_Load;
         }
 
-        private void playStopButton_Click(object sender, EventArgs e)
+        private class AudioFile
         {
-            if (player.IsPlaying)
+            public string DisplayName { get; set; }
+            public string FullPath { get; set; }
+            public TimeSpan Duration { get; set; }
+        }
+
+
+        private void SoundCheck_Load(object sender, EventArgs e)
+        {
+            string assetsPath = Path.Combine(Application.StartupPath, "assets");
+
+            if (!Directory.Exists(assetsPath))
             {
-                player.Stop();
-                playStopButton.Text = "Play";
-            }
-            else
-            {
-                string mode = alternatingRadio.Checked ? "Alternating" : "Simultaneous";
-                string channels = GetSelectedChannels();
-
-                player.SetMode(mode);
-                player.SetChannels(channels);
-                player.Play();
-                playStopButton.Text = "Stop";
-            }
-        }
-
-        private string GetSelectedChannels()
-        {
-            if (channels2Radio.Checked) return "2";
-            if (channels3Radio.Checked) return "3";
-            if (channels5Radio.Checked) return "5";
-            return "7";
-        }
-    }
-
-    public class Player
-    {
-        private List<string> audioFiles;
-        private int currentIndex;
-        private bool isPlaying;
-        private string mode;
-        private string channels;
-        private Dictionary<string, int[]> channelMap;
-        private List<WaveOutEvent> activePlayers;
-
-        public bool IsPlaying => isPlaying;
-
-        public Player(List<string> audios)
-        {
-            audioFiles = audios;
-
-            // Correct channel mappings
-            channelMap = new Dictionary<string, int[]>
-            {
-                { "2", new[] { 0, 1 } },        // 2left, 2right
-                { "3", new[] { 2, 4 } },        // 3center, 3left, 3right
-                { "5", new[] { 5, 9 } },        // 5backleft, 5backright, 5center, 5left, 5right
-                { "7", new[] { 10, 16 } }       // 7backleft to 7surroundright
-            };
-
-            activePlayers = new List<WaveOutEvent>();
-            isPlaying = false;
-            mode = "Alternating";
-            channels = "2";
-            currentIndex = channelMap[channels][0];
-        }
-
-        public void SetMode(string newMode) => mode = newMode;
-
-        public void SetChannels(string newChannels)
-        {
-            channels = newChannels;
-            currentIndex = channelMap[channels][0];
-        }
-
-        public void Play()
-        {
-            if (isPlaying) return;
-
-            isPlaying = true;
-
-            if (mode == "Simultaneous")
-            {
-                var start = channelMap[channels][0];
-                var end = channelMap[channels][1];
-                for (var i = start; i <= end; i++)
+                try
                 {
-                    PlayFile(i, true);
+                    Directory.CreateDirectory(assetsPath);
+                    lblStatus.Text = "Assets folder created! Add audio files to: " + assetsPath;
+                }
+                catch (Exception ex)
+                {
+                    lblStatus.Text = "Error creating assets folder: " + ex.Message;
+                    return;
                 }
             }
-            else
-            {
-                PlayFile(currentIndex, false);
-            }
+
+            LoadAudioFiles(assetsPath);
         }
-
-        private void PlayFile(int index, bool loop)
+        private void LoadAudioFiles(string folderPath)
         {
-            if (index < 0 || index >= audioFiles.Count)
-            {
-                MessageBox.Show($"Audio file index {index} is out of range.");
-                Stop();
-                return;
-            }
-
-            var waveOut = new WaveOutEvent();
-
             try
             {
-                Console.WriteLine($"Playing: {audioFiles[index]}");
-
-                var audioFile = new MediaFoundationReader(audioFiles[index]);
-                waveOut.Init(audioFile);
-
-                waveOut.PlaybackStopped += (sender, args) =>
-                {
-                    waveOut.Dispose();
-                    activePlayers.Remove(waveOut);
-
-                    if (!isPlaying) return;
-
-                    if (mode == "Simultaneous" && loop)
-                    {
-                        PlayFile(index, true);
-                    }
-                    else if (mode == "Alternating")
-                    {
-                        IncrementCounter();
-                        if (isPlaying)
+                audioFiles.Clear();
+                var files = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly)
+                    .Where(f => f.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase) ||
+                           f.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+                    .Select(f => {
+                        try
                         {
-                            PlayFile(currentIndex, false);
+                            using (var reader = new AudioFileReader(f))
+                            {
+                                return new AudioFile
+                                {
+                                    DisplayName = Path.GetFileNameWithoutExtension(f),
+                                    FullPath = f,
+                                    Duration = reader.TotalTime
+                                };
+                            }
                         }
-                    }
-                };
+                        catch
+                        {
+                            return new AudioFile
+                            {
+                                DisplayName = Path.GetFileNameWithoutExtension(f),
+                                FullPath = f,
+                                Duration = TimeSpan.Zero
+                            };
+                        }
+                    })
+                    .ToList();
 
-                waveOut.Play();
-                activePlayers.Add(waveOut);
+                audioFiles = files;
+                lstFiles.DataSource = null;
+                lstFiles.DisplayMember = "DisplayName";
+                lstFiles.ValueMember = "FullPath";
+                lstFiles.DataSource = audioFiles;
+
+                lblStatus.Text = $"Loaded {files.Count} files from: {Path.GetFileName(folderPath)}";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to play {audioFiles[index]}: {ex.Message}");
-                waveOut.Dispose();
+                lblStatus.Text = $"Error loading files: {ex.Message}";
             }
         }
 
-        public void Stop()
+        private void btnBrowse_Click(object sender, EventArgs e)
         {
-            if (!isPlaying) return;
-
-            isPlaying = false;
-            foreach (var player in activePlayers)
+            using (var folderDialog = new FolderBrowserDialog())
             {
-                player.Stop();
-                player.Dispose();
-            }
-            activePlayers.Clear();
-            ResetToFirstChannel();
-        }
-
-        private void IncrementCounter()
-        {
-            var start = channelMap[channels][0];
-            var end = channelMap[channels][1];
-
-            if (currentIndex < end)
-            {
-                currentIndex++;
-            }
-            else
-            {
-                currentIndex = start;
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    LoadAudioFiles(folderDialog.SelectedPath);
+                }
             }
         }
 
-        private void ResetToFirstChannel()
+        private void ProgressTimer_Tick(object sender, EventArgs e)
         {
-            currentIndex = channelMap[channels][0];
+            if (audioFile != null && outputDevice.PlaybackState == PlaybackState.Playing)
+            {
+                var currentTime = audioFile.CurrentTime;
+                var totalTime = audioFile.TotalTime;
+
+                progressBar.Value = (int)Math.Min(100, (currentTime.TotalMilliseconds / totalTime.TotalMilliseconds) * 100);
+
+                lblCurrentTime.Text = FormatTime(currentTime);
+                lblTotalTime.Text = FormatTime(totalTime);
+            }
+        }
+        private string FormatTime(TimeSpan time)
+        {
+            return $"{(int)time.TotalMinutes:00}:{time.Seconds:00}";
+        }
+
+        private void OutputDevice_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => OutputDevice_PlaybackStopped(sender, e)));
+                return;
+            }
+
+            // Only update if it's the current device
+            if (sender as WaveOutEvent == outputDevice)
+            {
+                progressBar.Value = 100;
+                lblCurrentTime.Text = FormatTime(audioFile?.TotalTime ?? TimeSpan.Zero);
+                progressTimer.Stop();
+            }
+        }
+
+        private void lstFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lstFiles.SelectedItem != null)
+            {
+                var selectedFile = (AudioFile)lstFiles.SelectedItem;
+                selectedFilePath = selectedFile.FullPath;
+                lblStatus.Text = $"Selected: {selectedFile.DisplayName}";
+
+                PlaySelectedFile();
+            }
+        }
+
+        private void PlaySelectedFile()
+        {
+            StopPlayback();
+
+            if (string.IsNullOrEmpty(selectedFilePath)) return;
+
+            try
+            {
+                // Create new instances
+                outputDevice = new WaveOutEvent();
+                audioFile = new AudioFileReader(selectedFilePath);
+
+                // Reset UI before starting
+                progressBar.Value = 0;
+                lblCurrentTime.Text = "00:00";
+                lblTotalTime.Text = FormatTime(audioFile.TotalTime);
+
+                // Wire up events
+                outputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
+                outputDevice.Init(audioFile);
+                outputDevice.Play();
+
+                // Start fresh progress updates
+                progressTimer.Stop();
+                progressTimer.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error playing file: {ex.Message}", "Playback Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void StopPlayback()
+        {
+            if (outputDevice != null)
+            {
+                // Unsubscribe first to prevent lingering events
+                outputDevice.PlaybackStopped -= OutputDevice_PlaybackStopped;
+                outputDevice.Stop();
+                outputDevice.Dispose();
+                outputDevice = null;
+            }
+
+            if (audioFile != null)
+            {
+                audioFile.Dispose();
+                audioFile = null;
+            }
+
+            progressTimer.Stop();
+            progressBar.Value = 0;
+            lblCurrentTime.Text = "00:00";
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            if (outputDevice == null) return;
+
+            try
+            {
+                if (outputDevice.PlaybackState == PlaybackState.Playing)
+                {
+                    outputDevice.Pause();
+                    progressTimer.Stop();
+                }
+                else
+                {
+                    outputDevice.Play();
+                    progressTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                lblStatus.Text = $"Error playing audio file: {ex.Message}";
+            }
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
+            if (outputDevice?.PlaybackState == PlaybackState.Playing)
+            {
+                outputDevice.Pause();
+                progressTimer.Stop();
+            }
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            StopPlayback();
+            lblStatus.Text = "Playback stopped";
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            outputDevice?.Dispose();
+            audioFile?.Dispose();
+            base.OnFormClosing(e);
         }
     }
 }

@@ -48,13 +48,6 @@ namespace LhanzCJ_Installer
             }
         }
 
-        private void SetMaxVolume()
-        {
-            for (int i = 0; i < 50; i++) 
-            {
-                SendMessageW(this.Handle, 0x319, this.Handle, (IntPtr)0xA0000);
-            }
-        }
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -448,8 +441,6 @@ namespace LhanzCJ_Installer
 
         private void button11_Click(object sender, EventArgs e)
         {
-            SetMaxVolume();
-
             SoundCheck sCheck = new SoundCheck();
             sCheck.Show();
         }
@@ -458,29 +449,6 @@ namespace LhanzCJ_Installer
         {
             RecordSN recordSN = new RecordSN();
             recordSN.Show();
-        }
-
-        private void button16_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "https://phcorner.org/threads/collection-of-epson-and-cannon-printer-resetter.974406/",
-                    UseShellExecute = true
-                });
-
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "https://phcorner.org/threads/epson-canon-resetter.2177613/#post-29320468",
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to open the website: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
         }
     }
 }
