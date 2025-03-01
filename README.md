@@ -59,7 +59,7 @@ Before running the project, ensure the following **NuGet packages** are installe
 
 1. Clone the Repository
     ```bash
-    git clone https://github.com/yourusername/technician-toolbox-lhanz-cj.git
+    git clone https://github.com/jakepanlilio2000/LhanzCJ-Tools.git
     ```
 
 2. Install Dependencies  
