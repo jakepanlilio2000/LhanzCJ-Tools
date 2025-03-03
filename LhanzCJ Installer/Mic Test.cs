@@ -11,7 +11,7 @@ using CSCore.Streams;
 
 namespace LhanzCJ_Installer
 {
-    public partial class MicTest: Form
+    public partial class MicTest : Form
     {
         private CaptureMode captureMode = CaptureMode.Capture;
         private readonly GraphVisualization _graphVisualization = new GraphVisualization();
@@ -217,13 +217,13 @@ namespace LhanzCJ_Installer
             {
                 captureMode = CaptureMode.LoopbackCapture;
                 RefreshDevices();
-                this.TopMost = true;
+                TopMost = true;
             }
             else
             {
                 captureMode = CaptureMode.Capture;
                 RefreshDevices();
-                this.TopMost = false;
+                TopMost = false;
             }
         }
 

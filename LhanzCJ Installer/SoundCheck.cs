@@ -9,6 +9,7 @@ namespace LhanzCJ_Installer
 {
     public partial class SoundCheck : Form
     {
+
         private WaveOutEvent outputDevice;
         private AudioFileReader audioFile;
         private string selectedFilePath;
@@ -22,7 +23,7 @@ namespace LhanzCJ_Installer
             outputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
             progressTimer = new Timer { Interval = 500 };
             progressTimer.Tick += ProgressTimer_Tick;
-            this.Load += SoundCheck_Load;
+            Load += SoundCheck_Load;
         }
 
         private class AudioFile
@@ -60,15 +61,17 @@ namespace LhanzCJ_Installer
                 audioFiles.Clear();
                 var files = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly)
                     .Where(f => f.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase) ||
-                           f.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
-                    .Select(f => {
+                                f.EndsWith(".wav", StringComparison.OrdinalIgnoreCase))
+                    .Select(f =>
+                    {
+                        string displayName = Path.GetFileNameWithoutExtension(f).Replace("_", " ");
                         try
                         {
                             using (var reader = new AudioFileReader(f))
                             {
                                 return new AudioFile
                                 {
-                                    DisplayName = Path.GetFileNameWithoutExtension(f),
+                                    DisplayName = displayName,
                                     FullPath = f,
                                     Duration = reader.TotalTime
                                 };
@@ -78,7 +81,7 @@ namespace LhanzCJ_Installer
                         {
                             return new AudioFile
                             {
-                                DisplayName = Path.GetFileNameWithoutExtension(f),
+                                DisplayName = displayName,
                                 FullPath = f,
                                 Duration = TimeSpan.Zero
                             };
@@ -99,6 +102,7 @@ namespace LhanzCJ_Installer
                 lblStatus.Text = $"Error loading files: {ex.Message}";
             }
         }
+
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
@@ -137,7 +141,6 @@ namespace LhanzCJ_Installer
                 return;
             }
 
-            // Only update if it's the current device
             if (sender as WaveOutEvent == outputDevice)
             {
                 progressBar.Value = 100;
@@ -166,21 +169,17 @@ namespace LhanzCJ_Installer
 
             try
             {
-                // Create new instances
                 outputDevice = new WaveOutEvent();
                 audioFile = new AudioFileReader(selectedFilePath);
 
-                // Reset UI before starting
                 progressBar.Value = 0;
                 lblCurrentTime.Text = "00:00";
                 lblTotalTime.Text = FormatTime(audioFile.TotalTime);
 
-                // Wire up events
                 outputDevice.PlaybackStopped += OutputDevice_PlaybackStopped;
                 outputDevice.Init(audioFile);
                 outputDevice.Play();
 
-                // Start fresh progress updates
                 progressTimer.Stop();
                 progressTimer.Start();
             }
@@ -196,7 +195,7 @@ namespace LhanzCJ_Installer
         {
             if (outputDevice != null)
             {
-                // Unsubscribe first to prevent lingering events
+
                 outputDevice.PlaybackStopped -= OutputDevice_PlaybackStopped;
                 outputDevice.Stop();
                 outputDevice.Dispose();

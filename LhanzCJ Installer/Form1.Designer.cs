@@ -95,19 +95,21 @@
             // 
             resources.ApplyResources(this.progressBar1, "progressBar1");
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // richTextBox1
             // 
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBox1.DetectUrls = false;
             resources.ApplyResources(this.richTextBox1, "richTextBox1");
+            this.richTextBox1.HideSelection = false;
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.TabStop = false;
             // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button6
             // 

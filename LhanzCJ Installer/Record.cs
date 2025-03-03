@@ -45,8 +45,8 @@ namespace LhanzCJ_Installer
             SNDate.MaxDate = DateTime.Today;
         }
         private void KeyType_ItemCheck(object sender, ItemCheckEventArgs e)
-        { 
-            this.BeginInvoke((MethodInvoker)delegate
+        {
+            BeginInvoke((MethodInvoker)delegate
             {
                 UpdateComboboxStates();
                 RecordSN_Load();
@@ -83,7 +83,7 @@ namespace LhanzCJ_Installer
             if (string.IsNullOrWhiteSpace(UModel.Text) ||
                 string.IsNullOrWhiteSpace(SNumber.Text))
             {
-                return false; 
+                return false;
             }
 
             bool officeChecked = KeyType.GetItemChecked(0);
@@ -91,7 +91,7 @@ namespace LhanzCJ_Installer
 
             if (!officeChecked && !windowsChecked)
             {
-                
+
             }
 
             if (officeChecked)
@@ -101,7 +101,7 @@ namespace LhanzCJ_Installer
                     string.IsNullOrWhiteSpace(email.Text) ||
                     string.IsNullOrWhiteSpace(pw.Text))
                 {
-                    return false; 
+                    return false;
                 }
             }
 
@@ -110,11 +110,11 @@ namespace LhanzCJ_Installer
                 if (WinVer.SelectedItem == null ||
                     string.IsNullOrWhiteSpace(WLK.Text))
                 {
-                    return false; 
+                    return false;
                 }
             }
 
- 
+
             return true;
         }
 
@@ -128,7 +128,7 @@ namespace LhanzCJ_Installer
             if (!ValidateInputs())
             {
                 MessageBox.Show("Please fill in all required fields before proceeding.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; 
+                return;
             }
             RecordSN_Load();
             string filePath = System.IO.Path.Combine(Application.StartupPath, "Records.txt");
@@ -159,7 +159,7 @@ namespace LhanzCJ_Installer
             String Password = "N/A";
             String OffEmailEnabled = "Admin1122";
             String pSerial;
-           
+
 
             if (snum_t.Length <= 7)
             {
@@ -174,7 +174,7 @@ namespace LhanzCJ_Installer
             bool windowsChecked = KeyType.GetItemChecked(0);
 
             int checkedCount = (officeChecked ? 1 : 0) + (windowsChecked ? 1 : 0);
-           
+
             if (officeChecked)
             {
                 OfficeEdition = OfficeVer.SelectedItem != null ? OfficeVer.SelectedItem.ToString() : "N/A";

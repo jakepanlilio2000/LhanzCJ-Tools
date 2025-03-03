@@ -59,15 +59,5 @@ namespace LhanzCJ_Installer.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap _128771655_840572570064499_3185554733241096560_n {
-            get {
-                object obj = ResourceManager.GetObject("128771655_840572570064499_3185554733241096560_n", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

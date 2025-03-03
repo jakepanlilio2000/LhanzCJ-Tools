@@ -5,7 +5,6 @@
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ListBox lstFiles;
-        private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnStop;
@@ -27,7 +26,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SoundCheck));
             this.lblStatus = new System.Windows.Forms.Label();
             this.lstFiles = new System.Windows.Forms.ListBox();
-            this.btnBrowse = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -54,19 +52,9 @@
             this.lstFiles.TabIndex = 1;
             this.lstFiles.SelectedIndexChanged += new System.EventHandler(this.lstFiles_SelectedIndexChanged);
             // 
-            // btnBrowse
-            // 
-            this.btnBrowse.Location = new System.Drawing.Point(12, 233);
-            this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowse.TabIndex = 2;
-            this.btnBrowse.Text = "Browse";
-            this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(93, 233);
+            this.btnPlay.Location = new System.Drawing.Point(127, 233);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(75, 23);
             this.btnPlay.TabIndex = 3;
@@ -76,7 +64,7 @@
             // 
             // btnPause
             // 
-            this.btnPause.Location = new System.Drawing.Point(174, 233);
+            this.btnPause.Location = new System.Drawing.Point(46, 233);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(75, 23);
             this.btnPause.TabIndex = 4;
@@ -86,7 +74,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.Location = new System.Drawing.Point(255, 233);
+            this.btnStop.Location = new System.Drawing.Point(208, 233);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 23);
             this.btnStop.TabIndex = 5;
@@ -131,7 +119,6 @@
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnPlay);
-            this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.lstFiles);
             this.Controls.Add(this.lblStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

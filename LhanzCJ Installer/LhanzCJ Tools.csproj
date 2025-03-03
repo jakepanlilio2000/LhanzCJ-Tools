@@ -97,9 +97,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aria2NET, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Aria2.NET.1.0.5\lib\netstandard2.0\Aria2NET.dll</HintPath>
-    </Reference>
     <Reference Include="AxInterop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WMPLib.1.0.0\lib\AxInterop.WMPLib.dll</HintPath>
     </Reference>
@@ -192,6 +189,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="KBTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KBTest.Designer.cs">
+      <DependentUpon>KBTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="KeyboardTester.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,6 +247,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KBTest.resx">
+      <DependentUpon>KBTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="KeyboardTester.resx">
       <DependentUpon>KeyboardTester.cs</DependentUpon>
@@ -302,223 +308,644 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\AIO_Test.mp3" />
-    <Content Include="assets\Bass Test.mp3" />
-    <Content Include="assets\Bass_Treble_Pan_Vocals.mp3" />
-    <Content Include="assets\Stereo_Test.mp3" />
-    <Content Include="assets\Tweeter_Subwoofer_Test.mp3" />
+    <Content Include="assets\AIO_Test.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\Bass Test.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\Bass_Treble_Pan_Vocals.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\Stereo_Test.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\Tweeter_Subwoofer_Test.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="icon.ico" />
-    <Content Include="img\FHD-1920x1080-Check-Clipping-Target-Broadcast.png" />
-    <Content Include="img\FHD-1920x1080-Check-Clipping-Target-Full.png" />
-    <Content Include="img\FHD-1920x1080-Check-Color-Wipe-Full.png" />
-    <Content Include="img\FHD-1920x1080-Check-Color-Wipe-Half.png" />
-    <Content Include="img\FHD-1920x1080-Check-Composite.png" />
-    <Content Include="img\FHD-1920x1080-Check-Contrast-Checker.png" />
-    <Content Include="img\FHD-1920x1080-Check-Contrast-Lines.png" />
-    <Content Include="img\FHD-1920x1080-Check-Convergence-Hori.png" />
-    <Content Include="img\FHD-1920x1080-Check-Convergence-Vert.png" />
-    <Content Include="img\FHD-1920x1080-Check-Gamma-Checker.png" />
-    <Content Include="img\FHD-1920x1080-Check-Gamma-Lines.png" />
-    <Content Include="img\FHD-1920x1080-Check-Length-Hori.png" />
-    <Content Include="img\FHD-1920x1080-Check-Length-Vert.png" />
-    <Content Include="img\FHD-1920x1080-Check-Overscan.png" />
-    <Content Include="img\FHD-1920x1080-Check-Patterns-Background.png" />
-    <Content Include="img\FHD-1920x1080-Check-Patterns.png" />
-    <Content Include="img\FHD-1920x1080-Check-Resolution-Hori-Wedge-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Check-Resolution-Hori-Wedge.png" />
-    <Content Include="img\FHD-1920x1080-Check-Resolution-Star.png" />
-    <Content Include="img\FHD-1920x1080-Check-Resolution-Vert-Wedge-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Check-Resolution-Vert-Wedge.png" />
-    <Content Include="img\FHD-1920x1080-Clipping-High-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Clipping-High-Green.png" />
-    <Content Include="img\FHD-1920x1080-Clipping-High-Red.png" />
-    <Content Include="img\FHD-1920x1080-Clipping-High.png" />
-    <Content Include="img\FHD-1920x1080-Clipping-Low-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Clipping-Low-Green.png" />
-    <Content Include="img\FHD-1920x1080-Clipping-Low-Red.png" />
-    <Content Include="img\FHD-1920x1080-Clipping-Low.png" />
-    <Content Include="img\FHD-1920x1080-Color-Bars-Hori-03.png" />
-    <Content Include="img\FHD-1920x1080-Color-Bars-Hori-06.png" />
-    <Content Include="img\FHD-1920x1080-Color-Bars-Hori-12.png" />
-    <Content Include="img\FHD-1920x1080-Color-Bars-Hori-Cont.png" />
-    <Content Include="img\FHD-1920x1080-Color-Bars-Vert-03.png" />
-    <Content Include="img\FHD-1920x1080-Color-Bars-Vert-06.png" />
-    <Content Include="img\FHD-1920x1080-Color-Bars-Vert-12.png" />
-    <Content Include="img\FHD-1920x1080-Color-Bars-Vert-Cont.png" />
-    <Content Include="img\FHD-1920x1080-Color-Composite-Step-Wipe-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Color-Composite-Step-Wipe-Gray.png" />
-    <Content Include="img\FHD-1920x1080-Color-Composite-Step-Wipe-Green.png" />
-    <Content Include="img\FHD-1920x1080-Color-Composite-Step-Wipe-Red.png" />
-    <Content Include="img\FHD-1920x1080-Color-One-Black.png" />
-    <Content Include="img\FHD-1920x1080-Color-One-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Color-One-Cyan.png" />
-    <Content Include="img\FHD-1920x1080-Color-One-Gray.png" />
-    <Content Include="img\FHD-1920x1080-Color-One-Green.png" />
-    <Content Include="img\FHD-1920x1080-Color-One-Magenta.png" />
-    <Content Include="img\FHD-1920x1080-Color-One-Red.png" />
-    <Content Include="img\FHD-1920x1080-Color-One-White.png" />
-    <Content Include="img\FHD-1920x1080-Color-One-Yellow.png" />
-    <Content Include="img\FHD-1920x1080-Color-Patch-4096-Rgb-B.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-01.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-02.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-04.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-08.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-16.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-Gray-01.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-Gray-02.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-Gray-04.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-Gray-08.png" />
-    <Content Include="img\FHD-1920x1080-Color-Random-Gray-16.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Cyan.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Gray.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Green.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Magenta.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Red.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Yellow.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Log-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Log-Cyan.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Log-Gray.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Log-Green.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Log-Magenta.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Log-Red.png" />
-    <Content Include="img\FHD-1920x1080-Color-Step-Log-Yellow.png" />
-    <Content Include="img\FHD-1920x1080-Color-Triangle-Solid.png" />
-    <Content Include="img\FHD-1920x1080-Color-Triangle-Wireframe.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Cyan.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Green.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Magenta.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Red.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Yellow.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Cyan.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Gray.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Green.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Magenta.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Red.png" />
-    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Yellow.png" />
-    <Content Include="img\FHD-1920x1080-Gamma-Checker-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Gamma-Checker-Gray.png" />
-    <Content Include="img\FHD-1920x1080-Gamma-Checker-Green.png" />
-    <Content Include="img\FHD-1920x1080-Gamma-Checker-Red.png" />
-    <Content Include="img\FHD-1920x1080-Gamma-Lines-Gray-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Gamma-Lines-Gray-Green.png" />
-    <Content Include="img\FHD-1920x1080-Gamma-Lines-Gray-Red.png" />
-    <Content Include="img\FHD-1920x1080-Gamma-Lines-Gray.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Bars-Hori.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Bars-Vert.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Checkers-02.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Checkers-04.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Checkers-08.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Checkers-16.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Checkers-32.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Checkers-Log-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Checkers-Log.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Circle-Many-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Circle-Many.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Circle-One-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Circle-One.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Square-Many-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Square-Many.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Grid-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Grid.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-2.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-4-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-4.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-8-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-8.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-Log-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-Log.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-2.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-4-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-4.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-8-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-8.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-Log.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Points-02.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Points-04-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Points-04.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Points-08-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Points-08.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Points-16-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Points-16.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Points-32-Inv.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Points-32.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Squares-02.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Squares-04.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Squares-08.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Squares-16.png" />
-    <Content Include="img\FHD-1920x1080-Geometry-Squares-32.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Blue-Magenta-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Blue-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Cyan-Blue-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Cyan-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Green-Cyan-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Green-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Magenta-Red-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Magenta-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Red-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Yellow-Green-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Yellow-Red-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Yellow-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Blue-Magenta-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Blue-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Cyan-Blue-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Cyan-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Green-Cyan-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Green-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Magenta-Red-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Magenta-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Red-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Yellow-Green-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Yellow-Red-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Yellow-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Blue-064-Var-Red-Green.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Blue-127-Var-Red-Green.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Blue-191-Var-Red-Green.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Blue-255-Var-Red-Green.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Green-064-Var-Blue-Red.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Green-127-Var-Blue-Red.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Green-191-Var-Blue-Red.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Green-255-Var-Blue-Red.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Red-064-Var-Green-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Red-127-Var-Green-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Red-191-Var-Green-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Red-255-Var-Green-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Hue-0.00-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Hue-0.33-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Hue-0.66-Var-Sat-Lev.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Lev-0.25-Var-Hue-Sat.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Lev-0.50-Var-Hue-Sat.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Lev-0.75-Var-Hue-Sat.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Sat-0.00-Var-Lev-Hue.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Sat-0.50-Var-Lev-Hue.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Sat-1.00-Var-Lev-Hue.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Hue-0.00-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Hue-0.33-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Hue-0.66-Var-Sat-Val.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Sat-0.00-Var-Val-Hue.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Sat-0.50-Var-Val-Hue.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Sat-1.00-Var-Val-Hue.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Val-0.00-Var-Hue-Sat.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Val-0.50-Var-Hue-Sat.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Val-1.00-Var-Hue-Sat.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Blue-000-Var-Red-Green.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Blue-127-Var-Red-Green.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Blue-255-Var-Red-Green.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Green-000-Var-Blue-Red.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Green-127-Var-Blue-Red.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Green-255-Var-Blue-Red.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Red-000-Var-Green-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Red-127-Var-Green-Blue.png" />
-    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Red-255-Var-Green-Blue.png" />
+    <Content Include="img\FHD-1920x1080-Check-Clipping-Target-Broadcast.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Clipping-Target-Full.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Color-Wipe-Full.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Color-Wipe-Half.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Composite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Contrast-Checker.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Contrast-Lines.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Convergence-Hori.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Convergence-Vert.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Gamma-Checker.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Gamma-Lines.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Length-Hori.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Length-Vert.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Overscan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Patterns-Background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Patterns.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Resolution-Hori-Wedge-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Resolution-Hori-Wedge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Resolution-Star.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Resolution-Vert-Wedge-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Check-Resolution-Vert-Wedge.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Clipping-High-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Clipping-High-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Clipping-High-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Clipping-High.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Clipping-Low-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Clipping-Low-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Clipping-Low-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Clipping-Low.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Bars-Hori-03.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Bars-Hori-06.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Bars-Hori-12.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Bars-Hori-Cont.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Bars-Vert-03.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Bars-Vert-06.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Bars-Vert-12.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Bars-Vert-Cont.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Composite-Step-Wipe-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Composite-Step-Wipe-Gray.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Composite-Step-Wipe-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Composite-Step-Wipe-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-One-Black.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-One-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-One-Cyan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-One-Gray.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-One-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-One-Magenta.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-One-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-One-White.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-One-Yellow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Patch-4096-Rgb-B.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-02.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-04.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-08.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-Gray-01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-Gray-02.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-Gray-04.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-Gray-08.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Random-Gray-16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Cyan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Gray.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Magenta.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Lin-Yellow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Log-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Log-Cyan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Log-Gray.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Log-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Log-Magenta.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Log-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Step-Log-Yellow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Triangle-Solid.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Triangle-Wireframe.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Cyan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Magenta.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Full-Yellow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Cyan.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Gray.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Magenta.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Color-Wipe-Half-Yellow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Gamma-Checker-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Gamma-Checker-Gray.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Gamma-Checker-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Gamma-Checker-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Gamma-Lines-Gray-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Gamma-Lines-Gray-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Gamma-Lines-Gray-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Gamma-Lines-Gray.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Bars-Hori.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Bars-Vert.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Checkers-02.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Checkers-04.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Checkers-08.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Checkers-16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Checkers-32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Checkers-Log-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Checkers-Log.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Circle-Many-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Circle-Many.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Circle-One-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Circle-One.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Square-Many-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Distortion-Square-Many.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Grid-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Grid.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-4-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-8-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-Log-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Hori-Log.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-4-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-8-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Lines-Vert-Log.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Points-02.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Points-04-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Points-04.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Points-08-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Points-08.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Points-16-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Points-16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Points-32-Inv.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Points-32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Squares-02.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Squares-04.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Squares-08.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Squares-16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Geometry-Squares-32.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Blue-Magenta-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Blue-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Cyan-Blue-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Cyan-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Green-Cyan-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Green-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Magenta-Red-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Magenta-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Red-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Yellow-Green-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Yellow-Red-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsl-Fix-Hue-Yellow-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Blue-Magenta-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Blue-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Cyan-Blue-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Cyan-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Green-Cyan-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Green-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Magenta-Red-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Magenta-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Red-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Yellow-Green-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Yellow-Red-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Hsv-Fix-Hue-Yellow-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Blue-064-Var-Red-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Blue-127-Var-Red-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Blue-191-Var-Red-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Blue-255-Var-Red-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Green-064-Var-Blue-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Green-127-Var-Blue-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Green-191-Var-Blue-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Green-255-Var-Blue-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Red-064-Var-Green-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Red-127-Var-Green-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Red-191-Var-Green-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Swatch-Rgb-Fix-Red-255-Var-Green-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Hue-0.00-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Hue-0.33-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Hue-0.66-Var-Sat-Lev.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Lev-0.25-Var-Hue-Sat.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Lev-0.50-Var-Hue-Sat.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Lev-0.75-Var-Hue-Sat.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Sat-0.00-Var-Lev-Hue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Sat-0.50-Var-Lev-Hue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsl-Fix-Sat-1.00-Var-Lev-Hue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Hue-0.00-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Hue-0.33-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Hue-0.66-Var-Sat-Val.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Sat-0.00-Var-Val-Hue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Sat-0.50-Var-Val-Hue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Sat-1.00-Var-Val-Hue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Val-0.00-Var-Hue-Sat.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Val-0.50-Var-Hue-Sat.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Hsv-Fix-Val-1.00-Var-Hue-Sat.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Blue-000-Var-Red-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Blue-127-Var-Red-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Blue-255-Var-Red-Green.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Green-000-Var-Blue-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Green-127-Var-Blue-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Green-255-Var-Blue-Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Red-000-Var-Green-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Red-127-Var-Green-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Red-255-Var-Green-Blue.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="response_pattern.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
+      <RoslynTargetsPath>$(MSBuildExtensionsPath)\Roslyn</RoslynTargetsPath>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\net48\OpenCvSharp4.runtime.win.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\net48\OpenCvSharp4.runtime.win.props'))" />

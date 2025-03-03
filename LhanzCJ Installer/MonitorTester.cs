@@ -16,19 +16,14 @@ namespace LhanzCJ_Installer
         {
             InitializeComponent();
             LoadImages();
-            this.KeyPreview = true;
-            this.KeyDown += MonitorTester_KeyDown;
+            KeyPreview = true;
+            KeyDown += MonitorTester_KeyDown;
         }
 
         private void LoadImages()
         {
             string imgFolder = Path.Combine(Application.StartupPath, "img");
 
-            if (!Directory.Exists(imgFolder))
-            {
-                MessageBox.Show("Image folder not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(1);
-            }
 
             foreach (string file in Directory.GetFiles(imgFolder, "*.png"))
             {
@@ -37,12 +32,6 @@ namespace LhanzCJ_Installer
                 string displayName = fileName.Replace("FHD-1920x1080-", "")
                                             .Replace("-", " ");
                 imageNames.Add(displayName);
-            }
-
-            if (imagePaths.Count == 0)
-            {
-                MessageBox.Show("No images found in the folder!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(1);
             }
 
             comboBox1.DataSource = new List<string>(imageNames);
@@ -64,7 +53,7 @@ namespace LhanzCJ_Installer
                 }
 
                 comboBox1.SelectedIndex = currentIndex;
-                this.Text = imageNames[currentIndex];
+                Text = imageNames[currentIndex];
             }
             catch (Exception ex)
             {
@@ -87,23 +76,21 @@ namespace LhanzCJ_Installer
 
         private void MonitorTester_Load(object sender, EventArgs e)
         {
-            // True fullscreen setup
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None;
-            this.Bounds = Screen.PrimaryScreen.Bounds;
+            TopMost = true;
+            FormBorderStyle = FormBorderStyle.None;
+            Bounds = Screen.PrimaryScreen.Bounds;
 
-            // Position controls
-            comboBox1.Left = (this.ClientSize.Width - comboBox1.Width) / 2;
-            int buttonTop = this.ClientSize.Height - btnPrev.Height - 20;
-            btnPrev.Left = (this.ClientSize.Width / 2) - btnPrev.Width - 10;
-            btnNext.Left = (this.ClientSize.Width / 2) + 10;
+            comboBox1.Left = (ClientSize.Width - comboBox1.Width) / 2;
+            int buttonTop = ClientSize.Height - btnPrev.Height - 20;
+            btnPrev.Left = (ClientSize.Width / 2) - btnPrev.Width - 10;
+            btnNext.Left = (ClientSize.Width / 2) + 10;
             btnPrev.Top = btnNext.Top = buttonTop;
         }
 
         private void MonitorTester_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
-                this.Close();
+                Close();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

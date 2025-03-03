@@ -8,13 +8,14 @@ namespace LhanzCJ_Installer
 {
     public partial class KeyboardTester : Form
     {
-        private const int baseWidth = 40;
-        private const int baseHeight = 40;
-        private const int keyGap = 2; 
-        private readonly Color pressedColor = Color.LightBlue;
-        private readonly Color toggledColor = Color.LightGreen;
+        private const int baseWidth = 45;
+        private const int baseHeight = 45;
+        private const int keyGap = 3;
+        private readonly Color pressedColor = Color.FromArgb(100, 181, 246);
+        private readonly Color toggledColor = Color.FromArgb(129, 199, 132);
+        private readonly Color keyColor = Color.FromArgb(64, 64, 64);
+        private readonly Color textColor = Color.White;
 
-        // P/Invoke declarations to check individual key states
         [DllImport("user32.dll")]
         public static extern short GetKeyState(int nVirtKey);
 
@@ -28,21 +29,16 @@ namespace LhanzCJ_Installer
         public KeyboardTester()
         {
             InitializeComponent();
-            this.KeyPreview = true;
+            KeyPreview = true;
             GenerateMainKeyboard();
             int mainKeyboardWidth = GetMainKeyboardWidth();
             GenerateNavCluster(mainKeyboardWidth);
             GenerateNumpad(mainKeyboardWidth);
         }
-
-        /// <summary>
-        /// Generates the main keyboard layout (Esc/F keys, number row, QWERTY, ASDF, ZXCV, bottom block).
-        /// </summary>
         private void GenerateMainKeyboard()
         {
             var mainKeys = new List<List<KeyInfo>>
             {
-                // Esc and F keys row
                 new List<KeyInfo>
                 {
                     new KeyInfo("Esc", Keys.Escape, 1),
@@ -59,7 +55,6 @@ namespace LhanzCJ_Installer
                     new KeyInfo("F11", Keys.F11, 1),
                     new KeyInfo("F12", Keys.F12, 1)
                 },
-                // Number row
                 new List<KeyInfo>
                 {
                     new KeyInfo("~\n`", Keys.Oemtilde, 1),
@@ -77,7 +72,6 @@ namespace LhanzCJ_Installer
                     new KeyInfo("+\n=", Keys.Oemplus, 1),
                     new KeyInfo("Backspace", Keys.Back, 2)
                 },
-                // QWERTY row
                 new List<KeyInfo>
                 {
                     new KeyInfo("Tab", Keys.Tab, 1.5f),
@@ -95,7 +89,6 @@ namespace LhanzCJ_Installer
                     new KeyInfo("}\n]", Keys.OemCloseBrackets, 1),
                     new KeyInfo("|\n\\", Keys.OemPipe, 1.5f)
                 },
-                // ASDF row
                 new List<KeyInfo>
                 {
                     new KeyInfo("Caps", Keys.CapsLock, 1.8f),
@@ -112,7 +105,6 @@ namespace LhanzCJ_Installer
                     new KeyInfo("\"\n'", Keys.OemQuotes, 1),
                     new KeyInfo("Enter", Keys.Enter, 2.2f)
                 },
-                // ZXCV row
                 new List<KeyInfo>
                 {
                     new KeyInfo("Shift", Keys.LShiftKey, 2.3f),
@@ -128,7 +120,6 @@ namespace LhanzCJ_Installer
                     new KeyInfo("?\n/", Keys.OemQuestion, 1),
                     new KeyInfo("Shift", Keys.RShiftKey, 2.3f)
                 },
-                // Bottom row (Ctrl, Win, Alt, Space, Alt, Win, Menu, Ctrl)
                 new List<KeyInfo>
                 {
                     new KeyInfo("Ctrl", Keys.LControlKey, 1.5f),
@@ -143,7 +134,7 @@ namespace LhanzCJ_Installer
             };
 
             int startX = 10;
-            int startY = 10; // margin inside panelKeyboard
+            int startY = 10;
             int verticalSpacing = 10;
 
             foreach (var row in mainKeys)
@@ -157,10 +148,6 @@ namespace LhanzCJ_Installer
                 startY += baseHeight + verticalSpacing;
             }
         }
-
-        /// <summary>
-        /// Generates a navigation cluster (Print Screen, Scroll Lock, Pause; Insert, Home, PgUp; Delete, End, PgDn; and arrow keys).
-        /// </summary>
         private void GenerateNavCluster(int mainKeyboardWidth)
         {
             int startX = mainKeyboardWidth + 20;
@@ -198,15 +185,12 @@ namespace LhanzCJ_Installer
                     currentX += (int)(baseWidth * key.WidthMultiplier) + keyGap;
                 }
                 startY += baseHeight + verticalSpacing;
-                // After the first row, add an extra 10 pixels gap
                 if (i == 0)
                 {
                     startY += 20;
                 }
             }
-
-            // Arrow keys cluster with extra space on top of "Up"
-            int arrowStartY = startY + 30;  // increased gap here (was startY + 10)
+            int arrowStartY = startY + 30;
             int navClusterWidth = 3 * baseWidth + 2 * keyGap;
             int upX = startX + (navClusterWidth - baseWidth) / 2;
             CreateKey(new KeyInfo("Up", Keys.Up, 1), upX, arrowStartY);
@@ -225,11 +209,6 @@ namespace LhanzCJ_Installer
                 currentArrowX += (int)(baseWidth * key.WidthMultiplier) + keyGap;
             }
         }
-
-
-        /// <summary>
-        /// Generates the numpad cluster to the right of the navigation cluster.
-        /// </summary>
         private void GenerateNumpad(int mainKeyboardWidth)
         {
             int navClusterWidth = 3 * baseWidth + 2 * keyGap;
@@ -264,7 +243,6 @@ namespace LhanzCJ_Installer
                     new KeyInfo("1", Keys.NumPad1, 1) { IsNumpad = true },
                     new KeyInfo("2", Keys.NumPad2, 1) { IsNumpad = true },
                     new KeyInfo("3", Keys.NumPad3, 1) { IsNumpad = true },
-                    // For numpad Enter, set IsNumpad true
                     new KeyInfo("Enter", Keys.Enter, 1) { IsNumpad = true }
                 },
                 new List<KeyInfo>
@@ -285,15 +263,10 @@ namespace LhanzCJ_Installer
                 startY += baseHeight + verticalSpacing;
             }
         }
-
-        /// <summary>
-        /// Helper method to estimate the maximum width of the main keyboard.
-        /// </summary>
         private int GetMainKeyboardWidth()
         {
             var mainKeys = new List<List<KeyInfo>>
             {
-                // Same rows as in GenerateMainKeyboard
                 new List<KeyInfo>
                 {
                     new KeyInfo("Esc", Keys.Escape, 1),
@@ -387,7 +360,6 @@ namespace LhanzCJ_Installer
                     new KeyInfo("Ctrl", Keys.RControlKey, 1.5f)
                 }
             };
-
             int maxWidth = 0;
             int gap = keyGap;
             foreach (var row in mainKeys)
@@ -402,11 +374,6 @@ namespace LhanzCJ_Installer
             }
             return maxWidth;
         }
-
-        /// <summary>
-        /// Creates a Button for the given key and adds it to the keyboard panel.
-        /// (No mouse click event is attached so that clicking with the cursor does not change highlighting.)
-        /// </summary>
         private void CreateKey(KeyInfo key, int x, int y)
         {
             Button btn = new Button
@@ -419,22 +386,14 @@ namespace LhanzCJ_Installer
                 Margin = new Padding(1),
                 TabStop = false
             };
-            // Note: No click event is attached.
             panelKeyboard.Controls.Add(btn);
         }
 
-        /// <summary>
-        /// Logs the keystroke in the label.
-        /// </summary>
         private void RecordKeystroke(string keyText, Keys keyCode)
         {
             lblKeystrokes.Text = $"{DateTime.Now:HH:mm:ss} - {keyText} ({keyCode})\n" + lblKeystrokes.Text;
         }
 
-        /// <summary>
-        /// Handles physical key press events.
-        /// Special handling for Tab (to avoid focus shifting) and for Shift, Ctrl, and Alt (to differentiate left/right).
-        /// </summary>
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
@@ -471,10 +430,6 @@ namespace LhanzCJ_Installer
             }
             RecordKeystroke(e.KeyCode.ToString(), e.KeyCode);
         }
-
-        /// <summary>
-        /// Handles physical key release events.
-        /// </summary>
         protected override void OnKeyUp(KeyEventArgs e)
         {
             base.OnKeyUp(e);
@@ -498,21 +453,14 @@ namespace LhanzCJ_Installer
                 HighlightKey(e.KeyCode, SystemColors.Control);
             }
         }
-
-        /// <summary>
-        /// Highlights (or un-highlights) key buttons based on the key code.
-        /// For keys like Enter that appear twice, only the main block key (IsNumpad == false) is highlighted.
-        /// </summary>
         private void HighlightKey(Keys keyCode, Color color)
         {
             foreach (Control ctrl in panelKeyboard.Controls)
             {
                 if (ctrl is Button btn && btn.Tag is KeyInfo keyInfo)
                 {
-                    // Only highlight if the KeyInfo's key code matches.
                     if (keyInfo.KeyCode == keyCode)
                     {
-                        // For ambiguous keys like Enter, skip if this is a numpad key.
                         if (keyCode == Keys.Enter && keyInfo.IsNumpad)
                             continue;
                         if (btn.BackColor != toggledColor)
@@ -522,15 +470,11 @@ namespace LhanzCJ_Installer
             }
         }
     }
-
     public class KeyInfo
     {
         public string DisplayText { get; }
         public Keys KeyCode { get; }
         public float WidthMultiplier { get; }
-        /// <summary>
-        /// Set to true if this key belongs to the numpad cluster.
-        /// </summary>
         public bool IsNumpad { get; set; }
 
         public KeyInfo(string text, Keys code, float width)
