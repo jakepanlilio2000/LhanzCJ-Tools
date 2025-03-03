@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RecordSN));
             this.doneBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.UModel = new System.Windows.Forms.TextBox();
@@ -54,6 +53,7 @@
             // 
             // doneBtn
             // 
+            this.doneBtn.Enabled = false;
             this.doneBtn.Location = new System.Drawing.Point(460, 176);
             this.doneBtn.Name = "doneBtn";
             this.doneBtn.Size = new System.Drawing.Size(75, 20);
@@ -277,7 +277,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.doneBtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "RecordSN";
             this.Text = "Record Serial Number";

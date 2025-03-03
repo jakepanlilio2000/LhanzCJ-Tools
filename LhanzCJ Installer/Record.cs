@@ -27,6 +27,17 @@ namespace LhanzCJ_Installer
             WinVer.SelectedIndexChanged += InputFields_Changed;
             email.TextChanged += InputFields_Changed;
             pw.TextChanged += InputFields_Changed;
+
+
+            if (OfficeVer.Items.Count > 0)
+            {
+                OfficeVer.SelectedIndex = 0;
+            }
+
+            if (WinVer.Items.Count > 0)
+            {
+                WinVer.SelectedIndex = 0;
+            }
         }
         public void initVars()
         {
@@ -38,27 +49,25 @@ namespace LhanzCJ_Installer
             this.BeginInvoke((MethodInvoker)delegate
             {
                 UpdateComboboxStates();
+                RecordSN_Load();
+                doneBtn.Enabled = ValidateInputs();
             });
         }
         private void UpdateComboboxStates()
         {
-            OfficeVer.Enabled = KeyType.GetItemChecked(0);
-            WinVer.Enabled = KeyType.GetItemChecked(1);
-            if (KeyType.GetItemChecked(0))
+            OfficeVer.Enabled = KeyType.GetItemChecked(1);
+            WinVer.Enabled = KeyType.GetItemChecked(0);
+            if (KeyType.GetItemChecked(1))
             {
                 OfficeVer.Enabled = true;
                 OLK.Enabled = true;
-                email.Enabled = true;
-                pw.Enabled = true;
             }
             else
             {
                 OfficeVer.Enabled = false;
                 OLK.Enabled = false;
-                email.Enabled = false;
-                pw.Enabled = false;
             }
-            if (KeyType.GetItemChecked(1))
+            if (KeyType.GetItemChecked(0))
             {
                 WinVer.Enabled = true;
                 WLK.Enabled = true;
@@ -135,6 +144,7 @@ namespace LhanzCJ_Installer
                 MessageBox.Show($"Failed to save the record.\n\nError: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        String iniEmail;
         private void RecordSN_Load()
         {
             String umodel_t = UModel.Text;
@@ -147,24 +157,51 @@ namespace LhanzCJ_Installer
             String WinKey = "N/A";
             String Email = "N/A";
             String Password = "N/A";
+            String OffEmailEnabled = "Admin1122";
+            String pSerial;
+           
 
-            bool officeChecked = KeyType.GetItemChecked(0);
-            bool windowsChecked = KeyType.GetItemChecked(1);
+            if (snum_t.Length <= 7)
+            {
+                pSerial = snum_t;
+            }
+            else
+            {
+                pSerial = snum_t.Substring(snum_t.Length - 6);
+            }
+
+            bool officeChecked = KeyType.GetItemChecked(1);
+            bool windowsChecked = KeyType.GetItemChecked(0);
 
             int checkedCount = (officeChecked ? 1 : 0) + (windowsChecked ? 1 : 0);
-
+           
             if (officeChecked)
             {
                 OfficeEdition = OfficeVer.SelectedItem != null ? OfficeVer.SelectedItem.ToString() : "N/A";
                 OffKey = OLK.Text;
-                Email = email.Text;
-                Password = pw.Text;
+                Email = iniEmail + pSerial + "@gmail.com";
+                Password = OffEmailEnabled;
+                pw.Text = OffEmailEnabled;
+                email.Text = Email;
+
+                if (OfficeVer.SelectedItem != null && OfficeVer.SelectedItem.ToString() == "Office Home 2024")
+                {
+                    iniEmail = "office2024";
+                }
+                else
+                {
+                    iniEmail = "microsof365";
+                }
+
 
                 if (checkedCount == 1)
                 {
                     WindowsEdition = "N/A";
                     WinKey = "N/A";
                 }
+
+
+
             }
 
             if (windowsChecked)
@@ -179,6 +216,7 @@ namespace LhanzCJ_Installer
                     Email = "N/A";
                     Password = "N/A";
                 }
+
             }
 
             if (checkedCount == 0)
