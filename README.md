@@ -27,14 +27,13 @@ This project is a comprehensive **Technician Toolbox** designed specifically for
     - Record and manage Windows license keys for internal tracking and technical support purposes
 
 - **Automated Software Installation**  
-    - Install essential programs automatically using **winget** (PowerShell) for freshly installed desktops and laptops.
+    - Install essential programs automatically using **Webclient** for freshly installed desktops and laptops.
 
 ---
 
 ## Technologies Used
 
 - C# (Windows Forms/WPF)
-- PowerShell (winget)
 - NAudio (for audio input/output testing)
 - OpenCvSharp4 (for webcam functionality)
 - OpenCvSharp4.Extensions
@@ -75,15 +74,7 @@ Before running the project, ensure the following **NuGet packages** are installe
 
 ---
 
-## Winget Integration
-
-This project uses **winget** for software installation automation.  
-Ensure **winget** is installed on your system:  
-[Install winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
-
-### Programs Installed via Winget
-
-The following essential programs are installed via **winget**:
+The following essential programs are installed via **Webclient**:
 
 - 7-Zip
 - Google Chrome
