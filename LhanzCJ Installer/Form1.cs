@@ -1027,6 +1027,9 @@ namespace LhanzCJ_Installer
         {
             KBTest KBTest1 = new KBTest();
             KBTest1.Show();
+
+            //KeyboardTester KBTest2 = new KeyboardTester();
+            //KBTest2.Show();
         }
 
         private void button13_Click(object sender, EventArgs e)

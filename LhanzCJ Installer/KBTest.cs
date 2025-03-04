@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.PowerPacks;
 
 namespace LhanzCJ_Installer
 {
@@ -106,6 +107,21 @@ namespace LhanzCJ_Installer
             keyButtonMap[Keys.Oem3] = AposBtn;
             keyButtonMap[Keys.LShiftKey] = LShiftBtn;
             keyButtonMap[Keys.RShiftKey] = RShiftBtn;
+            keyButtonMap[Keys.D1] = oneBtn;
+            keyButtonMap[Keys.D2] = twoBtn;
+            keyButtonMap[Keys.D3] = thrBtn;
+            keyButtonMap[Keys.D4] = fourBtn;
+            keyButtonMap[Keys.D5] = fivBtn;
+            keyButtonMap[Keys.D6] = sixBtn;
+            keyButtonMap[Keys.D7] = sevBtn;
+            keyButtonMap[Keys.D8] = eigBtn;
+            keyButtonMap[Keys.D9] = ninBtn;
+            keyButtonMap[Keys.D0] = zerBtn;
+            keyButtonMap[Keys.OemMinus] = minBtn;
+            keyButtonMap[Keys.Oemplus] = equBtn;
+            keyButtonMap[Keys.Back] = bckspcBtn;
+            keyButtonMap[Keys.Tab] = tabBtn;
+            keyButtonMap[Keys.Q] = qBtn;
 
             //keyButtonMap[Keys.C] = CBtn;
             // ... Add all keys y
@@ -154,5 +170,19 @@ namespace LhanzCJ_Installer
             lblKeystrokes.Text = $"{DateTime.Now:HH:mm:ss} - {keyText} ({keyCode})\n" + lblKeystrokes.Text;
         }
 
+        private void button49_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button50_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button51_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
