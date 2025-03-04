@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RecordSN));
             this.doneBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -47,14 +48,16 @@
             this.SNDate = new System.Windows.Forms.DateTimePicker();
             this.KeyType = new System.Windows.Forms.CheckedListBox();
             this.SNOutput = new System.Windows.Forms.RichTextBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.WinVer = new System.Windows.Forms.ComboBox();
             this.OfficeVer = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // doneBtn
             // 
-            this.doneBtn.Enabled = false;
             this.doneBtn.Location = new System.Drawing.Point(460, 176);
             this.doneBtn.Name = "doneBtn";
             this.doneBtn.Size = new System.Drawing.Size(75, 20);
@@ -183,7 +186,7 @@
             // 
             // SNDate
             // 
-            this.SNDate.Location = new System.Drawing.Point(12, 67);
+            this.SNDate.Location = new System.Drawing.Point(91, 67);
             this.SNDate.Name = "SNDate";
             this.SNDate.Size = new System.Drawing.Size(200, 20);
             this.SNDate.TabIndex = 18;
@@ -194,7 +197,7 @@
             this.KeyType.Items.AddRange(new object[] {
             "Windows Key",
             "Office Key"});
-            this.KeyType.Location = new System.Drawing.Point(197, 19);
+            this.KeyType.Location = new System.Drawing.Point(197, 27);
             this.KeyType.Name = "KeyType";
             this.KeyType.Size = new System.Drawing.Size(100, 34);
             this.KeyType.TabIndex = 19;
@@ -209,13 +212,6 @@
             this.SNOutput.Size = new System.Drawing.Size(229, 158);
             this.SNOutput.TabIndex = 20;
             this.SNOutput.Text = "";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(306, 176);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(148, 20);
-            this.progressBar1.TabIndex = 21;
             // 
             // WinVer
             // 
@@ -251,14 +247,37 @@
             this.OfficeVer.Size = new System.Drawing.Size(100, 21);
             this.OfficeVer.TabIndex = 23;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 73);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(30, 13);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Date";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(197, 9);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(81, 13);
+            this.label10.TabIndex = 25;
+            this.label10.Text = "Bought Product";
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // RecordSN
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(547, 202);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.OfficeVer);
             this.Controls.Add(this.WinVer);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.SNOutput);
             this.Controls.Add(this.KeyType);
             this.Controls.Add(this.SNDate);
@@ -282,6 +301,7 @@
             this.MaximizeBox = false;
             this.Name = "RecordSN";
             this.Text = "Record Serial Number";
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -307,8 +327,10 @@
         private System.Windows.Forms.DateTimePicker SNDate;
         private System.Windows.Forms.CheckedListBox KeyType;
         private System.Windows.Forms.RichTextBox SNOutput;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.ComboBox WinVer;
         private System.Windows.Forms.ComboBox OfficeVer;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

@@ -59,5 +59,15 @@ namespace LhanzCJ_Installer {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=17,Y=17}.
+        /// </summary>
+        internal static System.Drawing.Point errorProvider1_TrayLocation {
+            get {
+                object obj = ResourceManager.GetObject("errorProvider1.TrayLocation", resourceCulture);
+                return ((System.Drawing.Point)(obj));
+            }
+        }
     }
 }

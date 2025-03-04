@@ -28,1103 +28,996 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KBTest));
             this.lblKeystrokes = new System.Windows.Forms.Label();
             this.EscBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button22 = new System.Windows.Forms.Button();
-            this.button39 = new System.Windows.Forms.Button();
-            this.button34 = new System.Windows.Forms.Button();
-            this.button41 = new System.Windows.Forms.Button();
-            this.button44 = new System.Windows.Forms.Button();
-            this.button35 = new System.Windows.Forms.Button();
-            this.button43 = new System.Windows.Forms.Button();
-            this.button30 = new System.Windows.Forms.Button();
-            this.button26 = new System.Windows.Forms.Button();
-            this.button21 = new System.Windows.Forms.Button();
-            this.button20 = new System.Windows.Forms.Button();
-            this.button19 = new System.Windows.Forms.Button();
-            this.button18 = new System.Windows.Forms.Button();
-            this.button17 = new System.Windows.Forms.Button();
-            this.button16 = new System.Windows.Forms.Button();
-            this.button15 = new System.Windows.Forms.Button();
-            this.button14 = new System.Windows.Forms.Button();
-            this.button13 = new System.Windows.Forms.Button();
-            this.button12 = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button38 = new System.Windows.Forms.Button();
-            this.button33 = new System.Windows.Forms.Button();
-            this.button42 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button29 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button37 = new System.Windows.Forms.Button();
-            this.button32 = new System.Windows.Forms.Button();
-            this.button25 = new System.Windows.Forms.Button();
-            this.button28 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button40 = new System.Windows.Forms.Button();
-            this.button36 = new System.Windows.Forms.Button();
-            this.button31 = new System.Windows.Forms.Button();
-            this.button24 = new System.Windows.Forms.Button();
-            this.button27 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button23 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.scrollRad = new System.Windows.Forms.CheckBox();
+            this.capsRad = new System.Windows.Forms.CheckBox();
+            this.numRad = new System.Windows.Forms.CheckBox();
+            this.nBtn = new System.Windows.Forms.Button();
+            this.RCtrlBtn = new System.Windows.Forms.Button();
+            this.fSlashBtn = new System.Windows.Forms.Button();
+            this.LEntBtn = new System.Windows.Forms.Button();
+            this.rightBtn = new System.Windows.Forms.Button();
+            this.bSlashBtn = new System.Windows.Forms.Button();
+            this.upBtn = new System.Windows.Forms.Button();
+            this.downBtn = new System.Windows.Forms.Button();
+            this.apos1Btn = new System.Windows.Forms.Button();
+            this.rBracBtn = new System.Windows.Forms.Button();
+            this.iBtn = new System.Windows.Forms.Button();
+            this.jBtn = new System.Windows.Forms.Button();
+            this.bBtn = new System.Windows.Forms.Button();
+            this.hBtn = new System.Windows.Forms.Button();
+            this.vBtn = new System.Windows.Forms.Button();
+            this.gBtn = new System.Windows.Forms.Button();
+            this.cBtn = new System.Windows.Forms.Button();
+            this.fBtn = new System.Windows.Forms.Button();
+            this.dBtn = new System.Windows.Forms.Button();
+            this.xBtn = new System.Windows.Forms.Button();
+            this.zBtn = new System.Windows.Forms.Button();
+            this.sBtn = new System.Windows.Forms.Button();
+            this.aBtn = new System.Windows.Forms.Button();
+            this.MenuBtn = new System.Windows.Forms.Button();
+            this.dotBtn = new System.Windows.Forms.Button();
+            this.leftBtn = new System.Windows.Forms.Button();
+            this.LAltBtn = new System.Windows.Forms.Button();
+            this.semiBtn = new System.Windows.Forms.Button();
+            this.LWinBtn = new System.Windows.Forms.Button();
+            this.RWinBtn = new System.Windows.Forms.Button();
+            this.comBtn = new System.Windows.Forms.Button();
+            this.lBracBtn = new System.Windows.Forms.Button();
+            this.lBtn = new System.Windows.Forms.Button();
+            this.uBtn = new System.Windows.Forms.Button();
+            this.spaceBtn = new System.Windows.Forms.Button();
+            this.RAltBtn = new System.Windows.Forms.Button();
+            this.mBtn = new System.Windows.Forms.Button();
+            this.pBtn = new System.Windows.Forms.Button();
+            this.kBtn = new System.Windows.Forms.Button();
+            this.yBtn = new System.Windows.Forms.Button();
+            this.oBtn = new System.Windows.Forms.Button();
+            this.tBtn = new System.Windows.Forms.Button();
+            this.rBtn = new System.Windows.Forms.Button();
+            this.eBtn = new System.Windows.Forms.Button();
+            this.wBtn = new System.Windows.Forms.Button();
             this.qBtn = new System.Windows.Forms.Button();
             this.bckspcBtn = new System.Windows.Forms.Button();
+            this.pauseBtn = new System.Windows.Forms.Button();
+            this.pgUpBtn = new System.Windows.Forms.Button();
+            this.pgDnBtn = new System.Windows.Forms.Button();
+            this.scrollBtn = new System.Windows.Forms.Button();
+            this.REntBtn = new System.Windows.Forms.Button();
+            this.addBtn = new System.Windows.Forms.Button();
+            this.subBtn = new System.Windows.Forms.Button();
             this.equBtn = new System.Windows.Forms.Button();
+            this.homeBtn = new System.Windows.Forms.Button();
+            this.prtScBtn = new System.Windows.Forms.Button();
+            this.endBtn = new System.Windows.Forms.Button();
+            this.insBtn = new System.Windows.Forms.Button();
+            this.f11Btn = new System.Windows.Forms.Button();
+            this.decBtn = new System.Windows.Forms.Button();
+            this.thrNumBtn = new System.Windows.Forms.Button();
+            this.sixNumBtn = new System.Windows.Forms.Button();
+            this.ninNumBtn = new System.Windows.Forms.Button();
+            this.mulBtn = new System.Windows.Forms.Button();
+            this.twoNumBtn = new System.Windows.Forms.Button();
             this.minBtn = new System.Windows.Forms.Button();
+            this.fivNumBtn = new System.Windows.Forms.Button();
+            this.f12Btn = new System.Windows.Forms.Button();
+            this.eigNumBtn = new System.Windows.Forms.Button();
+            this.delBtn = new System.Windows.Forms.Button();
+            this.zerNumBtn = new System.Windows.Forms.Button();
+            this.oneNumBtn = new System.Windows.Forms.Button();
+            this.divBtn = new System.Windows.Forms.Button();
+            this.fourNumBtn = new System.Windows.Forms.Button();
+            this.f10Btn = new System.Windows.Forms.Button();
+            this.sevNumBtn = new System.Windows.Forms.Button();
             this.zerBtn = new System.Windows.Forms.Button();
+            this.numBtn = new System.Windows.Forms.Button();
+            this.f9Btn = new System.Windows.Forms.Button();
             this.ninBtn = new System.Windows.Forms.Button();
+            this.f8Btn = new System.Windows.Forms.Button();
             this.eigBtn = new System.Windows.Forms.Button();
+            this.f7Btn = new System.Windows.Forms.Button();
             this.sevBtn = new System.Windows.Forms.Button();
+            this.f6Btn = new System.Windows.Forms.Button();
             this.sixBtn = new System.Windows.Forms.Button();
+            this.f5Btn = new System.Windows.Forms.Button();
             this.fivBtn = new System.Windows.Forms.Button();
+            this.f4Btn = new System.Windows.Forms.Button();
+            this.f3Btn = new System.Windows.Forms.Button();
             this.fourBtn = new System.Windows.Forms.Button();
+            this.f2Btn = new System.Windows.Forms.Button();
             this.thrBtn = new System.Windows.Forms.Button();
             this.twoBtn = new System.Windows.Forms.Button();
             this.RShiftBtn = new System.Windows.Forms.Button();
+            this.f1Btn = new System.Windows.Forms.Button();
             this.LShiftBtn = new System.Windows.Forms.Button();
             this.oneBtn = new System.Windows.Forms.Button();
             this.LCtrlBtn = new System.Windows.Forms.Button();
-            this.CapsBtn = new System.Windows.Forms.Button();
+            this.capsBtn = new System.Windows.Forms.Button();
             this.tabBtn = new System.Windows.Forms.Button();
             this.AposBtn = new System.Windows.Forms.Button();
-            this.button45 = new System.Windows.Forms.Button();
-            this.button46 = new System.Windows.Forms.Button();
-            this.button47 = new System.Windows.Forms.Button();
-            this.button48 = new System.Windows.Forms.Button();
-            this.button49 = new System.Windows.Forms.Button();
-            this.button50 = new System.Windows.Forms.Button();
-            this.button51 = new System.Windows.Forms.Button();
-            this.button52 = new System.Windows.Forms.Button();
-            this.button53 = new System.Windows.Forms.Button();
-            this.button54 = new System.Windows.Forms.Button();
-            this.button55 = new System.Windows.Forms.Button();
-            this.button56 = new System.Windows.Forms.Button();
-            this.button57 = new System.Windows.Forms.Button();
-            this.button58 = new System.Windows.Forms.Button();
-            this.button59 = new System.Windows.Forms.Button();
-            this.button60 = new System.Windows.Forms.Button();
-            this.button61 = new System.Windows.Forms.Button();
-            this.button62 = new System.Windows.Forms.Button();
-            this.button63 = new System.Windows.Forms.Button();
-            this.button64 = new System.Windows.Forms.Button();
-            this.button65 = new System.Windows.Forms.Button();
-            this.button66 = new System.Windows.Forms.Button();
-            this.button67 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblKeystrokes
             // 
-            this.lblKeystrokes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblKeystrokes.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.lblKeystrokes, "lblKeystrokes");
             this.lblKeystrokes.Name = "lblKeystrokes";
-            this.lblKeystrokes.Size = new System.Drawing.Size(1028, 82);
-            this.lblKeystrokes.TabIndex = 0;
-            this.lblKeystrokes.Text = "Keystrokes will be displayed here...";
             // 
             // EscBtn
             // 
-            this.EscBtn.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.EscBtn, "EscBtn");
             this.EscBtn.Name = "EscBtn";
-            this.EscBtn.Size = new System.Drawing.Size(50, 50);
-            this.EscBtn.TabIndex = 1;
             this.EscBtn.TabStop = false;
-            this.EscBtn.Text = "ESC";
             this.EscBtn.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button22);
-            this.panel1.Controls.Add(this.button39);
-            this.panel1.Controls.Add(this.button34);
-            this.panel1.Controls.Add(this.button41);
-            this.panel1.Controls.Add(this.button44);
-            this.panel1.Controls.Add(this.button35);
-            this.panel1.Controls.Add(this.button45);
-            this.panel1.Controls.Add(this.button43);
-            this.panel1.Controls.Add(this.button30);
-            this.panel1.Controls.Add(this.button26);
-            this.panel1.Controls.Add(this.button21);
-            this.panel1.Controls.Add(this.button20);
-            this.panel1.Controls.Add(this.button19);
-            this.panel1.Controls.Add(this.button18);
-            this.panel1.Controls.Add(this.button17);
-            this.panel1.Controls.Add(this.button16);
-            this.panel1.Controls.Add(this.button15);
-            this.panel1.Controls.Add(this.button14);
-            this.panel1.Controls.Add(this.button13);
-            this.panel1.Controls.Add(this.button12);
-            this.panel1.Controls.Add(this.button11);
-            this.panel1.Controls.Add(this.button10);
-            this.panel1.Controls.Add(this.button9);
-            this.panel1.Controls.Add(this.button38);
-            this.panel1.Controls.Add(this.button33);
-            this.panel1.Controls.Add(this.button42);
-            this.panel1.Controls.Add(this.button8);
-            this.panel1.Controls.Add(this.button29);
-            this.panel1.Controls.Add(this.button7);
-            this.panel1.Controls.Add(this.button37);
-            this.panel1.Controls.Add(this.button32);
-            this.panel1.Controls.Add(this.button25);
-            this.panel1.Controls.Add(this.button28);
-            this.panel1.Controls.Add(this.button6);
-            this.panel1.Controls.Add(this.button40);
-            this.panel1.Controls.Add(this.button36);
-            this.panel1.Controls.Add(this.button31);
-            this.panel1.Controls.Add(this.button24);
-            this.panel1.Controls.Add(this.button27);
-            this.panel1.Controls.Add(this.button5);
-            this.panel1.Controls.Add(this.button23);
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.button3);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.scrollRad);
+            this.panel1.Controls.Add(this.capsRad);
+            this.panel1.Controls.Add(this.numRad);
+            this.panel1.Controls.Add(this.nBtn);
+            this.panel1.Controls.Add(this.RCtrlBtn);
+            this.panel1.Controls.Add(this.fSlashBtn);
+            this.panel1.Controls.Add(this.LEntBtn);
+            this.panel1.Controls.Add(this.rightBtn);
+            this.panel1.Controls.Add(this.bSlashBtn);
+            this.panel1.Controls.Add(this.upBtn);
+            this.panel1.Controls.Add(this.downBtn);
+            this.panel1.Controls.Add(this.apos1Btn);
+            this.panel1.Controls.Add(this.rBracBtn);
+            this.panel1.Controls.Add(this.iBtn);
+            this.panel1.Controls.Add(this.jBtn);
+            this.panel1.Controls.Add(this.bBtn);
+            this.panel1.Controls.Add(this.hBtn);
+            this.panel1.Controls.Add(this.vBtn);
+            this.panel1.Controls.Add(this.gBtn);
+            this.panel1.Controls.Add(this.cBtn);
+            this.panel1.Controls.Add(this.fBtn);
+            this.panel1.Controls.Add(this.dBtn);
+            this.panel1.Controls.Add(this.xBtn);
+            this.panel1.Controls.Add(this.zBtn);
+            this.panel1.Controls.Add(this.sBtn);
+            this.panel1.Controls.Add(this.aBtn);
+            this.panel1.Controls.Add(this.MenuBtn);
+            this.panel1.Controls.Add(this.dotBtn);
+            this.panel1.Controls.Add(this.leftBtn);
+            this.panel1.Controls.Add(this.LAltBtn);
+            this.panel1.Controls.Add(this.semiBtn);
+            this.panel1.Controls.Add(this.LWinBtn);
+            this.panel1.Controls.Add(this.RWinBtn);
+            this.panel1.Controls.Add(this.comBtn);
+            this.panel1.Controls.Add(this.lBracBtn);
+            this.panel1.Controls.Add(this.lBtn);
+            this.panel1.Controls.Add(this.uBtn);
+            this.panel1.Controls.Add(this.spaceBtn);
+            this.panel1.Controls.Add(this.RAltBtn);
+            this.panel1.Controls.Add(this.mBtn);
+            this.panel1.Controls.Add(this.pBtn);
+            this.panel1.Controls.Add(this.kBtn);
+            this.panel1.Controls.Add(this.yBtn);
+            this.panel1.Controls.Add(this.oBtn);
+            this.panel1.Controls.Add(this.tBtn);
+            this.panel1.Controls.Add(this.rBtn);
+            this.panel1.Controls.Add(this.eBtn);
+            this.panel1.Controls.Add(this.wBtn);
             this.panel1.Controls.Add(this.qBtn);
             this.panel1.Controls.Add(this.bckspcBtn);
-            this.panel1.Controls.Add(this.button67);
-            this.panel1.Controls.Add(this.button51);
-            this.panel1.Controls.Add(this.button48);
-            this.panel1.Controls.Add(this.button66);
+            this.panel1.Controls.Add(this.pauseBtn);
+            this.panel1.Controls.Add(this.pgUpBtn);
+            this.panel1.Controls.Add(this.pgDnBtn);
+            this.panel1.Controls.Add(this.scrollBtn);
+            this.panel1.Controls.Add(this.REntBtn);
+            this.panel1.Controls.Add(this.addBtn);
+            this.panel1.Controls.Add(this.subBtn);
             this.panel1.Controls.Add(this.equBtn);
-            this.panel1.Controls.Add(this.button50);
-            this.panel1.Controls.Add(this.button65);
-            this.panel1.Controls.Add(this.button47);
-            this.panel1.Controls.Add(this.button49);
-            this.panel1.Controls.Add(this.button64);
-            this.panel1.Controls.Add(this.button62);
+            this.panel1.Controls.Add(this.homeBtn);
+            this.panel1.Controls.Add(this.prtScBtn);
+            this.panel1.Controls.Add(this.endBtn);
+            this.panel1.Controls.Add(this.insBtn);
+            this.panel1.Controls.Add(this.f11Btn);
+            this.panel1.Controls.Add(this.decBtn);
+            this.panel1.Controls.Add(this.thrNumBtn);
+            this.panel1.Controls.Add(this.sixNumBtn);
+            this.panel1.Controls.Add(this.ninNumBtn);
+            this.panel1.Controls.Add(this.mulBtn);
+            this.panel1.Controls.Add(this.twoNumBtn);
             this.panel1.Controls.Add(this.minBtn);
-            this.panel1.Controls.Add(this.button63);
-            this.panel1.Controls.Add(this.button46);
-            this.panel1.Controls.Add(this.button61);
+            this.panel1.Controls.Add(this.fivNumBtn);
+            this.panel1.Controls.Add(this.f12Btn);
+            this.panel1.Controls.Add(this.eigNumBtn);
+            this.panel1.Controls.Add(this.delBtn);
+            this.panel1.Controls.Add(this.zerNumBtn);
+            this.panel1.Controls.Add(this.oneNumBtn);
+            this.panel1.Controls.Add(this.divBtn);
+            this.panel1.Controls.Add(this.fourNumBtn);
+            this.panel1.Controls.Add(this.f10Btn);
+            this.panel1.Controls.Add(this.sevNumBtn);
             this.panel1.Controls.Add(this.zerBtn);
-            this.panel1.Controls.Add(this.button60);
+            this.panel1.Controls.Add(this.numBtn);
+            this.panel1.Controls.Add(this.f9Btn);
             this.panel1.Controls.Add(this.ninBtn);
-            this.panel1.Controls.Add(this.button59);
+            this.panel1.Controls.Add(this.f8Btn);
             this.panel1.Controls.Add(this.eigBtn);
-            this.panel1.Controls.Add(this.button58);
+            this.panel1.Controls.Add(this.f7Btn);
             this.panel1.Controls.Add(this.sevBtn);
-            this.panel1.Controls.Add(this.button57);
+            this.panel1.Controls.Add(this.f6Btn);
             this.panel1.Controls.Add(this.sixBtn);
-            this.panel1.Controls.Add(this.button56);
+            this.panel1.Controls.Add(this.f5Btn);
             this.panel1.Controls.Add(this.fivBtn);
-            this.panel1.Controls.Add(this.button55);
-            this.panel1.Controls.Add(this.button54);
+            this.panel1.Controls.Add(this.f4Btn);
+            this.panel1.Controls.Add(this.f3Btn);
             this.panel1.Controls.Add(this.fourBtn);
-            this.panel1.Controls.Add(this.button53);
+            this.panel1.Controls.Add(this.f2Btn);
             this.panel1.Controls.Add(this.thrBtn);
             this.panel1.Controls.Add(this.twoBtn);
             this.panel1.Controls.Add(this.RShiftBtn);
-            this.panel1.Controls.Add(this.button52);
+            this.panel1.Controls.Add(this.f1Btn);
             this.panel1.Controls.Add(this.LShiftBtn);
             this.panel1.Controls.Add(this.oneBtn);
             this.panel1.Controls.Add(this.LCtrlBtn);
-            this.panel1.Controls.Add(this.CapsBtn);
+            this.panel1.Controls.Add(this.capsBtn);
             this.panel1.Controls.Add(this.tabBtn);
             this.panel1.Controls.Add(this.AposBtn);
             this.panel1.Controls.Add(this.EscBtn);
-            this.panel1.Location = new System.Drawing.Point(0, 85);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1130, 331);
-            this.panel1.TabIndex = 3;
-            // 
-            // button22
-            // 
-            this.button22.Location = new System.Drawing.Point(375, 224);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(50, 50);
-            this.button22.TabIndex = 12;
-            this.button22.TabStop = false;
-            this.button22.Text = "N";
-            this.button22.UseVisualStyleBackColor = true;
-            // 
-            // button39
-            // 
-            this.button39.Location = new System.Drawing.Point(700, 281);
-            this.button39.Name = "button39";
-            this.button39.Size = new System.Drawing.Size(50, 50);
-            this.button39.TabIndex = 12;
-            this.button39.TabStop = false;
-            this.button39.Text = "Ctrl";
-            this.button39.UseVisualStyleBackColor = true;
-            // 
-            // button34
-            // 
-            this.button34.Location = new System.Drawing.Point(575, 224);
-            this.button34.Name = "button34";
-            this.button34.Size = new System.Drawing.Size(50, 50);
-            this.button34.TabIndex = 12;
-            this.button34.TabStop = false;
-            this.button34.Text = "/";
-            this.button34.UseVisualStyleBackColor = true;
-            // 
-            // button41
-            // 
-            this.button41.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button41.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button41.FlatAppearance.BorderSize = 0;
-            this.button41.Location = new System.Drawing.Point(675, 112);
-            this.button41.Name = "button41";
-            this.button41.Size = new System.Drawing.Size(75, 50);
-            this.button41.TabIndex = 12;
-            this.button41.TabStop = false;
-            this.button41.Text = "Enter";
-            this.button41.UseVisualStyleBackColor = true;
-            // 
-            // button44
-            // 
-            this.button44.Location = new System.Drawing.Point(850, 281);
-            this.button44.Name = "button44";
-            this.button44.Size = new System.Drawing.Size(50, 50);
-            this.button44.TabIndex = 12;
-            this.button44.TabStop = false;
-            this.button44.Text = "\\";
-            this.button44.UseVisualStyleBackColor = true;
-            // 
-            // button35
-            // 
-            this.button35.Location = new System.Drawing.Point(700, 168);
-            this.button35.Name = "button35";
-            this.button35.Size = new System.Drawing.Size(50, 50);
-            this.button35.TabIndex = 12;
-            this.button35.TabStop = false;
-            this.button35.Text = "\\";
-            this.button35.UseVisualStyleBackColor = true;
-            // 
-            // button43
-            // 
-            this.button43.Location = new System.Drawing.Point(800, 281);
-            this.button43.Name = "button43";
-            this.button43.Size = new System.Drawing.Size(50, 50);
-            this.button43.TabIndex = 12;
-            this.button43.TabStop = false;
-            this.button43.Text = "\'";
-            this.button43.UseVisualStyleBackColor = true;
-            // 
-            // button30
-            // 
-            this.button30.Location = new System.Drawing.Point(650, 168);
-            this.button30.Name = "button30";
-            this.button30.Size = new System.Drawing.Size(50, 50);
-            this.button30.TabIndex = 12;
-            this.button30.TabStop = false;
-            this.button30.Text = "\'";
-            this.button30.UseVisualStyleBackColor = true;
-            // 
-            // button26
-            // 
-            this.button26.Location = new System.Drawing.Point(625, 112);
-            this.button26.Name = "button26";
-            this.button26.Size = new System.Drawing.Size(50, 50);
-            this.button26.TabIndex = 12;
-            this.button26.TabStop = false;
-            this.button26.Text = "]";
-            this.button26.UseVisualStyleBackColor = true;
-            // 
-            // button21
-            // 
-            this.button21.Location = new System.Drawing.Point(425, 112);
-            this.button21.Name = "button21";
-            this.button21.Size = new System.Drawing.Size(50, 50);
-            this.button21.TabIndex = 12;
-            this.button21.TabStop = false;
-            this.button21.Text = "I";
-            this.button21.UseVisualStyleBackColor = true;
-            // 
-            // button20
-            // 
-            this.button20.Location = new System.Drawing.Point(450, 168);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(50, 50);
-            this.button20.TabIndex = 12;
-            this.button20.TabStop = false;
-            this.button20.Text = "J";
-            this.button20.UseVisualStyleBackColor = true;
-            // 
-            // button19
-            // 
-            this.button19.Location = new System.Drawing.Point(325, 224);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(50, 50);
-            this.button19.TabIndex = 12;
-            this.button19.TabStop = false;
-            this.button19.Text = "B";
-            this.button19.UseVisualStyleBackColor = true;
-            // 
-            // button18
-            // 
-            this.button18.Location = new System.Drawing.Point(400, 168);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(50, 50);
-            this.button18.TabIndex = 12;
-            this.button18.TabStop = false;
-            this.button18.Text = "H";
-            this.button18.UseVisualStyleBackColor = true;
-            // 
-            // button17
-            // 
-            this.button17.Location = new System.Drawing.Point(275, 224);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(50, 50);
-            this.button17.TabIndex = 12;
-            this.button17.TabStop = false;
-            this.button17.Text = "V";
-            this.button17.UseVisualStyleBackColor = true;
-            // 
-            // button16
-            // 
-            this.button16.Location = new System.Drawing.Point(350, 168);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(50, 50);
-            this.button16.TabIndex = 12;
-            this.button16.TabStop = false;
-            this.button16.Text = "G";
-            this.button16.UseVisualStyleBackColor = true;
-            // 
-            // button15
-            // 
-            this.button15.Location = new System.Drawing.Point(225, 224);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(50, 50);
-            this.button15.TabIndex = 12;
-            this.button15.TabStop = false;
-            this.button15.Text = "C";
-            this.button15.UseVisualStyleBackColor = true;
-            // 
-            // button14
-            // 
-            this.button14.Location = new System.Drawing.Point(300, 168);
-            this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(50, 50);
-            this.button14.TabIndex = 12;
-            this.button14.TabStop = false;
-            this.button14.Text = "F";
-            this.button14.UseVisualStyleBackColor = true;
-            // 
-            // button13
-            // 
-            this.button13.Location = new System.Drawing.Point(250, 168);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(50, 50);
-            this.button13.TabIndex = 12;
-            this.button13.TabStop = false;
-            this.button13.Text = "D";
-            this.button13.UseVisualStyleBackColor = true;
-            // 
-            // button12
-            // 
-            this.button12.Location = new System.Drawing.Point(175, 224);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(50, 50);
-            this.button12.TabIndex = 12;
-            this.button12.TabStop = false;
-            this.button12.Text = "X";
-            this.button12.UseVisualStyleBackColor = true;
-            // 
-            // button11
-            // 
-            this.button11.Location = new System.Drawing.Point(125, 224);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(50, 50);
-            this.button11.TabIndex = 12;
-            this.button11.TabStop = false;
-            this.button11.Text = "Z";
-            this.button11.UseVisualStyleBackColor = true;
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(200, 168);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(50, 50);
-            this.button10.TabIndex = 12;
-            this.button10.TabStop = false;
-            this.button10.Text = "S";
-            this.button10.UseVisualStyleBackColor = true;
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(150, 168);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(50, 50);
-            this.button9.TabIndex = 12;
-            this.button9.TabStop = false;
-            this.button9.Text = "A";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
-            // button38
-            // 
-            this.button38.Location = new System.Drawing.Point(650, 281);
-            this.button38.Name = "button38";
-            this.button38.Size = new System.Drawing.Size(50, 50);
-            this.button38.TabIndex = 10;
-            this.button38.TabStop = false;
-            this.button38.Text = "Menu";
-            this.button38.UseVisualStyleBackColor = true;
-            // 
-            // button33
-            // 
-            this.button33.Location = new System.Drawing.Point(525, 224);
-            this.button33.Name = "button33";
-            this.button33.Size = new System.Drawing.Size(50, 50);
-            this.button33.TabIndex = 10;
-            this.button33.TabStop = false;
-            this.button33.Text = ".";
-            this.button33.UseVisualStyleBackColor = true;
-            // 
-            // button42
-            // 
-            this.button42.Location = new System.Drawing.Point(750, 281);
-            this.button42.Name = "button42";
-            this.button42.Size = new System.Drawing.Size(50, 50);
-            this.button42.TabIndex = 10;
-            this.button42.TabStop = false;
-            this.button42.Text = ";";
-            this.button42.UseVisualStyleBackColor = true;
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(100, 281);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(50, 50);
-            this.button8.TabIndex = 11;
-            this.button8.TabStop = false;
-            this.button8.Text = "Alt";
-            this.button8.UseVisualStyleBackColor = true;
-            // 
-            // button29
-            // 
-            this.button29.Location = new System.Drawing.Point(600, 168);
-            this.button29.Name = "button29";
-            this.button29.Size = new System.Drawing.Size(50, 50);
-            this.button29.TabIndex = 10;
-            this.button29.TabStop = false;
-            this.button29.Text = ";";
-            this.button29.UseVisualStyleBackColor = true;
-            // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(50, 281);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(50, 50);
-            this.button7.TabIndex = 11;
-            this.button7.TabStop = false;
-            this.button7.Text = "Win";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // button37
-            // 
-            this.button37.Location = new System.Drawing.Point(600, 281);
-            this.button37.Name = "button37";
-            this.button37.Size = new System.Drawing.Size(50, 50);
-            this.button37.TabIndex = 10;
-            this.button37.TabStop = false;
-            this.button37.Text = "Win";
-            this.button37.UseVisualStyleBackColor = true;
-            // 
-            // button32
-            // 
-            this.button32.Location = new System.Drawing.Point(475, 224);
-            this.button32.Name = "button32";
-            this.button32.Size = new System.Drawing.Size(50, 50);
-            this.button32.TabIndex = 10;
-            this.button32.TabStop = false;
-            this.button32.Text = ",";
-            this.button32.UseVisualStyleBackColor = true;
-            // 
-            // button25
-            // 
-            this.button25.Location = new System.Drawing.Point(575, 112);
-            this.button25.Name = "button25";
-            this.button25.Size = new System.Drawing.Size(50, 50);
-            this.button25.TabIndex = 10;
-            this.button25.TabStop = false;
-            this.button25.Text = "[";
-            this.button25.UseVisualStyleBackColor = true;
-            // 
-            // button28
-            // 
-            this.button28.Location = new System.Drawing.Point(550, 168);
-            this.button28.Name = "button28";
-            this.button28.Size = new System.Drawing.Size(50, 50);
-            this.button28.TabIndex = 10;
-            this.button28.TabStop = false;
-            this.button28.Text = "L";
-            this.button28.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(375, 112);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(50, 50);
-            this.button6.TabIndex = 10;
-            this.button6.TabStop = false;
-            this.button6.Text = "U";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
-            // button40
-            // 
-            this.button40.Location = new System.Drawing.Point(150, 281);
-            this.button40.Name = "button40";
-            this.button40.Size = new System.Drawing.Size(400, 50);
-            this.button40.TabIndex = 10;
-            this.button40.TabStop = false;
-            this.button40.Text = "Space";
-            this.button40.UseVisualStyleBackColor = true;
-            // 
-            // button36
-            // 
-            this.button36.Location = new System.Drawing.Point(550, 281);
-            this.button36.Name = "button36";
-            this.button36.Size = new System.Drawing.Size(50, 50);
-            this.button36.TabIndex = 10;
-            this.button36.TabStop = false;
-            this.button36.Text = "Alt";
-            this.button36.UseVisualStyleBackColor = true;
-            // 
-            // button31
-            // 
-            this.button31.Location = new System.Drawing.Point(425, 224);
-            this.button31.Name = "button31";
-            this.button31.Size = new System.Drawing.Size(50, 50);
-            this.button31.TabIndex = 10;
-            this.button31.TabStop = false;
-            this.button31.Text = "M";
-            this.button31.UseVisualStyleBackColor = true;
-            // 
-            // button24
-            // 
-            this.button24.Location = new System.Drawing.Point(525, 112);
-            this.button24.Name = "button24";
-            this.button24.Size = new System.Drawing.Size(50, 50);
-            this.button24.TabIndex = 10;
-            this.button24.TabStop = false;
-            this.button24.Text = "P";
-            this.button24.UseVisualStyleBackColor = true;
-            // 
-            // button27
-            // 
-            this.button27.Location = new System.Drawing.Point(500, 168);
-            this.button27.Name = "button27";
-            this.button27.Size = new System.Drawing.Size(50, 50);
-            this.button27.TabIndex = 10;
-            this.button27.TabStop = false;
-            this.button27.Text = "K";
-            this.button27.UseVisualStyleBackColor = true;
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(325, 112);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(50, 50);
-            this.button5.TabIndex = 10;
-            this.button5.TabStop = false;
-            this.button5.Text = "Y";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
-            // button23
-            // 
-            this.button23.Location = new System.Drawing.Point(475, 112);
-            this.button23.Name = "button23";
-            this.button23.Size = new System.Drawing.Size(50, 50);
-            this.button23.TabIndex = 10;
-            this.button23.TabStop = false;
-            this.button23.Text = "O";
-            this.button23.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(275, 112);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(50, 50);
-            this.button4.TabIndex = 10;
-            this.button4.TabStop = false;
-            this.button4.Text = "T";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(225, 112);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(50, 50);
-            this.button3.TabIndex = 10;
-            this.button3.TabStop = false;
-            this.button3.Text = "R";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(175, 112);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(50, 50);
-            this.button2.TabIndex = 10;
-            this.button2.TabStop = false;
-            this.button2.Text = "E";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(125, 112);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(50, 50);
-            this.button1.TabIndex = 10;
-            this.button1.TabStop = false;
-            this.button1.Text = "W";
-            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // scrollRad
+            // 
+            resources.ApplyResources(this.scrollRad, "scrollRad");
+            this.scrollRad.Name = "scrollRad";
+            this.scrollRad.UseVisualStyleBackColor = true;
+            // 
+            // capsRad
+            // 
+            resources.ApplyResources(this.capsRad, "capsRad");
+            this.capsRad.Name = "capsRad";
+            this.capsRad.UseVisualStyleBackColor = true;
+            // 
+            // numRad
+            // 
+            resources.ApplyResources(this.numRad, "numRad");
+            this.numRad.Name = "numRad";
+            this.numRad.UseVisualStyleBackColor = true;
+            // 
+            // nBtn
+            // 
+            resources.ApplyResources(this.nBtn, "nBtn");
+            this.nBtn.Name = "nBtn";
+            this.nBtn.TabStop = false;
+            this.nBtn.UseVisualStyleBackColor = true;
+            // 
+            // RCtrlBtn
+            // 
+            resources.ApplyResources(this.RCtrlBtn, "RCtrlBtn");
+            this.RCtrlBtn.Name = "RCtrlBtn";
+            this.RCtrlBtn.TabStop = false;
+            this.RCtrlBtn.UseVisualStyleBackColor = true;
+            // 
+            // fSlashBtn
+            // 
+            resources.ApplyResources(this.fSlashBtn, "fSlashBtn");
+            this.fSlashBtn.Name = "fSlashBtn";
+            this.fSlashBtn.TabStop = false;
+            this.fSlashBtn.UseVisualStyleBackColor = true;
+            // 
+            // LEntBtn
+            // 
+            resources.ApplyResources(this.LEntBtn, "LEntBtn");
+            this.LEntBtn.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.LEntBtn.FlatAppearance.BorderSize = 0;
+            this.LEntBtn.Name = "LEntBtn";
+            this.LEntBtn.TabStop = false;
+            this.LEntBtn.UseVisualStyleBackColor = true;
+            // 
+            // rightBtn
+            // 
+            resources.ApplyResources(this.rightBtn, "rightBtn");
+            this.rightBtn.Name = "rightBtn";
+            this.rightBtn.TabStop = false;
+            this.rightBtn.UseVisualStyleBackColor = true;
+            // 
+            // bSlashBtn
+            // 
+            resources.ApplyResources(this.bSlashBtn, "bSlashBtn");
+            this.bSlashBtn.Name = "bSlashBtn";
+            this.bSlashBtn.TabStop = false;
+            this.bSlashBtn.UseVisualStyleBackColor = true;
+            // 
+            // upBtn
+            // 
+            resources.ApplyResources(this.upBtn, "upBtn");
+            this.upBtn.Name = "upBtn";
+            this.upBtn.TabStop = false;
+            this.upBtn.UseVisualStyleBackColor = true;
+            // 
+            // downBtn
+            // 
+            resources.ApplyResources(this.downBtn, "downBtn");
+            this.downBtn.Name = "downBtn";
+            this.downBtn.TabStop = false;
+            this.downBtn.UseVisualStyleBackColor = true;
+            // 
+            // apos1Btn
+            // 
+            resources.ApplyResources(this.apos1Btn, "apos1Btn");
+            this.apos1Btn.Name = "apos1Btn";
+            this.apos1Btn.TabStop = false;
+            this.apos1Btn.UseVisualStyleBackColor = true;
+            // 
+            // rBracBtn
+            // 
+            resources.ApplyResources(this.rBracBtn, "rBracBtn");
+            this.rBracBtn.Name = "rBracBtn";
+            this.rBracBtn.TabStop = false;
+            this.rBracBtn.UseVisualStyleBackColor = true;
+            // 
+            // iBtn
+            // 
+            resources.ApplyResources(this.iBtn, "iBtn");
+            this.iBtn.Name = "iBtn";
+            this.iBtn.TabStop = false;
+            this.iBtn.UseVisualStyleBackColor = true;
+            // 
+            // jBtn
+            // 
+            resources.ApplyResources(this.jBtn, "jBtn");
+            this.jBtn.Name = "jBtn";
+            this.jBtn.TabStop = false;
+            this.jBtn.UseVisualStyleBackColor = true;
+            // 
+            // bBtn
+            // 
+            resources.ApplyResources(this.bBtn, "bBtn");
+            this.bBtn.Name = "bBtn";
+            this.bBtn.TabStop = false;
+            this.bBtn.UseVisualStyleBackColor = true;
+            // 
+            // hBtn
+            // 
+            resources.ApplyResources(this.hBtn, "hBtn");
+            this.hBtn.Name = "hBtn";
+            this.hBtn.TabStop = false;
+            this.hBtn.UseVisualStyleBackColor = true;
+            // 
+            // vBtn
+            // 
+            resources.ApplyResources(this.vBtn, "vBtn");
+            this.vBtn.Name = "vBtn";
+            this.vBtn.TabStop = false;
+            this.vBtn.UseVisualStyleBackColor = true;
+            // 
+            // gBtn
+            // 
+            resources.ApplyResources(this.gBtn, "gBtn");
+            this.gBtn.Name = "gBtn";
+            this.gBtn.TabStop = false;
+            this.gBtn.UseVisualStyleBackColor = true;
+            // 
+            // cBtn
+            // 
+            resources.ApplyResources(this.cBtn, "cBtn");
+            this.cBtn.Name = "cBtn";
+            this.cBtn.TabStop = false;
+            this.cBtn.UseVisualStyleBackColor = true;
+            // 
+            // fBtn
+            // 
+            resources.ApplyResources(this.fBtn, "fBtn");
+            this.fBtn.Name = "fBtn";
+            this.fBtn.TabStop = false;
+            this.fBtn.UseVisualStyleBackColor = true;
+            // 
+            // dBtn
+            // 
+            resources.ApplyResources(this.dBtn, "dBtn");
+            this.dBtn.Name = "dBtn";
+            this.dBtn.TabStop = false;
+            this.dBtn.UseVisualStyleBackColor = true;
+            // 
+            // xBtn
+            // 
+            resources.ApplyResources(this.xBtn, "xBtn");
+            this.xBtn.Name = "xBtn";
+            this.xBtn.TabStop = false;
+            this.xBtn.UseVisualStyleBackColor = true;
+            // 
+            // zBtn
+            // 
+            resources.ApplyResources(this.zBtn, "zBtn");
+            this.zBtn.Name = "zBtn";
+            this.zBtn.TabStop = false;
+            this.zBtn.UseVisualStyleBackColor = true;
+            // 
+            // sBtn
+            // 
+            resources.ApplyResources(this.sBtn, "sBtn");
+            this.sBtn.Name = "sBtn";
+            this.sBtn.TabStop = false;
+            this.sBtn.UseVisualStyleBackColor = true;
+            // 
+            // aBtn
+            // 
+            resources.ApplyResources(this.aBtn, "aBtn");
+            this.aBtn.Name = "aBtn";
+            this.aBtn.TabStop = false;
+            this.aBtn.UseVisualStyleBackColor = true;
+            // 
+            // MenuBtn
+            // 
+            resources.ApplyResources(this.MenuBtn, "MenuBtn");
+            this.MenuBtn.Name = "MenuBtn";
+            this.MenuBtn.TabStop = false;
+            this.MenuBtn.UseVisualStyleBackColor = true;
+            // 
+            // dotBtn
+            // 
+            resources.ApplyResources(this.dotBtn, "dotBtn");
+            this.dotBtn.Name = "dotBtn";
+            this.dotBtn.TabStop = false;
+            this.dotBtn.UseVisualStyleBackColor = true;
+            // 
+            // leftBtn
+            // 
+            resources.ApplyResources(this.leftBtn, "leftBtn");
+            this.leftBtn.Name = "leftBtn";
+            this.leftBtn.TabStop = false;
+            this.leftBtn.UseVisualStyleBackColor = true;
+            // 
+            // LAltBtn
+            // 
+            resources.ApplyResources(this.LAltBtn, "LAltBtn");
+            this.LAltBtn.Name = "LAltBtn";
+            this.LAltBtn.TabStop = false;
+            this.LAltBtn.UseVisualStyleBackColor = true;
+            // 
+            // semiBtn
+            // 
+            resources.ApplyResources(this.semiBtn, "semiBtn");
+            this.semiBtn.Name = "semiBtn";
+            this.semiBtn.TabStop = false;
+            this.semiBtn.UseVisualStyleBackColor = true;
+            // 
+            // LWinBtn
+            // 
+            resources.ApplyResources(this.LWinBtn, "LWinBtn");
+            this.LWinBtn.Name = "LWinBtn";
+            this.LWinBtn.TabStop = false;
+            this.LWinBtn.UseVisualStyleBackColor = true;
+            // 
+            // RWinBtn
+            // 
+            resources.ApplyResources(this.RWinBtn, "RWinBtn");
+            this.RWinBtn.Name = "RWinBtn";
+            this.RWinBtn.TabStop = false;
+            this.RWinBtn.UseVisualStyleBackColor = true;
+            // 
+            // comBtn
+            // 
+            resources.ApplyResources(this.comBtn, "comBtn");
+            this.comBtn.Name = "comBtn";
+            this.comBtn.TabStop = false;
+            this.comBtn.UseVisualStyleBackColor = true;
+            // 
+            // lBracBtn
+            // 
+            resources.ApplyResources(this.lBracBtn, "lBracBtn");
+            this.lBracBtn.Name = "lBracBtn";
+            this.lBracBtn.TabStop = false;
+            this.lBracBtn.UseVisualStyleBackColor = true;
+            // 
+            // lBtn
+            // 
+            resources.ApplyResources(this.lBtn, "lBtn");
+            this.lBtn.Name = "lBtn";
+            this.lBtn.TabStop = false;
+            this.lBtn.UseVisualStyleBackColor = true;
+            // 
+            // uBtn
+            // 
+            resources.ApplyResources(this.uBtn, "uBtn");
+            this.uBtn.Name = "uBtn";
+            this.uBtn.TabStop = false;
+            this.uBtn.UseVisualStyleBackColor = true;
+            // 
+            // spaceBtn
+            // 
+            resources.ApplyResources(this.spaceBtn, "spaceBtn");
+            this.spaceBtn.Name = "spaceBtn";
+            this.spaceBtn.TabStop = false;
+            this.spaceBtn.UseVisualStyleBackColor = true;
+            // 
+            // RAltBtn
+            // 
+            resources.ApplyResources(this.RAltBtn, "RAltBtn");
+            this.RAltBtn.Name = "RAltBtn";
+            this.RAltBtn.TabStop = false;
+            this.RAltBtn.UseVisualStyleBackColor = true;
+            // 
+            // mBtn
+            // 
+            resources.ApplyResources(this.mBtn, "mBtn");
+            this.mBtn.Name = "mBtn";
+            this.mBtn.TabStop = false;
+            this.mBtn.UseVisualStyleBackColor = true;
+            // 
+            // pBtn
+            // 
+            resources.ApplyResources(this.pBtn, "pBtn");
+            this.pBtn.Name = "pBtn";
+            this.pBtn.TabStop = false;
+            this.pBtn.UseVisualStyleBackColor = true;
+            // 
+            // kBtn
+            // 
+            resources.ApplyResources(this.kBtn, "kBtn");
+            this.kBtn.Name = "kBtn";
+            this.kBtn.TabStop = false;
+            this.kBtn.UseVisualStyleBackColor = true;
+            // 
+            // yBtn
+            // 
+            resources.ApplyResources(this.yBtn, "yBtn");
+            this.yBtn.Name = "yBtn";
+            this.yBtn.TabStop = false;
+            this.yBtn.UseVisualStyleBackColor = true;
+            // 
+            // oBtn
+            // 
+            resources.ApplyResources(this.oBtn, "oBtn");
+            this.oBtn.Name = "oBtn";
+            this.oBtn.TabStop = false;
+            this.oBtn.UseVisualStyleBackColor = true;
+            // 
+            // tBtn
+            // 
+            resources.ApplyResources(this.tBtn, "tBtn");
+            this.tBtn.Name = "tBtn";
+            this.tBtn.TabStop = false;
+            this.tBtn.UseVisualStyleBackColor = true;
+            // 
+            // rBtn
+            // 
+            resources.ApplyResources(this.rBtn, "rBtn");
+            this.rBtn.Name = "rBtn";
+            this.rBtn.TabStop = false;
+            this.rBtn.UseVisualStyleBackColor = true;
+            // 
+            // eBtn
+            // 
+            resources.ApplyResources(this.eBtn, "eBtn");
+            this.eBtn.Name = "eBtn";
+            this.eBtn.TabStop = false;
+            this.eBtn.UseVisualStyleBackColor = true;
+            // 
+            // wBtn
+            // 
+            resources.ApplyResources(this.wBtn, "wBtn");
+            this.wBtn.Name = "wBtn";
+            this.wBtn.TabStop = false;
+            this.wBtn.UseVisualStyleBackColor = true;
             // 
             // qBtn
             // 
-            this.qBtn.Location = new System.Drawing.Point(75, 112);
+            resources.ApplyResources(this.qBtn, "qBtn");
             this.qBtn.Name = "qBtn";
-            this.qBtn.Size = new System.Drawing.Size(50, 50);
-            this.qBtn.TabIndex = 10;
             this.qBtn.TabStop = false;
-            this.qBtn.Text = "Q";
             this.qBtn.UseVisualStyleBackColor = true;
             // 
             // bckspcBtn
             // 
-            this.bckspcBtn.Location = new System.Drawing.Point(650, 56);
+            resources.ApplyResources(this.bckspcBtn, "bckspcBtn");
             this.bckspcBtn.Name = "bckspcBtn";
-            this.bckspcBtn.Size = new System.Drawing.Size(100, 50);
-            this.bckspcBtn.TabIndex = 9;
             this.bckspcBtn.TabStop = false;
-            this.bckspcBtn.Text = "BackSpace";
             this.bckspcBtn.UseVisualStyleBackColor = true;
+            // 
+            // pauseBtn
+            // 
+            resources.ApplyResources(this.pauseBtn, "pauseBtn");
+            this.pauseBtn.Name = "pauseBtn";
+            this.pauseBtn.TabStop = false;
+            this.pauseBtn.UseVisualStyleBackColor = true;
+            // 
+            // pgUpBtn
+            // 
+            resources.ApplyResources(this.pgUpBtn, "pgUpBtn");
+            this.pgUpBtn.Name = "pgUpBtn";
+            this.pgUpBtn.TabStop = false;
+            this.pgUpBtn.UseVisualStyleBackColor = true;
+            // 
+            // pgDnBtn
+            // 
+            resources.ApplyResources(this.pgDnBtn, "pgDnBtn");
+            this.pgDnBtn.Name = "pgDnBtn";
+            this.pgDnBtn.TabStop = false;
+            this.pgDnBtn.UseVisualStyleBackColor = true;
+            // 
+            // scrollBtn
+            // 
+            resources.ApplyResources(this.scrollBtn, "scrollBtn");
+            this.scrollBtn.Name = "scrollBtn";
+            this.scrollBtn.TabStop = false;
+            this.scrollBtn.UseVisualStyleBackColor = true;
+            // 
+            // REntBtn
+            // 
+            resources.ApplyResources(this.REntBtn, "REntBtn");
+            this.REntBtn.Name = "REntBtn";
+            this.REntBtn.TabStop = false;
+            this.REntBtn.UseVisualStyleBackColor = true;
+            // 
+            // addBtn
+            // 
+            resources.ApplyResources(this.addBtn, "addBtn");
+            this.addBtn.Name = "addBtn";
+            this.addBtn.TabStop = false;
+            this.addBtn.UseVisualStyleBackColor = true;
+            // 
+            // subBtn
+            // 
+            resources.ApplyResources(this.subBtn, "subBtn");
+            this.subBtn.Name = "subBtn";
+            this.subBtn.TabStop = false;
+            this.subBtn.UseVisualStyleBackColor = true;
             // 
             // equBtn
             // 
-            this.equBtn.Location = new System.Drawing.Point(600, 56);
+            resources.ApplyResources(this.equBtn, "equBtn");
             this.equBtn.Name = "equBtn";
-            this.equBtn.Size = new System.Drawing.Size(50, 50);
-            this.equBtn.TabIndex = 9;
             this.equBtn.TabStop = false;
-            this.equBtn.Text = "=";
             this.equBtn.UseVisualStyleBackColor = true;
+            // 
+            // homeBtn
+            // 
+            resources.ApplyResources(this.homeBtn, "homeBtn");
+            this.homeBtn.Name = "homeBtn";
+            this.homeBtn.TabStop = false;
+            this.homeBtn.UseVisualStyleBackColor = true;
+            // 
+            // prtScBtn
+            // 
+            resources.ApplyResources(this.prtScBtn, "prtScBtn");
+            this.prtScBtn.Name = "prtScBtn";
+            this.prtScBtn.TabStop = false;
+            this.prtScBtn.UseVisualStyleBackColor = true;
+            // 
+            // endBtn
+            // 
+            resources.ApplyResources(this.endBtn, "endBtn");
+            this.endBtn.Name = "endBtn";
+            this.endBtn.TabStop = false;
+            this.endBtn.UseVisualStyleBackColor = true;
+            // 
+            // insBtn
+            // 
+            resources.ApplyResources(this.insBtn, "insBtn");
+            this.insBtn.Name = "insBtn";
+            this.insBtn.TabStop = false;
+            this.insBtn.UseVisualStyleBackColor = true;
+            // 
+            // f11Btn
+            // 
+            resources.ApplyResources(this.f11Btn, "f11Btn");
+            this.f11Btn.Name = "f11Btn";
+            this.f11Btn.TabStop = false;
+            this.f11Btn.UseVisualStyleBackColor = true;
+            // 
+            // decBtn
+            // 
+            resources.ApplyResources(this.decBtn, "decBtn");
+            this.decBtn.Name = "decBtn";
+            this.decBtn.TabStop = false;
+            this.decBtn.UseVisualStyleBackColor = true;
+            // 
+            // thrNumBtn
+            // 
+            resources.ApplyResources(this.thrNumBtn, "thrNumBtn");
+            this.thrNumBtn.Name = "thrNumBtn";
+            this.thrNumBtn.TabStop = false;
+            this.thrNumBtn.UseVisualStyleBackColor = true;
+            // 
+            // sixNumBtn
+            // 
+            resources.ApplyResources(this.sixNumBtn, "sixNumBtn");
+            this.sixNumBtn.Name = "sixNumBtn";
+            this.sixNumBtn.TabStop = false;
+            this.sixNumBtn.UseVisualStyleBackColor = true;
+            // 
+            // ninNumBtn
+            // 
+            resources.ApplyResources(this.ninNumBtn, "ninNumBtn");
+            this.ninNumBtn.Name = "ninNumBtn";
+            this.ninNumBtn.TabStop = false;
+            this.ninNumBtn.UseVisualStyleBackColor = true;
+            // 
+            // mulBtn
+            // 
+            resources.ApplyResources(this.mulBtn, "mulBtn");
+            this.mulBtn.Name = "mulBtn";
+            this.mulBtn.TabStop = false;
+            this.mulBtn.UseVisualStyleBackColor = true;
+            // 
+            // twoNumBtn
+            // 
+            resources.ApplyResources(this.twoNumBtn, "twoNumBtn");
+            this.twoNumBtn.Name = "twoNumBtn";
+            this.twoNumBtn.TabStop = false;
+            this.twoNumBtn.UseVisualStyleBackColor = true;
             // 
             // minBtn
             // 
-            this.minBtn.Location = new System.Drawing.Point(550, 56);
+            resources.ApplyResources(this.minBtn, "minBtn");
             this.minBtn.Name = "minBtn";
-            this.minBtn.Size = new System.Drawing.Size(50, 50);
-            this.minBtn.TabIndex = 9;
             this.minBtn.TabStop = false;
-            this.minBtn.Text = "-";
             this.minBtn.UseVisualStyleBackColor = true;
+            // 
+            // fivNumBtn
+            // 
+            resources.ApplyResources(this.fivNumBtn, "fivNumBtn");
+            this.fivNumBtn.Name = "fivNumBtn";
+            this.fivNumBtn.TabStop = false;
+            this.fivNumBtn.UseVisualStyleBackColor = true;
+            // 
+            // f12Btn
+            // 
+            resources.ApplyResources(this.f12Btn, "f12Btn");
+            this.f12Btn.Name = "f12Btn";
+            this.f12Btn.TabStop = false;
+            this.f12Btn.UseVisualStyleBackColor = true;
+            // 
+            // eigNumBtn
+            // 
+            resources.ApplyResources(this.eigNumBtn, "eigNumBtn");
+            this.eigNumBtn.Name = "eigNumBtn";
+            this.eigNumBtn.TabStop = false;
+            this.eigNumBtn.UseVisualStyleBackColor = true;
+            // 
+            // delBtn
+            // 
+            resources.ApplyResources(this.delBtn, "delBtn");
+            this.delBtn.Name = "delBtn";
+            this.delBtn.TabStop = false;
+            this.delBtn.UseVisualStyleBackColor = true;
+            // 
+            // zerNumBtn
+            // 
+            resources.ApplyResources(this.zerNumBtn, "zerNumBtn");
+            this.zerNumBtn.Name = "zerNumBtn";
+            this.zerNumBtn.TabStop = false;
+            this.zerNumBtn.UseVisualStyleBackColor = true;
+            // 
+            // oneNumBtn
+            // 
+            resources.ApplyResources(this.oneNumBtn, "oneNumBtn");
+            this.oneNumBtn.Name = "oneNumBtn";
+            this.oneNumBtn.TabStop = false;
+            this.oneNumBtn.UseVisualStyleBackColor = true;
+            // 
+            // divBtn
+            // 
+            resources.ApplyResources(this.divBtn, "divBtn");
+            this.divBtn.Name = "divBtn";
+            this.divBtn.TabStop = false;
+            this.divBtn.UseVisualStyleBackColor = true;
+            // 
+            // fourNumBtn
+            // 
+            resources.ApplyResources(this.fourNumBtn, "fourNumBtn");
+            this.fourNumBtn.Name = "fourNumBtn";
+            this.fourNumBtn.TabStop = false;
+            this.fourNumBtn.UseVisualStyleBackColor = true;
+            // 
+            // f10Btn
+            // 
+            resources.ApplyResources(this.f10Btn, "f10Btn");
+            this.f10Btn.Name = "f10Btn";
+            this.f10Btn.TabStop = false;
+            this.f10Btn.UseVisualStyleBackColor = true;
+            // 
+            // sevNumBtn
+            // 
+            resources.ApplyResources(this.sevNumBtn, "sevNumBtn");
+            this.sevNumBtn.Name = "sevNumBtn";
+            this.sevNumBtn.TabStop = false;
+            this.sevNumBtn.UseVisualStyleBackColor = true;
             // 
             // zerBtn
             // 
-            this.zerBtn.Location = new System.Drawing.Point(500, 56);
+            resources.ApplyResources(this.zerBtn, "zerBtn");
             this.zerBtn.Name = "zerBtn";
-            this.zerBtn.Size = new System.Drawing.Size(50, 50);
-            this.zerBtn.TabIndex = 9;
             this.zerBtn.TabStop = false;
-            this.zerBtn.Text = "0";
             this.zerBtn.UseVisualStyleBackColor = true;
+            // 
+            // numBtn
+            // 
+            resources.ApplyResources(this.numBtn, "numBtn");
+            this.numBtn.Name = "numBtn";
+            this.numBtn.TabStop = false;
+            this.numBtn.UseVisualStyleBackColor = true;
+            // 
+            // f9Btn
+            // 
+            resources.ApplyResources(this.f9Btn, "f9Btn");
+            this.f9Btn.Name = "f9Btn";
+            this.f9Btn.TabStop = false;
+            this.f9Btn.UseVisualStyleBackColor = true;
             // 
             // ninBtn
             // 
-            this.ninBtn.Location = new System.Drawing.Point(450, 56);
+            resources.ApplyResources(this.ninBtn, "ninBtn");
             this.ninBtn.Name = "ninBtn";
-            this.ninBtn.Size = new System.Drawing.Size(50, 50);
-            this.ninBtn.TabIndex = 9;
             this.ninBtn.TabStop = false;
-            this.ninBtn.Text = "9";
             this.ninBtn.UseVisualStyleBackColor = true;
+            // 
+            // f8Btn
+            // 
+            resources.ApplyResources(this.f8Btn, "f8Btn");
+            this.f8Btn.Name = "f8Btn";
+            this.f8Btn.TabStop = false;
+            this.f8Btn.UseVisualStyleBackColor = true;
             // 
             // eigBtn
             // 
-            this.eigBtn.Location = new System.Drawing.Point(400, 56);
+            resources.ApplyResources(this.eigBtn, "eigBtn");
             this.eigBtn.Name = "eigBtn";
-            this.eigBtn.Size = new System.Drawing.Size(50, 50);
-            this.eigBtn.TabIndex = 9;
             this.eigBtn.TabStop = false;
-            this.eigBtn.Text = "8";
             this.eigBtn.UseVisualStyleBackColor = true;
+            // 
+            // f7Btn
+            // 
+            resources.ApplyResources(this.f7Btn, "f7Btn");
+            this.f7Btn.Name = "f7Btn";
+            this.f7Btn.TabStop = false;
+            this.f7Btn.UseVisualStyleBackColor = true;
             // 
             // sevBtn
             // 
-            this.sevBtn.Location = new System.Drawing.Point(350, 56);
+            resources.ApplyResources(this.sevBtn, "sevBtn");
             this.sevBtn.Name = "sevBtn";
-            this.sevBtn.Size = new System.Drawing.Size(50, 50);
-            this.sevBtn.TabIndex = 9;
             this.sevBtn.TabStop = false;
-            this.sevBtn.Text = "7";
             this.sevBtn.UseVisualStyleBackColor = true;
+            // 
+            // f6Btn
+            // 
+            resources.ApplyResources(this.f6Btn, "f6Btn");
+            this.f6Btn.Name = "f6Btn";
+            this.f6Btn.TabStop = false;
+            this.f6Btn.UseVisualStyleBackColor = true;
             // 
             // sixBtn
             // 
-            this.sixBtn.Location = new System.Drawing.Point(300, 56);
+            resources.ApplyResources(this.sixBtn, "sixBtn");
             this.sixBtn.Name = "sixBtn";
-            this.sixBtn.Size = new System.Drawing.Size(50, 50);
-            this.sixBtn.TabIndex = 9;
             this.sixBtn.TabStop = false;
-            this.sixBtn.Text = "6";
             this.sixBtn.UseVisualStyleBackColor = true;
+            // 
+            // f5Btn
+            // 
+            resources.ApplyResources(this.f5Btn, "f5Btn");
+            this.f5Btn.Name = "f5Btn";
+            this.f5Btn.TabStop = false;
+            this.f5Btn.UseVisualStyleBackColor = true;
             // 
             // fivBtn
             // 
-            this.fivBtn.Location = new System.Drawing.Point(250, 56);
+            resources.ApplyResources(this.fivBtn, "fivBtn");
             this.fivBtn.Name = "fivBtn";
-            this.fivBtn.Size = new System.Drawing.Size(50, 50);
-            this.fivBtn.TabIndex = 9;
             this.fivBtn.TabStop = false;
-            this.fivBtn.Text = "5";
             this.fivBtn.UseVisualStyleBackColor = true;
+            // 
+            // f4Btn
+            // 
+            resources.ApplyResources(this.f4Btn, "f4Btn");
+            this.f4Btn.Name = "f4Btn";
+            this.f4Btn.TabStop = false;
+            this.f4Btn.UseVisualStyleBackColor = true;
+            // 
+            // f3Btn
+            // 
+            resources.ApplyResources(this.f3Btn, "f3Btn");
+            this.f3Btn.Name = "f3Btn";
+            this.f3Btn.TabStop = false;
+            this.f3Btn.UseVisualStyleBackColor = true;
             // 
             // fourBtn
             // 
-            this.fourBtn.Location = new System.Drawing.Point(200, 56);
+            resources.ApplyResources(this.fourBtn, "fourBtn");
             this.fourBtn.Name = "fourBtn";
-            this.fourBtn.Size = new System.Drawing.Size(50, 50);
-            this.fourBtn.TabIndex = 9;
             this.fourBtn.TabStop = false;
-            this.fourBtn.Text = "4";
             this.fourBtn.UseVisualStyleBackColor = true;
+            // 
+            // f2Btn
+            // 
+            resources.ApplyResources(this.f2Btn, "f2Btn");
+            this.f2Btn.Name = "f2Btn";
+            this.f2Btn.TabStop = false;
+            this.f2Btn.UseVisualStyleBackColor = true;
             // 
             // thrBtn
             // 
-            this.thrBtn.Location = new System.Drawing.Point(150, 56);
+            resources.ApplyResources(this.thrBtn, "thrBtn");
             this.thrBtn.Name = "thrBtn";
-            this.thrBtn.Size = new System.Drawing.Size(50, 50);
-            this.thrBtn.TabIndex = 9;
             this.thrBtn.TabStop = false;
-            this.thrBtn.Text = "3";
             this.thrBtn.UseVisualStyleBackColor = true;
             // 
             // twoBtn
             // 
-            this.twoBtn.Location = new System.Drawing.Point(100, 56);
+            resources.ApplyResources(this.twoBtn, "twoBtn");
             this.twoBtn.Name = "twoBtn";
-            this.twoBtn.Size = new System.Drawing.Size(50, 50);
-            this.twoBtn.TabIndex = 9;
             this.twoBtn.TabStop = false;
-            this.twoBtn.Text = "2";
             this.twoBtn.UseVisualStyleBackColor = true;
             // 
             // RShiftBtn
             // 
-            this.RShiftBtn.Location = new System.Drawing.Point(625, 224);
+            resources.ApplyResources(this.RShiftBtn, "RShiftBtn");
             this.RShiftBtn.Name = "RShiftBtn";
-            this.RShiftBtn.Size = new System.Drawing.Size(125, 50);
-            this.RShiftBtn.TabIndex = 8;
             this.RShiftBtn.TabStop = false;
-            this.RShiftBtn.Text = "Shift";
             this.RShiftBtn.UseVisualStyleBackColor = true;
+            // 
+            // f1Btn
+            // 
+            resources.ApplyResources(this.f1Btn, "f1Btn");
+            this.f1Btn.Name = "f1Btn";
+            this.f1Btn.TabStop = false;
+            this.f1Btn.UseVisualStyleBackColor = true;
             // 
             // LShiftBtn
             // 
-            this.LShiftBtn.Location = new System.Drawing.Point(0, 224);
+            resources.ApplyResources(this.LShiftBtn, "LShiftBtn");
             this.LShiftBtn.Name = "LShiftBtn";
-            this.LShiftBtn.Size = new System.Drawing.Size(125, 50);
-            this.LShiftBtn.TabIndex = 7;
             this.LShiftBtn.TabStop = false;
-            this.LShiftBtn.Text = "Shift";
             this.LShiftBtn.UseVisualStyleBackColor = true;
             // 
             // oneBtn
             // 
-            this.oneBtn.Location = new System.Drawing.Point(50, 56);
+            resources.ApplyResources(this.oneBtn, "oneBtn");
             this.oneBtn.Name = "oneBtn";
-            this.oneBtn.Size = new System.Drawing.Size(50, 50);
-            this.oneBtn.TabIndex = 6;
             this.oneBtn.TabStop = false;
-            this.oneBtn.Text = "1";
             this.oneBtn.UseVisualStyleBackColor = true;
             // 
             // LCtrlBtn
             // 
-            this.LCtrlBtn.Location = new System.Drawing.Point(0, 280);
+            resources.ApplyResources(this.LCtrlBtn, "LCtrlBtn");
             this.LCtrlBtn.Name = "LCtrlBtn";
-            this.LCtrlBtn.Size = new System.Drawing.Size(50, 50);
-            this.LCtrlBtn.TabIndex = 5;
             this.LCtrlBtn.TabStop = false;
-            this.LCtrlBtn.Text = "Ctrl";
             this.LCtrlBtn.UseVisualStyleBackColor = true;
             // 
-            // CapsBtn
+            // capsBtn
             // 
-            this.CapsBtn.Location = new System.Drawing.Point(0, 168);
-            this.CapsBtn.Name = "CapsBtn";
-            this.CapsBtn.Size = new System.Drawing.Size(150, 50);
-            this.CapsBtn.TabIndex = 4;
-            this.CapsBtn.TabStop = false;
-            this.CapsBtn.Text = "Caps Lock";
-            this.CapsBtn.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.capsBtn, "capsBtn");
+            this.capsBtn.Name = "capsBtn";
+            this.capsBtn.TabStop = false;
+            this.capsBtn.UseVisualStyleBackColor = true;
             // 
             // tabBtn
             // 
-            this.tabBtn.Location = new System.Drawing.Point(0, 112);
+            resources.ApplyResources(this.tabBtn, "tabBtn");
             this.tabBtn.Name = "tabBtn";
-            this.tabBtn.Size = new System.Drawing.Size(75, 50);
-            this.tabBtn.TabIndex = 3;
             this.tabBtn.TabStop = false;
-            this.tabBtn.Text = "Tab";
             this.tabBtn.UseVisualStyleBackColor = true;
             // 
             // AposBtn
             // 
             this.AposBtn.AutoEllipsis = true;
-            this.AposBtn.Location = new System.Drawing.Point(0, 56);
+            resources.ApplyResources(this.AposBtn, "AposBtn");
             this.AposBtn.Name = "AposBtn";
-            this.AposBtn.Size = new System.Drawing.Size(50, 50);
-            this.AposBtn.TabIndex = 2;
             this.AposBtn.TabStop = false;
-            this.AposBtn.Text = "`\r\n~";
             this.AposBtn.UseVisualStyleBackColor = true;
-            // 
-            // button45
-            // 
-            this.button45.Location = new System.Drawing.Point(800, 224);
-            this.button45.Name = "button45";
-            this.button45.Size = new System.Drawing.Size(50, 50);
-            this.button45.TabIndex = 12;
-            this.button45.TabStop = false;
-            this.button45.Text = "\'";
-            this.button45.UseVisualStyleBackColor = true;
-            // 
-            // button46
-            // 
-            this.button46.Location = new System.Drawing.Point(750, 112);
-            this.button46.Name = "button46";
-            this.button46.Size = new System.Drawing.Size(50, 50);
-            this.button46.TabIndex = 9;
-            this.button46.TabStop = false;
-            this.button46.Text = "9";
-            this.button46.UseVisualStyleBackColor = true;
-            // 
-            // button47
-            // 
-            this.button47.Location = new System.Drawing.Point(800, 112);
-            this.button47.Name = "button47";
-            this.button47.Size = new System.Drawing.Size(50, 50);
-            this.button47.TabIndex = 9;
-            this.button47.TabStop = false;
-            this.button47.Text = "0";
-            this.button47.UseVisualStyleBackColor = true;
-            // 
-            // button48
-            // 
-            this.button48.Location = new System.Drawing.Point(850, 112);
-            this.button48.Name = "button48";
-            this.button48.Size = new System.Drawing.Size(50, 50);
-            this.button48.TabIndex = 9;
-            this.button48.TabStop = false;
-            this.button48.Text = "-";
-            this.button48.UseVisualStyleBackColor = true;
-            // 
-            // button49
-            // 
-            this.button49.Location = new System.Drawing.Point(750, 56);
-            this.button49.Name = "button49";
-            this.button49.Size = new System.Drawing.Size(50, 50);
-            this.button49.TabIndex = 9;
-            this.button49.TabStop = false;
-            this.button49.Text = "9";
-            this.button49.UseVisualStyleBackColor = true;
-            this.button49.Click += new System.EventHandler(this.button49_Click);
-            // 
-            // button50
-            // 
-            this.button50.Location = new System.Drawing.Point(800, 56);
-            this.button50.Name = "button50";
-            this.button50.Size = new System.Drawing.Size(50, 50);
-            this.button50.TabIndex = 9;
-            this.button50.TabStop = false;
-            this.button50.Text = "0";
-            this.button50.UseVisualStyleBackColor = true;
-            this.button50.Click += new System.EventHandler(this.button50_Click);
-            // 
-            // button51
-            // 
-            this.button51.Location = new System.Drawing.Point(850, 56);
-            this.button51.Name = "button51";
-            this.button51.Size = new System.Drawing.Size(50, 50);
-            this.button51.TabIndex = 9;
-            this.button51.TabStop = false;
-            this.button51.Text = "-";
-            this.button51.UseVisualStyleBackColor = true;
-            this.button51.Click += new System.EventHandler(this.button51_Click);
-            // 
-            // button52
-            // 
-            this.button52.Location = new System.Drawing.Point(62, 0);
-            this.button52.Name = "button52";
-            this.button52.Size = new System.Drawing.Size(50, 50);
-            this.button52.TabIndex = 6;
-            this.button52.TabStop = false;
-            this.button52.Text = "1";
-            this.button52.UseVisualStyleBackColor = true;
-            // 
-            // button53
-            // 
-            this.button53.Location = new System.Drawing.Point(112, 0);
-            this.button53.Name = "button53";
-            this.button53.Size = new System.Drawing.Size(50, 50);
-            this.button53.TabIndex = 9;
-            this.button53.TabStop = false;
-            this.button53.Text = "2";
-            this.button53.UseVisualStyleBackColor = true;
-            // 
-            // button54
-            // 
-            this.button54.Location = new System.Drawing.Point(162, 0);
-            this.button54.Name = "button54";
-            this.button54.Size = new System.Drawing.Size(50, 50);
-            this.button54.TabIndex = 9;
-            this.button54.TabStop = false;
-            this.button54.Text = "3";
-            this.button54.UseVisualStyleBackColor = true;
-            // 
-            // button55
-            // 
-            this.button55.Location = new System.Drawing.Point(212, 0);
-            this.button55.Name = "button55";
-            this.button55.Size = new System.Drawing.Size(50, 50);
-            this.button55.TabIndex = 9;
-            this.button55.TabStop = false;
-            this.button55.Text = "4";
-            this.button55.UseVisualStyleBackColor = true;
-            // 
-            // button56
-            // 
-            this.button56.Location = new System.Drawing.Point(275, 0);
-            this.button56.Name = "button56";
-            this.button56.Size = new System.Drawing.Size(50, 50);
-            this.button56.TabIndex = 9;
-            this.button56.TabStop = false;
-            this.button56.Text = "5";
-            this.button56.UseVisualStyleBackColor = true;
-            // 
-            // button57
-            // 
-            this.button57.Location = new System.Drawing.Point(325, 0);
-            this.button57.Name = "button57";
-            this.button57.Size = new System.Drawing.Size(50, 50);
-            this.button57.TabIndex = 9;
-            this.button57.TabStop = false;
-            this.button57.Text = "6";
-            this.button57.UseVisualStyleBackColor = true;
-            // 
-            // button58
-            // 
-            this.button58.Location = new System.Drawing.Point(375, 0);
-            this.button58.Name = "button58";
-            this.button58.Size = new System.Drawing.Size(50, 50);
-            this.button58.TabIndex = 9;
-            this.button58.TabStop = false;
-            this.button58.Text = "7";
-            this.button58.UseVisualStyleBackColor = true;
-            // 
-            // button59
-            // 
-            this.button59.Location = new System.Drawing.Point(425, 0);
-            this.button59.Name = "button59";
-            this.button59.Size = new System.Drawing.Size(50, 50);
-            this.button59.TabIndex = 9;
-            this.button59.TabStop = false;
-            this.button59.Text = "8";
-            this.button59.UseVisualStyleBackColor = true;
-            // 
-            // button60
-            // 
-            this.button60.Location = new System.Drawing.Point(475, 0);
-            this.button60.Name = "button60";
-            this.button60.Size = new System.Drawing.Size(50, 50);
-            this.button60.TabIndex = 9;
-            this.button60.TabStop = false;
-            this.button60.Text = "9";
-            this.button60.UseVisualStyleBackColor = true;
-            // 
-            // button61
-            // 
-            this.button61.Location = new System.Drawing.Point(537, 0);
-            this.button61.Name = "button61";
-            this.button61.Size = new System.Drawing.Size(50, 50);
-            this.button61.TabIndex = 9;
-            this.button61.TabStop = false;
-            this.button61.Text = "0";
-            this.button61.UseVisualStyleBackColor = true;
-            // 
-            // button62
-            // 
-            this.button62.Location = new System.Drawing.Point(587, 0);
-            this.button62.Name = "button62";
-            this.button62.Size = new System.Drawing.Size(50, 50);
-            this.button62.TabIndex = 9;
-            this.button62.TabStop = false;
-            this.button62.Text = "-";
-            this.button62.UseVisualStyleBackColor = true;
-            // 
-            // button63
-            // 
-            this.button63.Location = new System.Drawing.Point(637, 0);
-            this.button63.Name = "button63";
-            this.button63.Size = new System.Drawing.Size(50, 50);
-            this.button63.TabIndex = 9;
-            this.button63.TabStop = false;
-            this.button63.Text = "0";
-            this.button63.UseVisualStyleBackColor = true;
-            // 
-            // button64
-            // 
-            this.button64.Location = new System.Drawing.Point(687, 0);
-            this.button64.Name = "button64";
-            this.button64.Size = new System.Drawing.Size(50, 50);
-            this.button64.TabIndex = 9;
-            this.button64.TabStop = false;
-            this.button64.Text = "-";
-            this.button64.UseVisualStyleBackColor = true;
-            // 
-            // button65
-            // 
-            this.button65.Location = new System.Drawing.Point(750, 0);
-            this.button65.Name = "button65";
-            this.button65.Size = new System.Drawing.Size(50, 50);
-            this.button65.TabIndex = 9;
-            this.button65.TabStop = false;
-            this.button65.Text = "9";
-            this.button65.UseVisualStyleBackColor = true;
-            this.button65.Click += new System.EventHandler(this.button49_Click);
-            // 
-            // button66
-            // 
-            this.button66.Location = new System.Drawing.Point(800, 0);
-            this.button66.Name = "button66";
-            this.button66.Size = new System.Drawing.Size(50, 50);
-            this.button66.TabIndex = 9;
-            this.button66.TabStop = false;
-            this.button66.Text = "0";
-            this.button66.UseVisualStyleBackColor = true;
-            this.button66.Click += new System.EventHandler(this.button50_Click);
-            // 
-            // button67
-            // 
-            this.button67.Location = new System.Drawing.Point(850, 0);
-            this.button67.Name = "button67";
-            this.button67.Size = new System.Drawing.Size(50, 50);
-            this.button67.TabIndex = 9;
-            this.button67.TabStop = false;
-            this.button67.Text = "-";
-            this.button67.UseVisualStyleBackColor = true;
-            this.button67.Click += new System.EventHandler(this.button51_Click);
             // 
             // KBTest
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1028, 415);
             this.Controls.Add(this.lblKeystrokes);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "KBTest";
-            this.Text = "KBTest";
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1138,7 +1031,7 @@
         private System.Windows.Forms.Button LShiftBtn;
         private System.Windows.Forms.Button oneBtn;
         private System.Windows.Forms.Button LCtrlBtn;
-        private System.Windows.Forms.Button CapsBtn;
+        private System.Windows.Forms.Button capsBtn;
         private System.Windows.Forms.Button tabBtn;
         private System.Windows.Forms.Button RShiftBtn;
         private System.Windows.Forms.Button thrBtn;
@@ -1154,72 +1047,91 @@
         private System.Windows.Forms.Button fivBtn;
         private System.Windows.Forms.Button fourBtn;
         private System.Windows.Forms.Button qBtn;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button10;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button22;
-        private System.Windows.Forms.Button button39;
-        private System.Windows.Forms.Button button34;
-        private System.Windows.Forms.Button button35;
-        private System.Windows.Forms.Button button30;
-        private System.Windows.Forms.Button button26;
-        private System.Windows.Forms.Button button21;
-        private System.Windows.Forms.Button button20;
-        private System.Windows.Forms.Button button19;
-        private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Button button16;
-        private System.Windows.Forms.Button button15;
-        private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Button button38;
-        private System.Windows.Forms.Button button33;
-        private System.Windows.Forms.Button button29;
-        private System.Windows.Forms.Button button37;
-        private System.Windows.Forms.Button button32;
-        private System.Windows.Forms.Button button25;
-        private System.Windows.Forms.Button button28;
-        private System.Windows.Forms.Button button40;
-        private System.Windows.Forms.Button button36;
-        private System.Windows.Forms.Button button31;
-        private System.Windows.Forms.Button button24;
-        private System.Windows.Forms.Button button27;
-        private System.Windows.Forms.Button button23;
-        private System.Windows.Forms.Button button41;
-        private System.Windows.Forms.Button button44;
-        private System.Windows.Forms.Button button43;
-        private System.Windows.Forms.Button button42;
-        private System.Windows.Forms.Button button45;
-        private System.Windows.Forms.Button button51;
-        private System.Windows.Forms.Button button48;
-        private System.Windows.Forms.Button button50;
-        private System.Windows.Forms.Button button47;
-        private System.Windows.Forms.Button button49;
-        private System.Windows.Forms.Button button46;
-        private System.Windows.Forms.Button button64;
-        private System.Windows.Forms.Button button62;
-        private System.Windows.Forms.Button button63;
-        private System.Windows.Forms.Button button61;
-        private System.Windows.Forms.Button button60;
-        private System.Windows.Forms.Button button59;
-        private System.Windows.Forms.Button button58;
-        private System.Windows.Forms.Button button57;
-        private System.Windows.Forms.Button button56;
-        private System.Windows.Forms.Button button55;
-        private System.Windows.Forms.Button button54;
-        private System.Windows.Forms.Button button53;
-        private System.Windows.Forms.Button button52;
-        private System.Windows.Forms.Button button67;
-        private System.Windows.Forms.Button button66;
-        private System.Windows.Forms.Button button65;
+        private System.Windows.Forms.Button xBtn;
+        private System.Windows.Forms.Button zBtn;
+        private System.Windows.Forms.Button sBtn;
+        private System.Windows.Forms.Button aBtn;
+        private System.Windows.Forms.Button LAltBtn;
+        private System.Windows.Forms.Button LWinBtn;
+        private System.Windows.Forms.Button uBtn;
+        private System.Windows.Forms.Button yBtn;
+        private System.Windows.Forms.Button tBtn;
+        private System.Windows.Forms.Button rBtn;
+        private System.Windows.Forms.Button eBtn;
+        private System.Windows.Forms.Button wBtn;
+        private System.Windows.Forms.Button nBtn;
+        private System.Windows.Forms.Button RCtrlBtn;
+        private System.Windows.Forms.Button fSlashBtn;
+        private System.Windows.Forms.Button bSlashBtn;
+        private System.Windows.Forms.Button apos1Btn;
+        private System.Windows.Forms.Button rBracBtn;
+        private System.Windows.Forms.Button iBtn;
+        private System.Windows.Forms.Button jBtn;
+        private System.Windows.Forms.Button bBtn;
+        private System.Windows.Forms.Button hBtn;
+        private System.Windows.Forms.Button vBtn;
+        private System.Windows.Forms.Button gBtn;
+        private System.Windows.Forms.Button cBtn;
+        private System.Windows.Forms.Button fBtn;
+        private System.Windows.Forms.Button dBtn;
+        private System.Windows.Forms.Button MenuBtn;
+        private System.Windows.Forms.Button dotBtn;
+        private System.Windows.Forms.Button semiBtn;
+        private System.Windows.Forms.Button RWinBtn;
+        private System.Windows.Forms.Button comBtn;
+        private System.Windows.Forms.Button lBracBtn;
+        private System.Windows.Forms.Button lBtn;
+        private System.Windows.Forms.Button spaceBtn;
+        private System.Windows.Forms.Button RAltBtn;
+        private System.Windows.Forms.Button mBtn;
+        private System.Windows.Forms.Button pBtn;
+        private System.Windows.Forms.Button kBtn;
+        private System.Windows.Forms.Button oBtn;
+        private System.Windows.Forms.Button LEntBtn;
+        private System.Windows.Forms.Button rightBtn;
+        private System.Windows.Forms.Button downBtn;
+        private System.Windows.Forms.Button leftBtn;
+        private System.Windows.Forms.Button upBtn;
+        private System.Windows.Forms.Button pgUpBtn;
+        private System.Windows.Forms.Button pgDnBtn;
+        private System.Windows.Forms.Button homeBtn;
+        private System.Windows.Forms.Button endBtn;
+        private System.Windows.Forms.Button insBtn;
+        private System.Windows.Forms.Button delBtn;
+        private System.Windows.Forms.Button f11Btn;
+        private System.Windows.Forms.Button f12Btn;
+        private System.Windows.Forms.Button f10Btn;
+        private System.Windows.Forms.Button f9Btn;
+        private System.Windows.Forms.Button f8Btn;
+        private System.Windows.Forms.Button f7Btn;
+        private System.Windows.Forms.Button f6Btn;
+        private System.Windows.Forms.Button f5Btn;
+        private System.Windows.Forms.Button f4Btn;
+        private System.Windows.Forms.Button f3Btn;
+        private System.Windows.Forms.Button f2Btn;
+        private System.Windows.Forms.Button f1Btn;
+        private System.Windows.Forms.Button pauseBtn;
+        private System.Windows.Forms.Button scrollBtn;
+        private System.Windows.Forms.Button prtScBtn;
+        private System.Windows.Forms.Button REntBtn;
+        private System.Windows.Forms.Button addBtn;
+        private System.Windows.Forms.Button subBtn;
+        private System.Windows.Forms.Button decBtn;
+        private System.Windows.Forms.Button thrNumBtn;
+        private System.Windows.Forms.Button sixNumBtn;
+        private System.Windows.Forms.Button ninNumBtn;
+        private System.Windows.Forms.Button mulBtn;
+        private System.Windows.Forms.Button twoNumBtn;
+        private System.Windows.Forms.Button fivNumBtn;
+        private System.Windows.Forms.Button eigNumBtn;
+        private System.Windows.Forms.Button zerNumBtn;
+        private System.Windows.Forms.Button oneNumBtn;
+        private System.Windows.Forms.Button divBtn;
+        private System.Windows.Forms.Button fourNumBtn;
+        private System.Windows.Forms.Button sevNumBtn;
+        private System.Windows.Forms.Button numBtn;
+        private System.Windows.Forms.CheckBox scrollRad;
+        private System.Windows.Forms.CheckBox capsRad;
+        private System.Windows.Forms.CheckBox numRad;
     }
 }

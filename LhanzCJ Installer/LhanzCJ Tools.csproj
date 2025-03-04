@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\ILMerge.3.0.41\build\ILMerge.props" Condition="Exists('..\packages\ILMerge.3.0.41\build\ILMerge.props')" />
   <Import Project="..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\net48\OpenCvSharp4.runtime.win.props" Condition="Exists('..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\net48\OpenCvSharp4.runtime.win.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -103,8 +104,6 @@
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.VisualBasic.PowerPacks.Design, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
@@ -197,12 +196,6 @@
     <Compile Include="KBTest.Designer.cs">
       <DependentUpon>KBTest.cs</DependentUpon>
     </Compile>
-    <Compile Include="KeyboardTester.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="KeyboardTester.Designer.cs">
-      <DependentUpon>KeyboardTester.cs</DependentUpon>
-    </Compile>
     <Compile Include="Mic Test.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -252,9 +245,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KBTest.resx">
       <DependentUpon>KBTest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="KeyboardTester.resx">
-      <DependentUpon>KeyboardTester.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Mic Test.resx">
       <DependentUpon>Mic Test.cs</DependentUpon>
@@ -941,7 +931,6 @@
     <Content Include="img\FHD-1920x1080-Wipe-Rgb-Fix-Red-255-Var-Green-Blue.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="response_pattern.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -951,5 +940,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\net48\OpenCvSharp4.runtime.win.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\net48\OpenCvSharp4.runtime.win.props'))" />
+    <Error Condition="!Exists('..\packages\ILMerge.3.0.41\build\ILMerge.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.3.0.41\build\ILMerge.props'))" />
   </Target>
 </Project>

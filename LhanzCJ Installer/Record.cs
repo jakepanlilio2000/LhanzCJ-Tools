@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace LhanzCJ_Installer
 {
     public partial class RecordSN : Form
     {
+
         public RecordSN()
         {
             InitializeComponent();
@@ -50,7 +44,7 @@ namespace LhanzCJ_Installer
             {
                 UpdateComboboxStates();
                 RecordSN_Load();
-                doneBtn.Enabled = ValidateInputs();
+                UpdateDoneButtonState();
             });
         }
         private void UpdateComboboxStates()
@@ -78,83 +72,168 @@ namespace LhanzCJ_Installer
                 WLK.Enabled = false;
             }
         }
-        private bool ValidateInputs()
-        {
-            if (string.IsNullOrWhiteSpace(UModel.Text) ||
-                string.IsNullOrWhiteSpace(SNumber.Text))
-            {
-                return false;
-            }
-
-            bool officeChecked = KeyType.GetItemChecked(0);
-            bool windowsChecked = KeyType.GetItemChecked(1);
-
-            if (!officeChecked && !windowsChecked)
-            {
-
-            }
-
-            if (officeChecked)
-            {
-                if (OfficeVer.SelectedItem == null ||
-                    string.IsNullOrWhiteSpace(OLK.Text) ||
-                    string.IsNullOrWhiteSpace(email.Text) ||
-                    string.IsNullOrWhiteSpace(pw.Text))
-                {
-                    return false;
-                }
-            }
-
-            if (windowsChecked)
-            {
-                if (WinVer.SelectedItem == null ||
-                    string.IsNullOrWhiteSpace(WLK.Text))
-                {
-                    return false;
-                }
-            }
 
 
-            return true;
-        }
 
         private void InputFields_Changed(object sender, EventArgs e)
         {
             RecordSN_Load();
+            UpdateDoneButtonState();
+        }
+        private bool IsKeyValid(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+                return false;
+
+            string cleanKey = key.Replace("-", "");
+            return cleanKey.Length == 25;
+        }
+        private void UpdateDoneButtonState()
+        {
             doneBtn.Enabled = ValidateInputs();
         }
+        private bool ValidateInputs()
+        {
+            bool isValid = true;
+            errorProvider1.Clear();
+
+            bool windowsChecked = KeyType.GetItemChecked(0);
+            bool officeChecked = KeyType.GetItemChecked(1);
+
+            int checkedCount = (windowsChecked ? 1 : 0) + (officeChecked ? 1 : 0);
+
+            if (checkedCount == 0)
+            {
+                if (string.IsNullOrEmpty(UModel.Text))
+                {
+                    errorProvider1.SetError(UModel, "Unit model must not be empty.");
+                    isValid = false;
+                }
+
+                if (string.IsNullOrEmpty(SNumber.Text))
+                {
+                    errorProvider1.SetError(SNumber, "Serial number must not be empty.");
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+            if (windowsChecked)
+            {
+                if (WinVer.SelectedIndex == -1)
+                {
+                    errorProvider1.SetError(WinVer, "Windows version is required.");
+                    isValid = false;
+                }
+
+                if (string.IsNullOrEmpty(WLK.Text))
+                {
+                    errorProvider1.SetError(WLK, "Windows license key is required.");
+                    isValid = false;
+                }
+                else if (!IsKeyValid(WLK.Text))
+                {
+                    errorProvider1.SetError(WLK, "Key must be exactly 25 characters.");
+                    isValid = false;
+                }
+            }
+
+            if (officeChecked)
+            {
+
+                if (OfficeVer.SelectedIndex == -1)
+                {
+                    errorProvider1.SetError(OfficeVer, "Office version is required.");
+                    isValid = false;
+                }
+
+                if (string.IsNullOrEmpty(OLK.Text))
+                {
+                    errorProvider1.SetError(OLK, "Office license key is required.");
+                    isValid = false;
+                }
+                else if (!IsKeyValid(OLK.Text))
+                {
+                    errorProvider1.SetError(OLK, "Key must be exactly 25 characters.");
+                    isValid = false;
+                }
+
+                if (string.IsNullOrEmpty(email.Text))
+                {
+                    errorProvider1.SetError(email, "Email is required.");
+                    isValid = false;
+                }
+
+                if (string.IsNullOrEmpty(pw.Text))
+                {
+                    errorProvider1.SetError(pw, "Password is required.");
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
         private void doneBtn_Click(object sender, EventArgs e)
         {
-            if (!ValidateInputs())
-            {
-                MessageBox.Show("Please fill in all required fields before proceeding.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+
             RecordSN_Load();
-            string filePath = System.IO.Path.Combine(Application.StartupPath, "Records.txt");
+            String filePath = System.IO.Path.Combine(Application.StartupPath, "Records.txt");
 
             try
             {
                 System.IO.File.AppendAllText(filePath, SNOutput.Text + Environment.NewLine);
 
                 MessageBox.Show("Record saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = "notepad.exe",
+                    Arguments = filePath,
+                    UseShellExecute = true
+                });
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to save the record.\n\nError: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        String iniEmail;
+
+
+        private string FormatKey(string inputKey)
+        {
+            string cleanKey = inputKey.Replace("-", "").ToUpper();
+
+            StringBuilder formattedKey = new StringBuilder();
+            for (int i = 0; i < cleanKey.Length; i++)
+            {
+                formattedKey.Append(cleanKey[i]);
+                if ((i + 1) % 5 == 0 && i != cleanKey.Length - 1)
+                {
+                    formattedKey.Append("-");
+                }
+            }
+
+            return formattedKey.ToString();
+        }
+
+
+
         private void RecordSN_Load()
         {
+            const String DefaultKey = "XXXXX-XXXXX-XXXXX-XXXXX-XXXXX";
+
+            String iniEmail = "";
             String umodel_t = UModel.Text;
             String snum_t = SNumber.Text;
             String date_t = SNDate.Value.ToString("dd/MM/yyyy");
 
             String OfficeEdition = "N/A";
             String WindowsEdition = "N/A";
-            String OffKey = "N/A";
-            String WinKey = "N/A";
+            String OffKey = DefaultKey;
+            String WinKey = DefaultKey;
             String Email = "N/A";
             String Password = "N/A";
             String OffEmailEnabled = "Admin1122";
@@ -178,11 +257,10 @@ namespace LhanzCJ_Installer
             if (officeChecked)
             {
                 OfficeEdition = OfficeVer.SelectedItem != null ? OfficeVer.SelectedItem.ToString() : "N/A";
-                OffKey = OLK.Text;
-                Email = iniEmail + pSerial + "@gmail.com";
-                Password = OffEmailEnabled;
-                pw.Text = OffEmailEnabled;
-                email.Text = Email;
+                OffKey = OLK.Text.Length > 0 ? FormatKey(OLK.Text) : DefaultKey;
+                
+
+
 
                 if (OfficeVer.SelectedItem != null && OfficeVer.SelectedItem.ToString() == "Office Home 2024")
                 {
@@ -200,6 +278,11 @@ namespace LhanzCJ_Installer
                     WinKey = "N/A";
                 }
 
+                Email = iniEmail + pSerial + "@gmail.com";
+                Password = OffEmailEnabled;
+                pw.Text = OffEmailEnabled;
+                email.Text = Email;
+
 
 
             }
@@ -207,7 +290,7 @@ namespace LhanzCJ_Installer
             if (windowsChecked)
             {
                 WindowsEdition = WinVer.SelectedItem != null ? WinVer.SelectedItem.ToString() : "N/A";
-                WinKey = WLK.Text;
+                WinKey = WLK.Text.Length > 0 ? FormatKey(WLK.Text) : DefaultKey;
 
                 if (checkedCount == 1)
                 {
@@ -228,6 +311,7 @@ namespace LhanzCJ_Installer
                 Email = "N/A";
                 Password = "N/A";
             }
+
 
             SNOutput.Text = "-----------------------------------\n" +
                             "Date: " + date_t + "\n" +

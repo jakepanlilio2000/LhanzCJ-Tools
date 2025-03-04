@@ -14,8 +14,31 @@ using System.IO.Compression;
 namespace LhanzCJ_Installer
 {
 
+
     public partial class LhanzCJ : Form
     {
+        private const int WM_USER = 0x0400;
+        private const int EM_GETSCROLLPOS = WM_USER + 221;
+        private const int EM_SETSCROLLPOS = WM_USER + 222;
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct POINT
+        {
+            public int X;
+            public int Y;
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int GetScrollPos(IntPtr hWnd, int nBar);
+
+        [DllImport("user32.dll")]
+        private static extern int SetScrollPos(IntPtr hWnd, int nBar, int nPos, bool bRedraw);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetScrollRange(IntPtr hWnd, int nBar, out int lpMinPos, out int lpMaxPos);
+
+        private const int SB_VERT = 1;
+
         private string downloadPath = "packages\\";
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern uint GetFileAttributes(string lpFileName);
@@ -148,9 +171,9 @@ namespace LhanzCJ_Installer
                 new InstallStep("7zip", "7zip.exe", "https://www.7-zip.org/a/7z2409-x64.exe", "/S"),
                 new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S"),
                 new InstallStep("Zoom", "zoom.exe", "https://zoom.us/client/6.3.11.60501/ZoomInstallerFull.exe", "zoom.exe /silent"),
-                new InstallStep("Acrobat Reader", "acrobat.exe", "https://download1532.mediafire.com/q9cgujl7cptg_M-F2lIH8MPr19TWj8YwPRZo9RACH3uXnzqr5DWDuOGdrG-_-WHfe-ZFjwF5gMAjyT-tAW573ee8hzVmaUtCtZWHGrJPeaXGRTA3aHPPLNas8nwAE2lX8IDsWVY5inl9V4eINa4Hw5ghhfryCqh08mMXCWw6fgn8/a06rljgf25fri7r/Reader_en_install.exe", "/sAll /rs /l /msi /qb-"),
                 new InstallStep("Google Chrome", "chrome.exe", "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A0703C5-744E-12EE-BA2C-574FA3D84FE6%7D%26lang%3Den%26browser%3D3%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-statsdef_1%26installdataindex%3Dempty/chrome/install/ChromeStandaloneSetup64.exe", "chrome.exe /silent /install"),
                 new InstallStep("VLC", "vlc.exe", "https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe", "vlc.exe /S"),
+                new InstallStep("Acrobat Reader", "acrobat.exe", "https://ardownload2.adobe.com/pub/adobe/reader/win/AcrobatDC/2400520414/AcroRdrDC2400520414_en_US.exe", "/sAll /rs /l /msi /qb- /L*v"),
             };
 
             int totalSteps = steps.Count * 2;
@@ -363,32 +386,43 @@ namespace LhanzCJ_Installer
 
             Invoke(new Action(() =>
             {
-                if (lastProgressMessages.ContainsKey(fileName))
+                bool wasAtBottom = IsScrollAtBottom();
+
+                SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)0, IntPtr.Zero);
+
+                try
                 {
-                    string lastMessage = lastProgressMessages[fileName];
-
-                    int start = richTextBox1.Text.LastIndexOf(lastMessage);
-
-                    if (start >= 0)
+                    if (lastProgressMessages.TryGetValue(fileName, out string previousMessage))
                     {
-                        richTextBox1.SelectionStart = start;
-                        richTextBox1.SelectionLength = lastMessage.Length;
-                        richTextBox1.SelectedText = progressMessage;
+                        int startIndex = richTextBox1.Text.LastIndexOf(previousMessage);
+                        if (startIndex >= 0)
+                        {
+                            richTextBox1.Select(startIndex, previousMessage.Length);
+                            richTextBox1.SelectedText = progressMessage;
+                        }
+                        else
+                        {
+                            richTextBox1.AppendText(progressMessage + "\n");
+                        }
                     }
                     else
                     {
-                        richTextBox1.AppendText($"{progressMessage}\n");
+                        richTextBox1.AppendText(progressMessage + "\n");
+                    }
+
+                    lastProgressMessages[fileName] = progressMessage;
+
+                    if (wasAtBottom)
+                    {
+                        richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                        richTextBox1.ScrollToCaret();
                     }
                 }
-                else
+                finally
                 {
-                    richTextBox1.AppendText($"{progressMessage}\n");
+                    SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)1, IntPtr.Zero);
+                    richTextBox1.Invalidate();
                 }
-
-                lastProgressMessages[fileName] = progressMessage;
-
-                richTextBox1.SelectionStart = richTextBox1.Text.Length;
-                richTextBox1.ScrollToCaret();
             }));
         }
 
@@ -524,11 +558,35 @@ namespace LhanzCJ_Installer
                 return;
             }
 
-            richTextBox1.AppendText(text);
-            richTextBox1.SelectionStart = richTextBox1.Text.Length;
-            richTextBox1.ScrollToCaret();
+  
+            bool wasAtBottom = IsScrollAtBottom();
+
+
+            SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)0, IntPtr.Zero); // WM_SETREDRAW
+
+            try
+            {
+                richTextBox1.AppendText(text);
+
+                if (wasAtBottom)
+                {
+                    richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                    richTextBox1.ScrollToCaret();
+                }
+            }
+            finally
+            {
+                SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)1, IntPtr.Zero);
+                richTextBox1.Invalidate();
+            }
         }
 
+        private bool IsScrollAtBottom()
+        {
+            int scrollPos = GetScrollPos(richTextBox1.Handle, SB_VERT);
+            GetScrollRange(richTextBox1.Handle, SB_VERT, out _, out int maxScroll);
+            return scrollPos >= maxScroll;
+        }
         private void UpdateProgressBar(int currentValue, int maxValue)
         {
             if (InvokeRequired)
@@ -701,7 +759,6 @@ namespace LhanzCJ_Installer
             {
                 try
                 {
-                    // Check common Adobe Reader installation paths
                     string[] possiblePaths = {
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Adobe", "Acrobat Reader DC", "Reader", "AcroRd32.exe"),
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Adobe", "Acrobat Reader DC", "Reader", "AcroRd32.exe"),
@@ -1027,9 +1084,6 @@ namespace LhanzCJ_Installer
         {
             KBTest KBTest1 = new KBTest();
             KBTest1.Show();
-
-            //KeyboardTester KBTest2 = new KeyboardTester();
-            //KBTest2.Show();
         }
 
         private void button13_Click(object sender, EventArgs e)
