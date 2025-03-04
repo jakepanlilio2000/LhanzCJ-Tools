@@ -81,6 +81,8 @@ The following essential programs are installed via **Webclient**:
 - Zoom
 - Adobe Acrobat Reader
 - VLC Media Player
+- Spotify
+- .Net 4.8.1
 - Visual C++ Redistributable AIO
 - DirectX
 
