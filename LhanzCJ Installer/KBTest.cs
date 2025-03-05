@@ -89,8 +89,9 @@ namespace LhanzCJ_Installer
 
             if (m.Msg == WM_KEYDOWN || m.Msg == WM_KEYUP)
             {
-                int vkCode = m.WParam.ToInt32() & 0xFF;
-                int flags = m.LParam.ToInt32();
+                // Safely convert WParam and LParam to avoid overflow
+                int vkCode = (int)((long)m.WParam & 0xFF);
+                int flags = (int)((long)m.LParam);
                 bool isExtended = (flags & KF_EXTENDED) != 0;
 
                 if (vkCode == VK_RETURN)

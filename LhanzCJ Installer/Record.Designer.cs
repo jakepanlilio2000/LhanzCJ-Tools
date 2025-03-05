@@ -71,9 +71,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(58, 13);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Unit Model";
+            this.label1.Text = "Device";
             // 
             // UModel
             // 
@@ -127,7 +127,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 100);
+            this.label5.Location = new System.Drawing.Point(12, 95);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(73, 13);
             this.label5.TabIndex = 9;
@@ -144,7 +144,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 126);
+            this.label6.Location = new System.Drawing.Point(12, 125);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(65, 13);
             this.label6.TabIndex = 11;
@@ -241,7 +241,8 @@
             this.OfficeVer.FormattingEnabled = true;
             this.OfficeVer.Items.AddRange(new object[] {
             "Office Home 2024",
-            "Microsoft 365"});
+            "Microsoft 365",
+            "Office Home and Student 2021"});
             this.OfficeVer.Location = new System.Drawing.Point(91, 92);
             this.OfficeVer.Name = "OfficeVer";
             this.OfficeVer.Size = new System.Drawing.Size(100, 21);
@@ -261,9 +262,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(197, 9);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(81, 13);
+            this.label10.Size = new System.Drawing.Size(71, 13);
             this.label10.TabIndex = 25;
-            this.label10.Text = "Bought Product";
+            this.label10.Text = "Product Type";
             // 
             // errorProvider1
             // 

@@ -49,6 +49,8 @@
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
+            this.wifiConnectBtn = new System.Windows.Forms.Button();
+            this.DrvUptBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -195,11 +197,27 @@
             this.button15.UseVisualStyleBackColor = true;
             this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
+            // wifiConnectBtn
+            // 
+            resources.ApplyResources(this.wifiConnectBtn, "wifiConnectBtn");
+            this.wifiConnectBtn.Name = "wifiConnectBtn";
+            this.wifiConnectBtn.UseVisualStyleBackColor = true;
+            this.wifiConnectBtn.Click += new System.EventHandler(this.wifiConnectBtn_Click);
+            // 
+            // DrvUptBtn
+            // 
+            resources.ApplyResources(this.DrvUptBtn, "DrvUptBtn");
+            this.DrvUptBtn.Name = "DrvUptBtn";
+            this.DrvUptBtn.UseVisualStyleBackColor = true;
+            this.DrvUptBtn.Click += new System.EventHandler(this.DrvUptBtn_Click);
+            // 
             // LhanzCJ
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.Controls.Add(this.DrvUptBtn);
+            this.Controls.Add(this.wifiConnectBtn);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.button14);
             this.Controls.Add(this.button13);
@@ -251,6 +269,8 @@
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button wifiConnectBtn;
+        private System.Windows.Forms.Button DrvUptBtn;
     }
 }
 

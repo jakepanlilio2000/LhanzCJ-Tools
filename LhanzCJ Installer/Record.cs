@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -177,29 +179,50 @@ namespace LhanzCJ_Installer
 
         private void doneBtn_Click(object sender, EventArgs e)
         {
-
             RecordSN_Load();
-            String filePath = System.IO.Path.Combine(Application.StartupPath, "Records.txt");
+
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string msAccountFilePath = Path.Combine(desktopPath, "MS Account.txt");
+            string recordsFilePath = Path.Combine(Application.StartupPath, "Records.txt");
 
             try
             {
-                System.IO.File.AppendAllText(filePath, SNOutput.Text + Environment.NewLine);
+                if (File.Exists(msAccountFilePath))
+                {
+                    FileAttributes attributes = File.GetAttributes(msAccountFilePath);
+                    if ((attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                    {
+                        File.SetAttributes(msAccountFilePath, attributes & ~FileAttributes.ReadOnly);
+                    }
+                }
+                string msAccountContent = "Customer's Copy" + Environment.NewLine + SNOutput.Text;
+                File.WriteAllText(msAccountFilePath, msAccountContent);
+                File.SetAttributes(msAccountFilePath, File.GetAttributes(msAccountFilePath) | FileAttributes.ReadOnly);
+                File.AppendAllText(recordsFilePath, SNOutput.Text + Environment.NewLine);
 
-                MessageBox.Show("Record saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                Process.Start(new ProcessStartInfo()
                 {
                     FileName = "notepad.exe",
-                    Arguments = filePath,
+                    Arguments = msAccountFilePath,
                     UseShellExecute = true
                 });
+
+                Process.Start(new ProcessStartInfo()
+                {
+                    FileName = "notepad.exe",
+                    Arguments = recordsFilePath,
+                    UseShellExecute = true
+                });
+
+                MessageBox.Show("Record saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to save the record.\n\nError: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
 
         private string FormatKey(string inputKey)
@@ -265,6 +288,10 @@ namespace LhanzCJ_Installer
                 if (OfficeVer.SelectedItem != null && OfficeVer.SelectedItem.ToString() == "Office Home 2024")
                 {
                     iniEmail = "office2024";
+                }
+                else if (OfficeVer.SelectedItem != null && OfficeVer.SelectedItem.ToString() == "Office Home and Student 2021")
+                {
+                    iniEmail = "office2021";
                 }
                 else
                 {

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.IO.Compression;
+using System.Text;
 
 
 namespace LhanzCJ_Installer
@@ -130,14 +131,7 @@ namespace LhanzCJ_Installer
             }
             catch (Exception ex)
             {
-                richTextBox1.Clear();
-                richTextBox1.Text = "Error: The network path was not found.\n\n" +
-                                    "Possible Fix:\n" +
-                                    "1. Enable SMB 1.0/CIFS File Sharing Support.\n" +
-                                    "2. Open Windows Features\n" +
-                                    "3. Check 'SMB 1.0/CIFS File Sharing Support' and click OK.\n" +
-                                    "4. Restart your computer.\n\n" +
-                                    $"Error: {ex.Message}";
+                MessageBox.Show("Failed to open technical folder: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -159,6 +153,7 @@ namespace LhanzCJ_Installer
             InstallPrograms();
         }
 
+
         private void InstallPrograms()
         {
             richTextBox1.Clear();
@@ -167,13 +162,15 @@ namespace LhanzCJ_Installer
             {
                 new InstallStep(".Net 4.8.1", "Net4.8.1.exe", "https://go.microsoft.com/fwlink/?linkid=2203305", "/q /norestart"),
                 new InstallStep("DirectX", "directx.exe", "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe", "directx.exe /Q /T:C:\\DirectX"),
-                new InstallStep("VCRedistAIO", "VCRedistAIO.zip", "https://sg1-dl.techpowerup.com/files/mcNKq_1or8HB3MOpyO_GBQ/1741034261/Visual-C-Runtimes-All-in-One-Nov-2024.zip", ""),
+                new InstallStep("VCRedistAIO", "VCRedistAIO.zip", "https://github.com/abbodi1406/vcredist/releases/download/v0.87.0/VisualCppRedist_AIO_x86_x64_87.zip", ""),
                 new InstallStep("7zip", "7zip.exe", "https://www.7-zip.org/a/7z2409-x64.exe", "/S"),
-                new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S"),
+                new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S", runAsAdmin: false),
                 new InstallStep("Zoom", "zoom.exe", "https://zoom.us/client/6.3.11.60501/ZoomInstallerFull.exe", "zoom.exe /silent"),
-                new InstallStep("Google Chrome", "chrome.exe", "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A0703C5-744E-12EE-BA2C-574FA3D84FE6%7D%26lang%3Den%26browser%3D3%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-statsdef_1%26installdataindex%3Dempty/chrome/install/ChromeStandaloneSetup64.exe", "chrome.exe /silent /install"),
+                new InstallStep("Google Chrome", "chrome.exe", "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BF3CAB977-BF22-F629-B1C4-B9D9234DDFD5%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/update2/installers/ChromeSetup.exe", "chrome.exe /silent /install"),
                 new InstallStep("VLC", "vlc.exe", "https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe", "vlc.exe /S"),
                 new InstallStep("Acrobat Reader", "acrobat.exe", "https://ardownload2.adobe.com/pub/adobe/reader/win/AcrobatDC/2400520414/AcroRdrDC2400520414_en_US.exe", "/sAll /rs /l /msi /qb- /L*v"),
+                new InstallStep("Winget CLI", "winget.msixbundle", "https://aka.ms/getwinget", "/q", runAsAdmin: true),
+
             };
 
             int totalSteps = steps.Count * 2;
@@ -292,9 +289,27 @@ namespace LhanzCJ_Installer
                                     }
                                 }
                             }
+                            // In InstallPrograms() loop:
                             else
                             {
-                                installationSuccess = RunInstaller(filePath, step.InstallArgs);
+                                installationSuccess = RunInstaller(filePath, step.InstallArgs, step.RunAsAdmin);
+                            }
+
+                            // Special handling for Winget AFTER regular installation
+                            if (step.Name == "Winget CLI" && installationSuccess)
+                            {
+                                AppendText("Verifying Winget installation...\n");
+                                if (!IsWingetInstalled())
+                                {
+                                    AppendText("Winget installation failed - trying manual registration...\n");
+                                    installationSuccess = RegisterWingetManually(filePath);
+                                }
+
+                                if (installationSuccess)
+                                {
+                                    AppendText("Updating packages via Winget...\n");
+                                    UpdatePackagesWithWinget();
+                                }
                             }
 
                             if (installationSuccess)
@@ -304,6 +319,17 @@ namespace LhanzCJ_Installer
                             else
                             {
                                 AppendText($"{step.Name}: Installation failed.\n");
+                            }
+                            if (step.Name == "Winget CLI")
+                            {
+                                AppendText("Installing Winget CLI...\n");
+                                installationSuccess = InstallWinget(filePath);
+
+                                if (installationSuccess)
+                                {
+                                    AppendText("Updating packages via Winget...\n");
+                                    UpdatePackagesWithWinget();
+                                }
                             }
                         }
                         else
@@ -330,7 +356,58 @@ namespace LhanzCJ_Installer
 
             thread.Start();
         }
+        private bool InstallWinget(string msixPath)
+        {
+            string command = $"Add-AppxPackage -Path '{msixPath}'";
+            return RunPowerShellCommand(command);
+        }
 
+        private void UpdatePackagesWithWinget()
+        {
+            string command = "winget upgrade --all --accept-source-agreements --accept-package-agreements";
+            RunPowerShellCommand(command, true);
+        }
+
+        private bool RunPowerShellCommand(string command, bool captureOutput = false)
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = "powershell.exe",
+                    Arguments = $"-NoProfile -ExecutionPolicy Bypass -Command \"{command}\"",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                    StandardOutputEncoding = Encoding.UTF8,
+                    StandardErrorEncoding = Encoding.UTF8
+                };
+
+                using (Process process = new Process { StartInfo = psi })
+                {
+                    process.OutputDataReceived += (sender, e) => {
+                        if (!string.IsNullOrEmpty(e.Data)) AppendText(e.Data + "\n");
+                    };
+
+                    process.ErrorDataReceived += (sender, e) => {
+                        if (!string.IsNullOrEmpty(e.Data)) AppendText($"ERROR: {e.Data}\n");
+                    };
+
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+                    process.WaitForExit();
+
+                    return process.ExitCode == 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendText($"PowerShell error: {ex.Message}\n");
+                return false;
+            }
+        }
         private bool DownloadFile(string url, string destination)
         {
             try
@@ -426,7 +503,7 @@ namespace LhanzCJ_Installer
             }));
         }
 
-        private bool RunInstaller(string filePath, string arguments)
+        private bool RunInstaller(string filePath, string arguments, bool runAsAdmin)
         {
             try
             {
@@ -434,15 +511,13 @@ namespace LhanzCJ_Installer
                 {
                     FileName = filePath,
                     Arguments = arguments,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
+                    UseShellExecute = true,
+                    Verb = runAsAdmin ? "runas" : "",
                     CreateNoWindow = true
                 };
 
-                using (Process process = new Process { StartInfo = psi })
+                using (Process process = Process.Start(psi))
                 {
-                    process.Start();
                     process.WaitForExit();
                     return process.ExitCode == 0;
                 }
@@ -558,7 +633,7 @@ namespace LhanzCJ_Installer
                 return;
             }
 
-  
+
             bool wasAtBottom = IsScrollAtBottom();
 
 
@@ -600,7 +675,41 @@ namespace LhanzCJ_Installer
             progressBar1.Value = currentValue;
             Text = $"LhanzCJ Installer - {percentage}% Complete";
         }
+        private bool IsWingetInstalled()
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = "where",
+                    Arguments = "winget",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
 
+                using (Process process = Process.Start(psi))
+                {
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+                    return output.ToLower().Contains("winget");
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool RegisterWingetManually(string msixPath)
+        {
+            string command = $@"Add-AppxPackage -Path '{msixPath}' -ErrorAction Stop;
+                        if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {{
+                            Write-Error 'Winget installation failed' -ErrorAction Stop
+                        }}";
+
+            return RunPowerShellCommand(command);
+        }
         private bool IsProgramInstalled(string appName)
         {
             if (appName.Equals(".Net 4.8.1", StringComparison.OrdinalIgnoreCase))
@@ -907,13 +1016,15 @@ namespace LhanzCJ_Installer
             public string FileName { get; }
             public string DownloadUrl { get; }
             public string InstallArgs { get; }
+            public bool RunAsAdmin { get; }
 
-            public InstallStep(string name, string fileName, string downloadUrl, string installArgs)
+            public InstallStep(string name, string fileName, string downloadUrl, string installArgs, bool runAsAdmin = true)
             {
                 Name = name;
                 FileName = fileName;
                 DownloadUrl = downloadUrl;
                 InstallArgs = installArgs;
+                RunAsAdmin = runAsAdmin;
             }
         }
         private void button6_Click(object sender, EventArgs e)
@@ -1001,46 +1112,34 @@ namespace LhanzCJ_Installer
 
         private void button8_Click(object sender, EventArgs e)
         {
-
             try
             {
-
-                string cameraPath = @"C:\Windows\System32\WindowsCamera.exe";
-
-                if (System.IO.File.Exists(cameraPath))
+                Process.Start(new ProcessStartInfo
                 {
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = cameraPath,
-                        UseShellExecute = true
-                    });
-                }
-                else
-                {
-                    DialogResult result = MessageBox.Show(
-                        "Camera App isn't installed. Open Camera Tester instead?",
-                        "Camera App Missing",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Warning
-                    );
-
-                    if (result == DialogResult.Yes)
-                    {
-
-                        CamTest camTest = new CamTest();
-                        camTest.Show();
-                    }
-                }
+                    FileName = "microsoft.windows.camera:",
+                    UseShellExecute = true
+                });
             }
             catch (Exception)
             {
-                MessageBox.Show("An error occurred while trying to open the Camera app.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DialogResult result = MessageBox.Show(
+                    "An error occurred while trying to open the Camera app. Open Camera Tester instead?",
+                    "Camera App Missing",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
 
-                CamTest camTest = new CamTest();
-                camTest.Show();
+                if (result == DialogResult.Yes)
+                {
+                    CamTest camTest = new CamTest();
+                    camTest.Show();
+                }
             }
 
+            //CamTest camTest = new CamTest();
+            //camTest.Show();
         }
+
 
         private void button9_Click(object sender, EventArgs e)
         {
@@ -1142,5 +1241,117 @@ namespace LhanzCJ_Installer
             RecordSN recordSN = new RecordSN();
             recordSN.Show();
         }
+
+        private void wifiConnectBtn_Click(object sender, EventArgs e)
+        {
+            new Thread(() => ConnectToWiFi()).Start();
+        }
+
+        private void ConnectToWiFi()
+        {
+            try
+            {
+                string ssid = "Test_Wifi 2.4G";
+                string password = "admin123";
+                string profileName = "Test_Wifi_Profile";
+
+                // Create XML profile
+                string xml = $@"<?xml version=""1.0""?>
+                <WLANProfile xmlns=""http://www.microsoft.com/networking/WLAN/profile/v1"">
+                    <name>{profileName}</name>
+                    <SSIDConfig>
+                        <SSID>
+                            <name>{ssid}</name>
+                        </SSID>
+                    </SSIDConfig>
+                    <connectionType>ESS</connectionType>
+                    <connectionMode>auto</connectionMode>
+                    <MSM>
+                        <security>
+                            <authEncryption>
+                                <authentication>WPA2PSK</authentication>
+                                <encryption>AES</encryption>
+                                <useOneX>false</useOneX>
+                            </authEncryption>
+                            <sharedKey>
+                                <keyType>passPhrase</keyType>
+                                <protected>false</protected>
+                                <keyMaterial>{password}</keyMaterial>
+                            </sharedKey>
+                        </security>
+                    </MSM>
+                </WLANProfile>";
+
+                string tempPath = Path.GetTempPath();
+                string xmlPath = Path.Combine(tempPath, $"{profileName}.xml");
+                File.WriteAllText(xmlPath, xml);
+
+                richTextBox1.Clear();
+                AppendText($"Creating WiFi profile for {ssid}...\n");
+                RunCommand("netsh", $"wlan add profile filename=\"{xmlPath}\"");
+
+                AppendText($"Connecting to {ssid}...\n");
+                RunCommand("netsh", $"wlan connect name=\"{profileName}\"");
+
+                File.Delete(xmlPath);
+            }
+            catch (Exception ex)
+            {
+                richTextBox1.Clear();
+                AppendText($"WiFi Connection Error: {ex.Message}\n");
+
+            }
+        }
+
+        private void RunCommand(string command, string args)
+        {
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = command,
+                    Arguments = args,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                };
+
+                using (Process process = Process.Start(psi))
+                {
+                    string output = process.StandardOutput.ReadToEnd();
+                    AppendText(output + "\n");
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendText($"Command Error ({command}): {ex.Message}\n");
+            }
+        }
+
+        private void DrvUptBtn_Click(object sender, EventArgs e)
+        {
+            string driverBoosterPath = Path.Combine(Application.StartupPath, "Driverupdt", "DriverUpdater.lnk");
+
+            if (File.Exists(driverBoosterPath))
+            {
+                try
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = driverBoosterPath,
+                        UseShellExecute = true
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to launch Drivers: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("DriverUpdater.exe not found in Driverupdt folder.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
     }
 }
