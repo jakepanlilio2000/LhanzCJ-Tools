@@ -281,7 +281,7 @@ namespace LhanzCJ_Installer
             {
                 new InstallStep(".Net 4.8.1", "Net4.8.1.exe", "https://go.microsoft.com/fwlink/?linkid=2203305", "/q /norestart"),
                 new InstallStep("DirectX", "directx.exe", "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe", "directx.exe /Q /T:C:\\DirectX"),
-                new InstallStep("VCRedistAIO", "VCRedistAIO.zip", "https://github.com/abbodi1406/vcredist/releases/download/v0.87.0/VisualCppRedist_AIO_x86_x64_87.zip", ""),
+                new InstallStep("VCRedistAIO", "VCRedistAIO.zip", "https://download2268.mediafire.com/hq2ib8cg8dagU_4yBi82PT7llKON3Rrpw0Gt-p2Ehim2hbavXo1QAMn31B-DbLkGJx0n0SlcsA-m2agDEPnTsoj-HdxcBVlJU90qwUcAYoN9aUxDIGTLsPAygdgUS2bFK86DQ7a2mMBN3jahHMBTVbq5YyF01gSJjTybSZkx0abAPA/jbbrx3d1ew58cqj/VCRedistAIO.zip", ""),
                 new InstallStep("7zip", "7zip.exe", "https://www.7-zip.org/a/7z2409-x64.exe", "/S"),
                 new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S", runAsAdmin: false),
                 new InstallStep("Zoom", "zoom.exe", "https://zoom.us/client/6.3.11.60501/ZoomInstallerFull.exe", "zoom.exe /silent"),
