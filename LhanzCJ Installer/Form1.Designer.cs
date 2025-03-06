@@ -51,6 +51,17 @@
             this.button15 = new System.Windows.Forms.Button();
             this.wifiConnectBtn = new System.Windows.Forms.Button();
             this.DrvUptBtn = new System.Windows.Forms.Button();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.button17 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.button16 = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.officeEdition = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.setclockBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -102,8 +113,8 @@
             // 
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox1.DetectUrls = false;
-            resources.ApplyResources(this.richTextBox1, "richTextBox1");
             this.richTextBox1.HideSelection = false;
+            resources.ApplyResources(this.richTextBox1, "richTextBox1");
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.TabStop = false;
@@ -211,11 +222,98 @@
             this.DrvUptBtn.UseVisualStyleBackColor = true;
             this.DrvUptBtn.Click += new System.EventHandler(this.DrvUptBtn_Click);
             // 
+            // progressBar2
+            // 
+            resources.ApplyResources(this.progressBar2, "progressBar2");
+            this.progressBar2.Name = "progressBar2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.ForeColor = System.Drawing.Color.Black;
+            this.label4.Name = "label4";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.ForeColor = System.Drawing.Color.Black;
+            this.label5.Name = "label5";
+            // 
+            // button17
+            // 
+            resources.ApplyResources(this.button17, "button17");
+            this.button17.Name = "button17";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.ForeColor = System.Drawing.Color.Black;
+            this.label6.Name = "label6";
+            // 
+            // button16
+            // 
+            resources.ApplyResources(this.button16, "button16");
+            this.button16.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button16.Name = "button16";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Name = "label7";
+            // 
+            // officeEdition
+            // 
+            this.officeEdition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.officeEdition.FormattingEnabled = true;
+            this.officeEdition.Items.AddRange(new object[] {
+            resources.GetString("officeEdition.Items"),
+            resources.GetString("officeEdition.Items1"),
+            resources.GetString("officeEdition.Items2"),
+            resources.GetString("officeEdition.Items3"),
+            resources.GetString("officeEdition.Items4")});
+            resources.ApplyResources(this.officeEdition, "officeEdition");
+            this.officeEdition.Name = "officeEdition";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.ForeColor = System.Drawing.Color.Black;
+            this.label8.Name = "label8";
+            // 
+            // setclockBtn
+            // 
+            resources.ApplyResources(this.setclockBtn, "setclockBtn");
+            this.setclockBtn.Name = "setclockBtn";
+            this.setclockBtn.UseVisualStyleBackColor = true;
+            this.setclockBtn.Click += new System.EventHandler(this.setclockBtn_Click);
+            // 
             // LhanzCJ
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.Controls.Add(this.setclockBtn);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.officeEdition);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.button16);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.button17);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.progressBar2);
             this.Controls.Add(this.DrvUptBtn);
             this.Controls.Add(this.wifiConnectBtn);
             this.Controls.Add(this.button15);
@@ -271,6 +369,17 @@
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button wifiConnectBtn;
         private System.Windows.Forms.Button DrvUptBtn;
+        private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox officeEdition;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button setclockBtn;
     }
 }
 
