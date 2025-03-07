@@ -185,6 +185,7 @@ namespace LhanzCJ_Installer
             wifiConnectBtn.Enabled = isAdmin;
             DrvUptBtn.Enabled = isAdmin;
             setclockBtn.Enabled = isAdmin;
+            button18.Enabled = isAdmin;
         }
 
         private bool IsAdministrator()
@@ -269,33 +270,46 @@ namespace LhanzCJ_Installer
         private void button5_Click(object sender, EventArgs e)
         {
             button5.Enabled = false;
-            InstallPrograms();
+            InstallPrograms(false);
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            button18.Enabled = false;
+            InstallPrograms(true); 
         }
 
 
-        private void InstallPrograms()
+        private void InstallPrograms(bool excludeComponents)
         {
             richTextBox1.Clear();
 
-            List<InstallStep> steps = new List<InstallStep>
-            {
-                new InstallStep(".Net 4.8.1", "Net4.8.1.exe", "https://go.microsoft.com/fwlink/?linkid=2203305", "/q /norestart"),
-                new InstallStep("DirectX", "directx.exe", "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe", "directx.exe /Q /T:C:\\DirectX"),
-                new InstallStep("VCRedistAIO", "VCRedistAIO.zip", "https://download2268.mediafire.com/hq2ib8cg8dagU_4yBi82PT7llKON3Rrpw0Gt-p2Ehim2hbavXo1QAMn31B-DbLkGJx0n0SlcsA-m2agDEPnTsoj-HdxcBVlJU90qwUcAYoN9aUxDIGTLsPAygdgUS2bFK86DQ7a2mMBN3jahHMBTVbq5YyF01gSJjTybSZkx0abAPA/jbbrx3d1ew58cqj/VCRedistAIO.zip", ""),
-                new InstallStep("7zip", "7zip.exe", "https://www.7-zip.org/a/7z2409-x64.exe", "/S"),
-                new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S", runAsAdmin: false),
-                new InstallStep("Zoom", "zoom.exe", "https://zoom.us/client/6.3.11.60501/ZoomInstallerFull.exe", "zoom.exe /silent"),
-                new InstallStep("Google Chrome", "chrome.exe", "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BF3CAB977-BF22-F629-B1C4-B9D9234DDFD5%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/update2/installers/ChromeSetup.exe", "chrome.exe /silent /install"),
-                new InstallStep("VLC", "vlc.exe", "https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe", "vlc.exe /S"),
-                new InstallStep("Acrobat Reader", "acrobat.exe", "https://ardownload2.adobe.com/pub/adobe/reader/win/AcrobatDC/2400520414/AcroRdrDC2400520414_en_US.exe", "/sAll /rs /l /msi /qb- /L*v"),
-                new InstallStep("Winget CLI", "winget.msixbundle", "https://aka.ms/getwinget", "/q", runAsAdmin: true),
+            List<InstallStep> steps = new List<InstallStep>();
 
-            };
+            if (!excludeComponents)
+            {
+                steps.Add(new InstallStep(".Net 4.8.1", "Net4.8.1.exe", "https://go.microsoft.com/fwlink/?linkid=2203305", "/q /norestart"));
+                steps.Add(new InstallStep("DirectX", "directx.exe", "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe", "directx.exe /Q /T:C:\\DirectX"));
+            }
+
+
+            steps.Add(new InstallStep("7zip", "7zip.exe", "https://www.7-zip.org/a/7z2409-x64.exe", "/S"));
+            steps.Add(new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S", runAsAdmin: false));
+            steps.Add(new InstallStep("Zoom", "zoom.exe", "https://zoom.us/client/6.3.11.60501/ZoomInstallerFull.exe", "zoom.exe /silent"));
+            steps.Add(new InstallStep("Google Chrome", "chrome.exe", "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BF3CAB977-BF22-F629-B1C4-B9D9234DDFD5%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/update2/installers/ChromeSetup.exe", "chrome.exe /silent /install"));
+            steps.Add(new InstallStep("VLC", "vlc.exe", "https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe", "vlc.exe /S"));
+            steps.Add(new InstallStep("Acrobat Reader", "acrobat.exe", "https://ardownload2.adobe.com/pub/adobe/reader/win/AcrobatDC/2400520414/AcroRdrDC2400520414_en_US.exe", "/sAll /rs /l /msi /qb- /L*v"));
+
+            if (!excludeComponents)
+            {
+                steps.Add(new InstallStep("Winget CLI", "winget.msixbundle", "https://aka.ms/getwinget", "/q", runAsAdmin: true));
+            }
 
             int totalSteps = steps.Count * 2;
             progressBar1.Maximum = totalSteps;
             progressBar1.Value = 0;
             progressBar1.Step = 1;
+
 
             Thread thread = new Thread(() =>
             {
@@ -446,6 +460,7 @@ namespace LhanzCJ_Installer
                                 {
                                     AppendText("Updating packages via Winget...\n", Color.Blue);
                                     UpdatePackagesWithWinget();
+                                    InstallVCRedistsWithWinget();
                                 }
                             }
 
@@ -488,6 +503,7 @@ namespace LhanzCJ_Installer
                 finally
                 {
                     Invoke(new Action(() => button5.Enabled = true));
+                    Invoke(new Action(() => button18.Enabled = true));
                 }
             });
 
@@ -503,6 +519,37 @@ namespace LhanzCJ_Installer
         {
             string command = "winget upgrade --all --accept-source-agreements --accept-package-agreements";
             RunPowerShellCommand(command, true);
+        }
+        private void InstallVCRedistsWithWinget()
+        {
+            string[] vcRedistCommands = new string[]
+            {
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2005.x86\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2005.x64\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2008.x86\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2008.x64\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2010.x86\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2010.x64\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2012.x86\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2012.x64\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2013.x86\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2013.x64\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2015+.x86\"",
+        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2015+.x64\""
+            };
+
+            foreach (var command in vcRedistCommands)
+            {
+                bool success = RunPowerShellCommand(command, true);
+                if (!success)
+                {
+                    AppendText($"Failed to install package using command: {command}\n", Color.Red);
+                }
+                else
+                {
+                    AppendText($"Successfully installed package using command: {command}\n", Color.Green);
+                }
+            }
         }
 
         private bool RunPowerShellCommand(string command, bool captureOutput = false)
@@ -823,7 +870,6 @@ namespace LhanzCJ_Installer
                 }
                 else
                 {
-                    // Run non-elevated using CreateProcessWithTokenW
                     return StartProcessAsUser(filePath, arguments);
                 }
             }
@@ -1954,5 +2000,7 @@ namespace LhanzCJ_Installer
                 MessageBox.Show("Failed to sync time. Please run the application as Administrator.\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
     }
 }

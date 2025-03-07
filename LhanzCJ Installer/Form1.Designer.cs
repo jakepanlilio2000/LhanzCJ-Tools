@@ -62,6 +62,7 @@
             this.officeEdition = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.setclockBtn = new System.Windows.Forms.Button();
+            this.button18 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -298,11 +299,20 @@
             this.setclockBtn.UseVisualStyleBackColor = true;
             this.setclockBtn.Click += new System.EventHandler(this.setclockBtn_Click);
             // 
+            // button18
+            // 
+            resources.ApplyResources(this.button18, "button18");
+            this.button18.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button18.Name = "button18";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
             // LhanzCJ
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.Controls.Add(this.button18);
             this.Controls.Add(this.setclockBtn);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.officeEdition);
@@ -380,6 +390,7 @@
         private System.Windows.Forms.ComboBox officeEdition;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button setclockBtn;
+        private System.Windows.Forms.Button button18;
     }
 }
 
