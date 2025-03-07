@@ -1,10 +1,11 @@
 ---
 
-# Technician Toolbox for Lhanz CJ Company
+# Technician Toolbox for Lhanz CJ
 
 This project is a comprehensive **Technician Toolbox** designed specifically for **Lhanz CJ Company**. It provides technicians with a set of essential tools to test hardware components, access system settings, install necessary programs, and manage Windows configurations, all from a single application interface.
 
 ---
+![{B3D18D45-8A19-4042-9277-3328ECA8FBCC}](https://github.com/user-attachments/assets/d0eb3d01-8624-4a60-a51b-63592a36e388)
 
 ## Features
 
