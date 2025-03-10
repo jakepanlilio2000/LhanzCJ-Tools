@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /LhanzCJ Setup/LhanzCJ Setup.aiproj
 /LhanzCJ Setup
+*.bat

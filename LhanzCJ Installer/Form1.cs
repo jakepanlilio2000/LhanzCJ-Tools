@@ -17,10 +17,9 @@ using System.Text.RegularExpressions;
 
 namespace LhanzCJ_Installer
 {
-
-
     public partial class LhanzCJ : Form
     {
+        #region Variables
         private const int WM_USER = 0x0400;
         private const int EM_GETSCROLLPOS = WM_USER + 221;
         private const int EM_SETSCROLLPOS = WM_USER + 222;
@@ -167,7 +166,7 @@ namespace LhanzCJ_Installer
 
         [DllImport("user32.dll")]
         private static extern int SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
-
+        #endregion
         public LhanzCJ()
         {
             InitializeComponent();
@@ -177,7 +176,6 @@ namespace LhanzCJ_Installer
         {
             bool isAdmin = IsAdministrator();
 
-            button5.Enabled = isAdmin;
             label1.Visible = !isAdmin;
             button7.Enabled = isAdmin;
             button16.Enabled = isAdmin;
@@ -185,7 +183,9 @@ namespace LhanzCJ_Installer
             wifiConnectBtn.Enabled = isAdmin;
             DrvUptBtn.Enabled = isAdmin;
             setclockBtn.Enabled = isAdmin;
-            button18.Enabled = isAdmin;
+            button19.Enabled = isAdmin;
+            oobe.Enabled = isAdmin;
+            ramTest.Enabled = isAdmin;
         }
 
         private bool IsAdministrator()
@@ -270,13 +270,15 @@ namespace LhanzCJ_Installer
         private void button5_Click(object sender, EventArgs e)
         {
             button5.Enabled = false;
+            button18.Enabled = false;
             InstallPrograms(false);
         }
 
         private void button18_Click(object sender, EventArgs e)
         {
             button18.Enabled = false;
-            InstallPrograms(true); 
+            button5.Enabled = false;
+            InstallPrograms(true);
         }
 
 
@@ -286,15 +288,14 @@ namespace LhanzCJ_Installer
 
             List<InstallStep> steps = new List<InstallStep>();
 
+            steps.Add(new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S", runAsAdmin: false));
+
             if (!excludeComponents)
             {
                 steps.Add(new InstallStep(".Net 4.8.1", "Net4.8.1.exe", "https://go.microsoft.com/fwlink/?linkid=2203305", "/q /norestart"));
                 steps.Add(new InstallStep("DirectX", "directx.exe", "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe", "directx.exe /Q /T:C:\\DirectX"));
             }
-
-
             steps.Add(new InstallStep("7zip", "7zip.exe", "https://www.7-zip.org/a/7z2409-x64.exe", "/S"));
-            steps.Add(new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S", runAsAdmin: false));
             steps.Add(new InstallStep("Zoom", "zoom.exe", "https://zoom.us/client/6.3.11.60501/ZoomInstallerFull.exe", "zoom.exe /silent"));
             steps.Add(new InstallStep("Google Chrome", "chrome.exe", "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BF3CAB977-BF22-F629-B1C4-B9D9234DDFD5%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/update2/installers/ChromeSetup.exe", "chrome.exe /silent /install"));
             steps.Add(new InstallStep("VLC", "vlc.exe", "https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe", "vlc.exe /S"));
@@ -310,12 +311,12 @@ namespace LhanzCJ_Installer
             progressBar1.Value = 0;
             progressBar1.Step = 1;
 
-
             Thread thread = new Thread(() =>
             {
                 try
                 {
                     int currentProgress = 0;
+                    bool spotifyInstalled = false;
 
                     foreach (var step in steps)
                     {
@@ -330,6 +331,14 @@ namespace LhanzCJ_Installer
                         string filePath = Path.Combine(downloadPath, step.FileName);
 
                         Directory.CreateDirectory(downloadPath);
+
+                        if (IsProgramInstalled(step.Name))
+                        {
+                            AppendText($"{step.Name}: Already installed. Skipping download and installation.\n", Color.DarkCyan);
+                            currentProgress += 2; 
+                            UpdateProgressBar(currentProgress, totalSteps);
+                            continue;
+                        }
 
                         bool downloadSuccess = false;
                         int downloadAttempts = 0;
@@ -444,23 +453,31 @@ namespace LhanzCJ_Installer
                             }
                             else
                             {
-                                installationSuccess = RunInstaller(filePath, step.InstallArgs, step.RunAsAdmin);
+                                installationSuccess = RunInstaller(filePath, step.InstallArgs, step.RunAsAdmin || spotifyInstalled);
                             }
 
-                            if (step.Name == "Winget CLI" && installationSuccess)
+                            if (step.Name == "Spotify" && installationSuccess)
                             {
-                                AppendText("Verifying Winget installation...\n", Color.Blue);
-                                if (!IsWingetInstalled())
-                                {
-                                    AppendText("Winget installation failed - trying manual registration...\n", Color.Red);
-                                    installationSuccess = RegisterWingetManually(filePath);
-                                }
+                                spotifyInstalled = true;
+                                RestartAsAdmin();
+                            }
+
+                            if (step.Name == "Winget CLI")
+                            {
+                                AppendText("Installing Winget CLI...\n", Color.Blue);
+                                installationSuccess = InstallWinget(filePath);
 
                                 if (installationSuccess)
                                 {
                                     AppendText("Updating packages via Winget...\n", Color.Blue);
+                                    RestartAsAdmin();
+                                    StoreUpdate();
                                     UpdatePackagesWithWinget();
                                     InstallVCRedistsWithWinget();
+                                }
+                                else
+                                {
+                                    AppendText("Winget CLI: Installation failed. Skipping Winget operations.\n", Color.Red);
                                 }
                             }
 
@@ -471,17 +488,6 @@ namespace LhanzCJ_Installer
                             else
                             {
                                 AppendText($"{step.Name}: Installation failed.\n", Color.Red);
-                            }
-                            if (step.Name == "Winget CLI")
-                            {
-                                AppendText("Installing Winget CLI...\n", Color.Blue);
-                                installationSuccess = InstallWinget(filePath);
-
-                                if (installationSuccess)
-                                {
-                                    AppendText("Updating packages via Winget...\n", Color.Blue);
-                                    UpdatePackagesWithWinget();
-                                }
                             }
                         }
                         else
@@ -509,10 +515,74 @@ namespace LhanzCJ_Installer
 
             thread.Start();
         }
+
+        private void RestartAsAdmin()
+        {
+            if (IsRunningAsAdmin())
+            {
+                return;
+            }
+
+            try
+            {
+                ProcessStartInfo procInfo = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = Application.ExecutablePath,
+                    WorkingDirectory = Environment.CurrentDirectory,
+                    Verb = "runas"
+                };
+
+                Process.Start(procInfo);
+                Application.Exit();
+            }
+            catch (Exception ex)
+            {
+                AppendText($"Failed to restart as admin: {ex.Message}\n", Color.Red);
+            }
+        }
+
+        private bool IsRunningAsAdmin()
+        {
+            using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+            {
+                WindowsPrincipal principal = new WindowsPrincipal(identity);
+                return principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+        }
         private bool InstallWinget(string msixPath)
         {
-            string command = $"Add-AppxPackage -Path '{msixPath}'";
-            return RunPowerShellCommand(command);
+            try
+            {
+                if (!File.Exists(msixPath))
+                {
+                    AppendText($"Winget CLI: File not found at {msixPath}\n", Color.Red);
+                    return false;
+                }
+
+                string command = $@"Add-AppxPackage -Path '{msixPath}' -ErrorAction Stop;
+                            if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {{
+                                Write-Error 'Winget installation failed' -ErrorAction Stop
+                            }}";
+
+                bool success = RunPowerShellCommand(command, true);
+
+                if (success)
+                {
+                    AppendText("Winget CLI: Installed successfully.\n", Color.Green);
+                    return true;
+                }
+                else
+                {
+                    AppendText("Winget CLI: Installation failed.\n", Color.Red);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendText($"Winget CLI: Installation error - {ex.Message}\n", Color.Red);
+                return false;
+            }
         }
 
         private void UpdatePackagesWithWinget()
@@ -520,22 +590,38 @@ namespace LhanzCJ_Installer
             string command = "winget upgrade --all --accept-source-agreements --accept-package-agreements";
             RunPowerShellCommand(command, true);
         }
+
+        private void StoreUpdate()
+        {
+            string command = "Get-AppxPackage -AllUsers | Foreach-Object {Add-AppxPackage -DisableDevelopmentMode -Register \"$($_.InstallLocation)\\AppXManifest.xml\"}";
+            bool success = RunPowerShellCommand(command, true);
+
+            if (success)
+            {
+                AppendText("Store apps updated successfully.\n", Color.Green);
+            }
+            else
+            {
+                AppendText("Failed to update store apps.\n", Color.Red);
+            }
+        }
         private void InstallVCRedistsWithWinget()
         {
             string[] vcRedistCommands = new string[]
             {
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2005.x86\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2005.x64\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2008.x86\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2008.x64\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2010.x86\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2010.x64\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2012.x86\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2012.x64\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2013.x86\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2013.x64\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2015+.x86\"",
-        "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2015+.x64\""
+                
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2005.x86\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2005.x64\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2008.x86\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2008.x64\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2010.x86\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2010.x64\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2012.x86\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2012.x64\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2013.x86\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2013.x64\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2015+.x86\"",
+                "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2015+.x64\""
             };
 
             foreach (var command in vcRedistCommands)
@@ -543,10 +629,20 @@ namespace LhanzCJ_Installer
                 bool success = RunPowerShellCommand(command, true);
                 if (!success)
                 {
-                    AppendText($"Failed to install package using command: {command}\n", Color.Red);
+                    if (command.Contains("winget install"))
+                    {
+                        string packageId = command.Replace("winget install --exact --locale \"en-US\" --id=\"", "").TrimEnd('"');
+                        AppendText($"Update version already installed for package: {packageId}\n", Color.Orange);
+                    }
+                    else
+                    {
+                        string packageId = command.Replace("winget install --exact --locale \"en-US\" --id=\"", "").TrimEnd('"');
+                        AppendText($"Failed to install package using command: {command}\n", Color.Red);
+                    }
                 }
                 else
                 {
+                    string packageId = command.Replace("winget install --exact --locale \"en-US\" --id=\"", "").TrimEnd('"');
                     AppendText($"Successfully installed package using command: {command}\n", Color.Green);
                 }
             }
@@ -584,6 +680,11 @@ namespace LhanzCJ_Installer
                     process.WaitForExit();
                     outputThread.Join();
                     errorThread.Join();
+                    if (captureOutput)
+                    {
+                        AppendText(outputBuffer.ToString(), Color.Green);
+                        AppendText(errorBuffer.ToString(), Color.Red);
+                    }
 
                     return process.ExitCode == 0;
                 }
@@ -643,17 +744,17 @@ namespace LhanzCJ_Installer
                 if (lastLineStart >= 0)
                 {
                     string lastLine = richTextBox1.Text.Substring(lastLineStart).Trim();
-                    if (lastLine.Contains("%") || lastLine.Contains("/")) // Progress line pattern
+                    if (lastLine.Contains("%") || lastLine.Contains("/"))
                     {
                         richTextBox1.Select(lastLineStart + 1, richTextBox1.TextLength - (lastLineStart + 1));
-                        richTextBox1.SelectedText = $"[{DateTime.Now:HH:mm:ss}] {progress}";
+                        richTextBox1.SelectedText = $"{progress}";
                         return;
                     }
                 }
 
                 richTextBox1.SelectionStart = richTextBox1.TextLength;
                 richTextBox1.SelectionColor = color;
-                richTextBox1.AppendText($"[{DateTime.Now:HH:mm:ss}] {progress}\n");
+                richTextBox1.AppendText($"{progress}\n");
             }
             finally
             {
@@ -670,11 +771,11 @@ namespace LhanzCJ_Installer
                 {
                     FlushBuffer(buffer, color, isError, true);
                 }
-                else if (c == '\n') 
+                else if (c == '\n')
                 {
                     FlushBuffer(buffer, color, isError);
                 }
-                else if (char.IsControl(c))  
+                else if (char.IsControl(c))
                 {
                 }
                 else
@@ -717,14 +818,14 @@ namespace LhanzCJ_Installer
                     if (lastNewLine >= 0)
                     {
                         richTextBox1.Select(lastNewLine + 1, richTextBox1.TextLength - (lastNewLine + 1));
-                        richTextBox1.SelectedText = $"[{DateTime.Now:HH:mm:ss}] {text}";
+                        richTextBox1.SelectedText = $"{text}";
                         return;
                     }
                 }
 
                 richTextBox1.SelectionStart = richTextBox1.TextLength;
                 richTextBox1.SelectionColor = color;
-                richTextBox1.AppendText($"[{DateTime.Now:HH:mm:ss}] {text}\n");
+                richTextBox1.AppendText($"{text}\n");
                 richTextBox1.SelectionColor = richTextBox1.ForeColor;
 
                 if (wasAtBottom)
@@ -875,8 +976,12 @@ namespace LhanzCJ_Installer
             }
             catch (Exception ex)
             {
-                AppendText($"Installer error: {ex.Message}\n", Color.Red);
+                if (!filePath.EndsWith("winget.msixbundle", StringComparison.OrdinalIgnoreCase))
+                {
+                    AppendText($"Installer error: {ex.Message}\n", Color.Red);
+                }
                 return false;
+
             }
         }
 
@@ -1005,7 +1110,7 @@ namespace LhanzCJ_Installer
 
                 richTextBox1.SelectionStart = richTextBox1.TextLength;
                 richTextBox1.SelectionColor = color;
-                richTextBox1.AppendText($"[{DateTime.Now:HH:mm:ss}] {text}");
+                richTextBox1.AppendText($"{text}");
                 richTextBox1.SelectionColor = richTextBox1.ForeColor;
 
                 if (wasAtBottom)
@@ -1039,41 +1144,6 @@ namespace LhanzCJ_Installer
 
             progressBar1.Value = currentValue;
             Text = $"LhanzCJ Installer - {percentage}% Complete";
-        }
-        private bool IsWingetInstalled()
-        {
-            try
-            {
-                ProcessStartInfo psi = new ProcessStartInfo
-                {
-                    FileName = "where",
-                    Arguments = "winget",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                };
-
-                using (Process process = Process.Start(psi))
-                {
-                    string output = process.StandardOutput.ReadToEnd();
-                    process.WaitForExit();
-                    return output.ToLower().Contains("winget");
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private bool RegisterWingetManually(string msixPath)
-        {
-            string command = $@"Add-AppxPackage -Path '{msixPath}' -ErrorAction Stop;
-                        if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {{
-                            Write-Error 'Winget installation failed' -ErrorAction Stop
-                        }}";
-
-            return RunPowerShellCommand(command);
         }
         private bool IsProgramInstalled(string appName)
         {
@@ -1195,6 +1265,7 @@ namespace LhanzCJ_Installer
                     }
 
                     return CheckRegistryForPartialName(new[] { "Spotify" });
+
                 }
                 catch (Exception ex)
                 {
@@ -1913,11 +1984,11 @@ namespace LhanzCJ_Installer
                     {
                         int startIndex = richTextBox1.Text.LastIndexOf('\n', lastLineIndex) + 1;
                         richTextBox1.Select(startIndex, richTextBox1.TextLength - startIndex);
-                        richTextBox1.SelectedText = $"[{DateTime.Now:HH:mm:ss}] {progressMessage}";
+                        richTextBox1.SelectedText = $"{progressMessage}";
                     }
                     else
                     {
-                        richTextBox1.AppendText($"[{DateTime.Now:HH:mm:ss}] {progressMessage}\n");
+                        richTextBox1.AppendText($"{progressMessage}\n");
                     }
 
                     if (wasAtBottom)
@@ -1942,7 +2013,7 @@ namespace LhanzCJ_Installer
                 {
                     FileName = installerPath,
                     UseShellExecute = true,
-                    Verb = "runas", 
+                    Verb = "runas",
                     CreateNoWindow = true
                 };
 
@@ -1970,16 +2041,16 @@ namespace LhanzCJ_Installer
             try
             {
                 Process process = new Process();
-                process.StartInfo.FileName = "tzutil.exe";
-                process.StartInfo.Arguments = "/s \"Singapore Standard Time\""; 
-                process.StartInfo.Verb = "runas"; 
+                process.StartInfo.FileName = "powershell.exe";
+                process.StartInfo.Arguments = "-Command \"Set-TimeZone -Id 'Singapore Standard Time'\"";
+                process.StartInfo.Verb = "runas";
                 process.StartInfo.UseShellExecute = true;
                 process.Start();
                 process.WaitForExit();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to set time zone. Please run the application as Administrator.\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to set time zone. Please run as Administrator.\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1988,19 +2059,82 @@ namespace LhanzCJ_Installer
             try
             {
                 Process process = new Process();
-                process.StartInfo.FileName = "cmd.exe";
-                process.StartInfo.Arguments = "/C w32tm /resync";
-                process.StartInfo.Verb = "runas"; 
+                process.StartInfo.FileName = "powershell.exe";
+                process.StartInfo.Arguments = "-Command \"w32tm /resync\"";
+                process.StartInfo.Verb = "runas";
                 process.StartInfo.UseShellExecute = true;
                 process.Start();
                 process.WaitForExit();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to sync time. Please run the application as Administrator.\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to sync time. Please run as Administrator.\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        private void button19_Click(object sender, EventArgs e)
+        {
+            string programPath = Path.Combine(Application.StartupPath, "apps", "HardDiskValidator.exe");
+
+            if (File.Exists(programPath))
+            {
+                Process.Start(programPath);
+            }
+            else
+            {
+                MessageBox.Show("HardDiskValidator.exe not found in apps/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void oobe_Click(object sender, EventArgs e)
+        {
+            DialogResult firstConfirm = MessageBox.Show(
+                "Are you sure you want to run the OOBE setup? This will restart your computer.",
+                "Confirm OOBE Setup",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (firstConfirm == DialogResult.Yes)
+            {
+                DialogResult secondConfirm = MessageBox.Show(
+                    "This action is irreversible and will reboot your system immediately.\n\nDo you want to proceed?",
+                    "Final Confirmation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Exclamation);
+
+                if (secondConfirm == DialogResult.Yes)
+                {
+                    try
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = Environment.ExpandEnvironmentVariables(@"%windir%\system32\sysprep\sysprep.exe"),
+                            Arguments = "/oobe /reboot",
+                            UseShellExecute = false,
+                            CreateNoWindow = true
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error launching Sysprep: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void ramTest_Click(object sender, EventArgs e)
+        {
+            string programPath = Path.Combine(Application.StartupPath, "apps", "MemoryChecker.exe");
+
+            if (File.Exists(programPath))
+            {
+                Process.Start(programPath);
+            }
+            else
+            {
+                MessageBox.Show("MemoryChecker.exe not found in apps/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
     }
 }
