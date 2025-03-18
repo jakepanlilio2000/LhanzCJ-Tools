@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -195,37 +196,11 @@ namespace LhanzCJ_Installer
                         File.SetAttributes(msAccountFilePath, attributes & ~FileAttributes.ReadOnly);
                     }
                 }
-
                 string msAccountContent = "Customer's Copy" + Environment.NewLine + SNOutput.Text;
                 File.WriteAllText(msAccountFilePath, msAccountContent);
                 File.SetAttributes(msAccountFilePath, File.GetAttributes(msAccountFilePath) | FileAttributes.ReadOnly);
-                string serialNumber = SNumber.Text.Trim();
-                string[] records = File.Exists(recordsFilePath) ? File.ReadAllLines(recordsFilePath) : new string[0];
-                StringBuilder updatedRecords = new StringBuilder();
-                bool serialFound = false;
+                File.AppendAllText(recordsFilePath, SNOutput.Text + Environment.NewLine);
 
-                for (int i = 0; i < records.Length; i++)
-                {
-                    if (records[i].Contains("Serial Number: " + serialNumber))
-                    {
-                        serialFound = true;
-                        updatedRecords.AppendLine(SNOutput.Text);
-
-                        while (i < records.Length - 1 && !records[i + 1].Contains("@"))
-                        {
-                            i++;
-                        }
-                        continue;
-                    }
-                    updatedRecords.AppendLine(records[i]);
-                }
-
-                if (!serialFound)
-                {
-                    updatedRecords.AppendLine(SNOutput.Text);
-                }
-
-                File.WriteAllText(recordsFilePath, updatedRecords.ToString());
                 Process.Start(new ProcessStartInfo()
                 {
                     FileName = "notepad.exe",
@@ -247,10 +222,6 @@ namespace LhanzCJ_Installer
                 MessageBox.Show($"Failed to save the record.\n\nError: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
-
 
         private string FormatKey(string inputKey)
         {
@@ -367,7 +338,7 @@ namespace LhanzCJ_Installer
             }
 
 
-            SNOutput.Text = "-----------------------------------\n" +
+            SNOutput.Text = "-------------0000000000------------\n" +
                             "Date: " + date_t + "\n" +
                             "Unit Number: " + umodel_t + "\n" +
                             "Serial Number: " + snum_t + "\n" +
