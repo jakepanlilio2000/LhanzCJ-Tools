@@ -13,6 +13,8 @@ using System.Text;
 using System.Drawing;
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
+using System.Net.Http;
+using System.Management;
 
 
 namespace LhanzCJ_Installer
@@ -113,7 +115,6 @@ namespace LhanzCJ_Installer
 
                 STARTUPINFO si = new STARTUPINFO();
                 si.cb = Marshal.SizeOf(si);
-                PROCESS_INFORMATION pi;
 
                 string commandLine = $"\"{filePath}\" {arguments}";
 
@@ -126,7 +127,7 @@ namespace LhanzCJ_Installer
                     IntPtr.Zero,
                     null,
                     ref si,
-                    out pi);
+                    out PROCESS_INFORMATION pi);
 
                 if (result)
                 {
@@ -142,7 +143,7 @@ namespace LhanzCJ_Installer
                     CloseHandle(hDupedToken);
             }
         }
-
+        private readonly CancellationTokenSource cts = new CancellationTokenSource();
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int GetScrollPos(IntPtr hWnd, int nBar);
 
@@ -155,6 +156,7 @@ namespace LhanzCJ_Installer
         private const int SB_VERT = 1;
 
         private string downloadPath = "packages\\";
+        private WebClient officeDownloadClient;
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         private static extern uint GetFileAttributes(string lpFileName);
 
@@ -167,10 +169,14 @@ namespace LhanzCJ_Installer
         [DllImport("user32.dll")]
         private static extern int SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
         #endregion
+        private readonly HttpClient httpClient = new HttpClient();
+        private Thread installThread;
+        private string tempDownloadPath;
         public LhanzCJ()
         {
             InitializeComponent();
             CheckAdminPrivileges();
+            this.FormClosing += LhanzCJ_FormClosing;
         }
         private void CheckAdminPrivileges()
         {
@@ -185,7 +191,7 @@ namespace LhanzCJ_Installer
             setclockBtn.Enabled = isAdmin;
             button19.Enabled = isAdmin;
             oobe.Enabled = isAdmin;
-            ramTest.Enabled = isAdmin;
+            button20.Enabled = isAdmin;
         }
 
         private bool IsAdministrator()
@@ -271,28 +277,31 @@ namespace LhanzCJ_Installer
         {
             button5.Enabled = false;
             button18.Enabled = false;
-            InstallPrograms(false);
+            tempDownloadPath = Path.Combine(Path.GetTempPath(), "LhanzCJ_Downloads");
+            Directory.CreateDirectory(tempDownloadPath);
+            InstallPrograms(false, tempDownloadPath);
+            button21.Visible = true;
         }
 
         private void button18_Click(object sender, EventArgs e)
         {
             button18.Enabled = false;
             button5.Enabled = false;
-            InstallPrograms(true);
+            InstallPrograms(true, downloadPath);
+            button21.Visible = true;
         }
 
 
-        private void InstallPrograms(bool excludeComponents)
+        private void InstallPrograms(bool excludeComponents, string downloadDirectory)
         {
             richTextBox1.Clear();
+            tempDownloadPath = downloadDirectory;
 
             List<InstallStep> steps = new List<InstallStep>();
 
             steps.Add(new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S", runAsAdmin: false));
-
             if (!excludeComponents)
             {
-                steps.Add(new InstallStep(".Net 4.8.1", "Net4.8.1.exe", "https://go.microsoft.com/fwlink/?linkid=2203305", "/q /norestart"));
                 steps.Add(new InstallStep("DirectX", "directx.exe", "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe", "directx.exe /Q /T:C:\\DirectX"));
             }
             steps.Add(new InstallStep("7zip", "7zip.exe", "https://www.7-zip.org/a/7z2409-x64.exe", "/S"));
@@ -311,33 +320,54 @@ namespace LhanzCJ_Installer
             progressBar1.Value = 0;
             progressBar1.Step = 1;
 
-            Thread thread = new Thread(() =>
+            installThread = new Thread(() =>
             {
                 try
                 {
                     int currentProgress = 0;
                     bool spotifyInstalled = false;
-
+                    var spotifyStep = steps.FirstOrDefault(s => s.Name == "Spotify");
                     foreach (var step in steps)
                     {
+                        if (step.Name == "Spotify" && !IsRunningAsAdmin())
+                        {
+                            AppendText("Restarting as administrator to continue installations...\n", Color.Blue);
+                            RestartAsAdmin();
+                            return;
+                        }
                         currentDownloadFile = step.FileName;
+                        if (cts.IsCancellationRequested)
+                        {
+                            AppendText("Installation cancelled.\n", Color.Orange);
+                            return;
+                        }
 
                         Invoke(new Action(() =>
                         {
                             progressBar2.Value = 0;
                             progressBar2.Style = ProgressBarStyle.Continuous;
                         }));
+                        string filePath = Path.Combine(downloadDirectory, step.FileName);
 
-                        string filePath = Path.Combine(downloadPath, step.FileName);
+                        Directory.CreateDirectory(downloadDirectory);
 
-                        Directory.CreateDirectory(downloadPath);
+
 
                         if (IsProgramInstalled(step.Name))
                         {
                             AppendText($"{step.Name}: Already installed. Skipping download and installation.\n", Color.DarkCyan);
-                            currentProgress += 2; 
+                            currentProgress += 2;
                             UpdateProgressBar(currentProgress, totalSteps);
                             continue;
+                        }
+                        if (spotifyStep != null)
+                        {
+                            if (!IsRunningAsAdmin())
+                            {
+                                AppendText("Restarting as administrator to continue installations...\n", Color.Blue);
+                                RestartAsAdmin();
+                                return;
+                            }
                         }
 
                         bool downloadSuccess = false;
@@ -389,6 +419,8 @@ namespace LhanzCJ_Installer
                             }
                         }
 
+
+
                         currentProgress++;
                         UpdateProgressBar(currentProgress, totalSteps);
 
@@ -398,7 +430,6 @@ namespace LhanzCJ_Installer
                         }
 
                         bool installationSuccess = false;
-
                         if (!IsProgramInstalled(step.Name))
                         {
                             AppendText($"{step.Name}: Installing...\n", Color.DarkCyan);
@@ -456,11 +487,7 @@ namespace LhanzCJ_Installer
                                 installationSuccess = RunInstaller(filePath, step.InstallArgs, step.RunAsAdmin || spotifyInstalled);
                             }
 
-                            if (step.Name == "Spotify" && installationSuccess)
-                            {
-                                spotifyInstalled = true;
-                                RestartAsAdmin();
-                            }
+
 
                             if (step.Name == "Winget CLI")
                             {
@@ -502,27 +529,77 @@ namespace LhanzCJ_Installer
 
                     AppendText("All installations completed.\n", Color.Blue);
                 }
-                catch (Exception ex)
+
+                catch (ThreadAbortException)
                 {
-                    AppendText($"Error: {ex.Message}\n", Color.Red);
+                    AppendText("Installation aborted.\n", Color.Orange);
                 }
                 finally
                 {
                     Invoke(new Action(() => button5.Enabled = true));
                     Invoke(new Action(() => button18.Enabled = true));
+
+                    if (downloadDirectory.StartsWith(Path.GetTempPath()))
+                    {
+                        try
+                        {
+                            Directory.Delete(downloadDirectory, true);
+                            AppendText("Temporary files cleaned up successfully.\n", Color.Green);
+                        }
+                        catch (Exception ex)
+                        {
+                            AppendText($"Error cleaning temp files: {ex.Message}\n", Color.Red);
+                        }
+                    }
                 }
             });
 
-            thread.Start();
+            installThread.Start();
         }
+        private void KillProcesses()
+        {
+            string[] processNames = { "cmd", "powershell", "winget", "msiexec", "dism" };
 
+            foreach (string name in processNames)
+            {
+                foreach (Process process in Process.GetProcessesByName(name))
+                {
+                    try
+                    {
+                        KillProcessTree(process.Id);
+                        AppendText($"Terminated process and children: {name}\n", Color.Orange);
+                    }
+                    catch (Exception ex)
+                    {
+                        AppendText($"Error terminating {name}: {ex.Message}\n", Color.Red);
+                    }
+                }
+            }
+        }
+        private void KillProcessTree(int parentId)
+        {
+            try
+            {
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(
+                    $"SELECT ProcessId FROM Win32_Process WHERE ParentProcessId={parentId}"))
+                {
+                    foreach (ManagementObject obj in searcher.Get())
+                    {
+                        int childProcessId = Convert.ToInt32(obj["ProcessId"]);
+                        KillProcessTree(childProcessId);
+                    }
+                }
+
+                Process parentProcess = Process.GetProcessById(parentId);
+                parentProcess.Kill();
+                parentProcess.WaitForExit(5000);
+            }
+            catch (Exception)
+            {
+            }
+        }
         private void RestartAsAdmin()
         {
-            if (IsRunningAsAdmin())
-            {
-                return;
-            }
-
             try
             {
                 ProcessStartInfo procInfo = new ProcessStartInfo
@@ -609,7 +686,7 @@ namespace LhanzCJ_Installer
         {
             string[] vcRedistCommands = new string[]
             {
-                
+
                 "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2005.x86\"",
                 "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2005.x64\"",
                 "winget install --exact --locale \"en-US\" --id=\"Microsoft.VCRedist.2008.x86\"",
@@ -853,40 +930,33 @@ namespace LhanzCJ_Installer
         {
             try
             {
-                using (WebClient client = new WebClient())
+                using (var response = httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).Result)
+                using (var stream = response.Content.ReadAsStreamAsync().Result)
+                using (var fileStream = new FileStream(destination, FileMode.Create))
                 {
-                    ManualResetEvent downloadCompleted = new ManualResetEvent(false);
+                    var buffer = new byte[8192];
+                    int bytesRead;
+                    long totalRead = 0;
+                    var contentLength = response.Content.Headers.ContentLength;
 
-                    client.DownloadProgressChanged += (s, e) =>
+                    while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        int percent = e.ProgressPercentage;
-                        UpdateDownloadProgress(Path.GetFileName(destination), percent);
-                    };
-
-                    client.DownloadFileCompleted += (s, e) =>
-                    {
-                        if (e.Error != null)
+                        if (cts.IsCancellationRequested)
                         {
-                            AppendText($"Download error: {e.Error.Message}\n", Color.Red);
-                            downloadCompleted.Set();
+                            File.Delete(destination);
+                            return false;
                         }
-                        else if (e.Cancelled)
-                        {
-                            AppendText($"Download cancelled.\n", Color.DarkGray);
-                            downloadCompleted.Set();
-                        }
-                        else
-                        {
-                            UpdateDownloadProgress(Path.GetFileName(destination), 100);
-                            AppendText($"Downloading {Path.GetFileName(destination)}: Completed\n", Color.DarkBlue);
-                            downloadCompleted.Set();
-                        }
-                    };
 
-                    client.DownloadFileAsync(new Uri(url), destination);
-                    downloadCompleted.WaitOne();
+                        fileStream.Write(buffer, 0, bytesRead);
+                        totalRead += bytesRead;
 
-                    return !client.IsBusy && File.Exists(destination);
+                        if (contentLength.HasValue)
+                        {
+                            var progress = (int)((double)totalRead / contentLength.Value * 100);
+                            UpdateDownloadProgress(Path.GetFileName(destination), progress);
+                        }
+                    }
+                    return true;
                 }
             }
             catch (Exception ex)
@@ -896,56 +966,55 @@ namespace LhanzCJ_Installer
             }
         }
 
-        private Dictionary<string, string> lastProgressMessages = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> lastProgressMessages = new Dictionary<string, string>();
         private string currentDownloadFile;
+
         private void UpdateDownloadProgress(string fileName, int percent)
         {
-            string progressMessage = $"Downloading {fileName}: {percent}%";
-            if (fileName != currentDownloadFile)
-                return;
-
-            Invoke(new Action(() =>
+            if (InvokeRequired)
             {
-                progressBar2.Value = percent;
-                bool wasAtBottom = IsScrollAtBottom();
+                Invoke(new Action(() => UpdateDownloadProgress(fileName, percent)));
+                return;
+            }
 
-                SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)0, IntPtr.Zero);
+            string progressMessage = $"Downloading {fileName}: {percent}%";
+            bool wasAtBottom = IsScrollAtBottom();
 
-                try
+            SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)0, IntPtr.Zero);
+
+            try
+            {
+                if (lastProgressMessages.TryGetValue(fileName, out string previousMessage))
                 {
-                    if (lastProgressMessages.TryGetValue(fileName, out string previousMessage))
+                    int startIndex = richTextBox1.Text.LastIndexOf(previousMessage);
+                    if (startIndex >= 0)
                     {
-                        int startIndex = richTextBox1.Text.LastIndexOf(previousMessage);
-                        if (startIndex >= 0)
-                        {
-                            richTextBox1.Select(startIndex, previousMessage.Length);
-                            richTextBox1.SelectedText = progressMessage;
-                        }
-                        else
-                        {
-                            richTextBox1.AppendText(progressMessage + "\n");
-                        }
+                        richTextBox1.Select(startIndex, previousMessage.Length);
+                        richTextBox1.SelectedText = progressMessage;
                     }
                     else
                     {
                         richTextBox1.AppendText(progressMessage + "\n");
                     }
-
-                    lastProgressMessages[fileName] = progressMessage;
-
-                    if (wasAtBottom)
-                    {
-                        richTextBox1.SelectionStart = richTextBox1.Text.Length;
-                        richTextBox1.ScrollToCaret();
-                    }
                 }
-                finally
+                else
                 {
-                    SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)1, IntPtr.Zero);
-                    richTextBox1.Invalidate();
+                    richTextBox1.AppendText(progressMessage + "\n");
                 }
-            }));
 
+                lastProgressMessages[fileName] = progressMessage;
+
+                if (wasAtBottom)
+                {
+                    richTextBox1.SelectionStart = richTextBox1.Text.Length;
+                    richTextBox1.ScrollToCaret();
+                }
+            }
+            finally
+            {
+                SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)1, IntPtr.Zero);
+                richTextBox1.Invalidate();
+            }
         }
 
         private bool RunInstaller(string filePath, string arguments, bool runAsAdmin)
@@ -989,17 +1058,22 @@ namespace LhanzCJ_Installer
         {
             try
             {
-                string extractPath = Path.Combine(downloadPath, Path.GetFileNameWithoutExtension(zipFilePath));
+                string extractPath = Path.Combine(Path.GetDirectoryName(zipFilePath),
+                                     Path.GetFileNameWithoutExtension(zipFilePath));
 
                 if (Directory.Exists(extractPath))
                 {
-                    try
+                    RetryAction(() => Directory.Delete(extractPath, true));
+                }
+
+                RetryAction(() => Directory.CreateDirectory(extractPath));
+
+                using (var zip = ZipFile.OpenRead(zipFilePath))
+                {
+                    foreach (var entry in zip.Entries)
                     {
-                        Directory.Delete(extractPath, true);
-                    }
-                    catch (Exception ex)
-                    {
-                        AppendText($"Error deleting existing directory: {ex.Message}\n", Color.Red);
+                        var destPath = Path.Combine(extractPath, entry.FullName);
+                        RetryAction(() => entry.ExtractToFile(destPath, true));
                     }
                 }
 
@@ -1044,7 +1118,22 @@ namespace LhanzCJ_Installer
                 return false;
             }
         }
-
+        private void RetryAction(Action action, int retries = 3, int delay = 500)
+        {
+            do
+            {
+                try
+                {
+                    action();
+                    return;
+                }
+                catch
+                {
+                    if (retries == 0) throw;
+                    Thread.Sleep(delay);
+                }
+            } while (retries-- > 0);
+        }
         private string RunBatchFileWithOutput(string batchFilePath)
         {
             try
@@ -1147,81 +1236,7 @@ namespace LhanzCJ_Installer
         }
         private bool IsProgramInstalled(string appName)
         {
-            if (appName.Equals(".Net 4.8.1", StringComparison.OrdinalIgnoreCase))
-            {
-                try
-                {
-                    using (Microsoft.Win32.RegistryKey ndpKey =
-                        Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\"))
-                    {
-                        if (ndpKey != null)
-                        {
-                            object release = ndpKey.GetValue("Release");
-                            if (release != null)
-                            {
-                                int releaseKey = Convert.ToInt32(release);
-                                return releaseKey >= 533320;
-                            }
-                        }
-                    }
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    AppendText($"Error checking .NET Framework version: {ex.Message}\n", Color.Red);
-                    return false;
-                }
-            }
 
-            if (appName.Equals("DirectX", StringComparison.OrdinalIgnoreCase))
-            {
-                try
-                {
-                    string dxDiagPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "dxdiag.exe");
-                    if (!File.Exists(dxDiagPath))
-                        return false;
-                    using (Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\DirectX"))
-                    {
-                        return key != null;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    AppendText($"Error checking DirectX: {ex.Message}\n", Color.Red);
-                    return false;
-                }
-            }
-
-            if (appName.Equals("VCRedistAIO", StringComparison.OrdinalIgnoreCase))
-            {
-                try
-                {
-                    string[] vcRedistKeys = new[] {
-                @"SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64",
-                @"SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86",
-                @"SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x64",
-                @"SOFTWARE\WOW6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\x86"
-            };
-
-                    foreach (string keyPath in vcRedistKeys)
-                    {
-                        using (Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(keyPath))
-                        {
-                            if (key != null)
-                            {
-                                return true;
-                            }
-                        }
-                    }
-
-                    return CheckRegistryForPartialName(new[] { "Microsoft Visual C++", "VC++", "Visual C++ Redistributable" });
-                }
-                catch (Exception ex)
-                {
-                    AppendText($"Error checking VC++ Redistributables: {ex.Message}\n", Color.Red);
-                    return false;
-                }
-            }
 
             if (appName.Equals("7zip", StringComparison.OrdinalIgnoreCase))
             {
@@ -1821,6 +1836,9 @@ namespace LhanzCJ_Installer
 
             string fileName = "OfficeSetup.exe";
             string downloadFilePath = Path.Combine(downloadPath, fileName);
+            button21.Click += OfficeInstallCancelHandler;
+
+            officeDownloadClient = new WebClient();
 
             Thread officeThread = new Thread(() =>
             {
@@ -1849,7 +1867,6 @@ namespace LhanzCJ_Installer
                         }
                     }
 
-                    // Download the installer
                     bool downloadSuccess = DownloadOfficeInstaller(url, downloadFilePath);
 
                     if (!downloadSuccess)
@@ -1858,7 +1875,6 @@ namespace LhanzCJ_Installer
                         return;
                     }
 
-                    // Run the installer
                     Invoke(new Action(() =>
                     {
                         progressBar2.Style = ProgressBarStyle.Marquee;
@@ -1886,12 +1902,20 @@ namespace LhanzCJ_Installer
                 {
                     Invoke(new Action(() => button16.Enabled = true));
                 }
-            });
-
-            officeThread.IsBackground = true;
+            })
+            {
+                IsBackground = true
+            };
             officeThread.Start();
         }
-
+        private void OfficeInstallCancelHandler(object sender, EventArgs e)
+        {
+            if (officeDownloadClient?.IsBusy == true)
+            {
+                officeDownloadClient.CancelAsync();
+                button21.Click -= OfficeInstallCancelHandler;
+            }
+        }
         private string GetOfficeUrl(string edition)
         {
             switch (edition)
@@ -1926,7 +1950,7 @@ namespace LhanzCJ_Installer
                         Invoke(new Action(() =>
                         {
                             progressBar2.Value = percent;
-                            UpdateDownloadProgressMessage(percent, Path.GetFileName(destination));
+                            UpdateDownloadProgress(Path.GetFileName(destination), percent);
                         }));
                     };
 
@@ -1966,43 +1990,6 @@ namespace LhanzCJ_Installer
                 Invoke(new Action(() => AppendText($"Download error: {ex.Message}\n", Color.Red)));
                 return false;
             }
-        }
-
-        private void UpdateDownloadProgressMessage(int percent, string fileName)
-        {
-            string progressMessage = $"{fileName}: {percent}%";
-            bool wasAtBottom = IsScrollAtBottom();
-
-            Invoke(new Action(() =>
-            {
-                SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)0, IntPtr.Zero);
-
-                try
-                {
-                    int lastLineIndex = richTextBox1.Text.LastIndexOf($"[{DateTime.Now:HH:mm:ss}]");
-                    if (lastLineIndex != -1)
-                    {
-                        int startIndex = richTextBox1.Text.LastIndexOf('\n', lastLineIndex) + 1;
-                        richTextBox1.Select(startIndex, richTextBox1.TextLength - startIndex);
-                        richTextBox1.SelectedText = $"{progressMessage}";
-                    }
-                    else
-                    {
-                        richTextBox1.AppendText($"{progressMessage}\n");
-                    }
-
-                    if (wasAtBottom)
-                    {
-                        richTextBox1.SelectionStart = richTextBox1.Text.Length;
-                        richTextBox1.ScrollToCaret();
-                    }
-                }
-                finally
-                {
-                    SendMessageW(richTextBox1.Handle, 0x000B, (IntPtr)1, IntPtr.Zero);
-                    richTextBox1.Invalidate();
-                }
-            }));
         }
 
         private bool RunOfficeInstaller(string installerPath)
@@ -2074,17 +2061,58 @@ namespace LhanzCJ_Installer
 
         private void button19_Click(object sender, EventArgs e)
         {
-            string programPath = Path.Combine(Application.StartupPath, "apps", "HardDiskValidator.exe");
-
-            if (File.Exists(programPath))
+            string zipPath = Path.Combine(Application.StartupPath, "apps", "performancetest.zip");
+            if (!File.Exists(zipPath))
             {
-                Process.Start(programPath);
+                AppendText("PerformanceTest files not found!\n", Color.Red);
+                return;
             }
-            else
+
+            string tempDir = Path.Combine(Path.GetTempPath(), "PerformanceTest");
+
+            try
             {
-                MessageBox.Show("HardDiskValidator.exe not found in apps/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Directory.Exists(tempDir))
+                {
+                    Directory.Delete(tempDir, true);
+                }
+
+                ZipFile.ExtractToDirectory(zipPath, tempDir);
+
+                string exePath = Path.Combine(tempDir, "PerformanceTest64.exe");
+
+                if (!File.Exists(exePath))
+                {
+                    AppendText("PerformanceTest executable not found after extraction!\n", Color.Red);
+                    return;
+                }
+
+                AppendText("PerformanceTest successfully extracted and launching...\n", Color.Green);
+
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = exePath,
+                    UseShellExecute = true
+                };
+                Process process = Process.Start(psi);
+
+                if (process != null)
+                {
+                    AppendText("PerformanceTest is now running...\n", Color.Blue);
+                    process.WaitForExit();
+                    AppendText("PerformanceTest has exited.\n", Color.DarkCyan);
+                }
+
+                Directory.Delete(tempDir, true);
+                AppendText("Temporary files deleted successfully.\n", Color.Green);
+            }
+            catch (Exception ex)
+            {
+                AppendText($"Error launching PerformanceTest: {ex.Message}\n", Color.Red);
             }
         }
+
+
 
         private void oobe_Click(object sender, EventArgs e)
         {
@@ -2122,19 +2150,64 @@ namespace LhanzCJ_Installer
             }
         }
 
-        private void ramTest_Click(object sender, EventArgs e)
+        private void button20_Click(object sender, EventArgs e)
         {
-            string programPath = Path.Combine(Application.StartupPath, "apps", "MemoryChecker.exe");
+            new Thread(() =>
+            {
+                AppendText("Starting system file check...\n", Color.Blue);
+                RunPowerShellCommand("sfc /scannow", true);
 
-            if (File.Exists(programPath))
-            {
-                Process.Start(programPath);
-            }
-            else
-            {
-                MessageBox.Show("MemoryChecker.exe not found in apps/", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+                AppendText("Checking Windows image health...\n", Color.Blue);
+                RunPowerShellCommand("DISM /Online /Cleanup-Image /RestoreHealth", true);
+
+                AppendText("Checking disk for errors...\n", Color.Blue);
+                RunPowerShellCommand("chkdsk C: /f /r /x", true);
+
+                AppendText("Flushing DNS and resetting network settings...\n", Color.Blue);
+                RunPowerShellCommand("ipconfig /flushdns", true);
+                RunPowerShellCommand("netsh winsock reset", true);
+                RunPowerShellCommand("netsh int ip reset", true);
+
+                AppendText("Resetting Windows Update components...\n", Color.Blue);
+                RunPowerShellCommand("net stop wuauserv", true);
+                RunPowerShellCommand("net stop cryptSvc", true);
+                RunPowerShellCommand("net stop bits", true);
+                RunPowerShellCommand("net stop msiserver", true);
+                RunPowerShellCommand("ren C:\\Windows\\SoftwareDistribution SoftwareDistribution.old", true);
+                RunPowerShellCommand("ren C:\\Windows\\System32\\catroot2 catroot2.old", true);
+                RunPowerShellCommand("net start wuauserv", true);
+                RunPowerShellCommand("net start cryptSvc", true);
+                RunPowerShellCommand("net start bits", true);
+                RunPowerShellCommand("net start msiserver", true);
+
+                AppendText("Repairing Windows components...\n", Color.Blue);
+                RunPowerShellCommand("DISM /Online /Cleanup-Image /RestoreHealth", true);
+                RunPowerShellCommand("DISM /Online /Cleanup-Image /StartComponentCleanup", true);
+
+                AppendText("Restarting Windows Explorer...\n", Color.Blue);
+                RunPowerShellCommand("taskkill /f /im explorer.exe", true);
+                RunPowerShellCommand("start explorer.exe", true);
+
+                AppendText("System maintenance completed successfully!\n", Color.Green);
+            }).Start();
         }
 
+        private void LhanzCJ_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            KillProcesses();
+        }
+        private void button21_Click(object sender, EventArgs e)
+        {
+            cts.Cancel();
+            KillProcesses();
+
+            if (installThread?.IsAlive == true)
+            {
+                installThread.Interrupt();
+            }
+
+            AppendText("Installation cancelled by user.\n", Color.Orange);
+            button21.Visible = false;
+        }
     }
 }

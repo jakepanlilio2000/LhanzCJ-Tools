@@ -63,9 +63,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.setclockBtn = new System.Windows.Forms.Button();
             this.button18 = new System.Windows.Forms.Button();
-            this.button19 = new System.Windows.Forms.Button();
             this.oobe = new System.Windows.Forms.Button();
-            this.ramTest = new System.Windows.Forms.Button();
+            this.button19 = new System.Windows.Forms.Button();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button21 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -310,13 +311,6 @@
             this.button18.UseVisualStyleBackColor = true;
             this.button18.Click += new System.EventHandler(this.button18_Click);
             // 
-            // button19
-            // 
-            resources.ApplyResources(this.button19, "button19");
-            this.button19.Name = "button19";
-            this.button19.UseVisualStyleBackColor = true;
-            this.button19.Click += new System.EventHandler(this.button19_Click);
-            // 
             // oobe
             // 
             resources.ApplyResources(this.oobe, "oobe");
@@ -325,19 +319,35 @@
             this.oobe.UseVisualStyleBackColor = true;
             this.oobe.Click += new System.EventHandler(this.oobe_Click);
             // 
-            // ramTest
+            // button19
             // 
-            resources.ApplyResources(this.ramTest, "ramTest");
-            this.ramTest.Name = "ramTest";
-            this.ramTest.UseVisualStyleBackColor = true;
-            this.ramTest.Click += new System.EventHandler(this.ramTest_Click);
+            resources.ApplyResources(this.button19, "button19");
+            this.button19.Name = "button19";
+            this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click);
+            // 
+            // button20
+            // 
+            resources.ApplyResources(this.button20, "button20");
+            this.button20.Name = "button20";
+            this.button20.UseVisualStyleBackColor = true;
+            this.button20.Click += new System.EventHandler(this.button20_Click);
+            // 
+            // button21
+            // 
+            this.button21.ForeColor = System.Drawing.SystemColors.ControlText;
+            resources.ApplyResources(this.button21, "button21");
+            this.button21.Name = "button21";
+            this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
             // 
             // LhanzCJ
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.Controls.Add(this.ramTest);
+            this.Controls.Add(this.button21);
+            this.Controls.Add(this.button20);
             this.Controls.Add(this.oobe);
             this.Controls.Add(this.button19);
             this.Controls.Add(this.button18);
@@ -419,9 +429,10 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button setclockBtn;
         private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Button button19;
         private System.Windows.Forms.Button oobe;
-        private System.Windows.Forms.Button ramTest;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.Button button21;
     }
 }
 
