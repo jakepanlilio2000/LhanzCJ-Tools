@@ -5,8 +5,9 @@
 This project is a comprehensive **Technician Toolbox** designed specifically for **Lhanz CJ Trading and Computer Center**. It provides technicians with a set of essential tools to test hardware components, access system settings, install necessary programs, and manage Windows configurations, all from a single application interface.
 
 ---
-![{5C38E8D9-455A-4EBA-9C2F-21FDBFFDA3F2}](https://github.com/user-attachments/assets/94fe6a46-fa5f-488f-ad07-e2f3261ddf34)
-![{B899FE25-EA23-49B7-840F-3E731AD48B07}](https://github.com/user-attachments/assets/f5bee822-1244-4c99-b5c0-47ee6885e9a4)
+![{70D68686-EB16-4C79-ABCE-655162E2AA95}](https://github.com/user-attachments/assets/a4dce38f-d43e-4ac4-be17-637081068987)
+![{A704AC03-0F09-4AEF-94C7-5D776C8D6A4C}](https://github.com/user-attachments/assets/2c7aa053-093d-457d-95e1-8ef1b5c8e0a9)
+
 
 
 
