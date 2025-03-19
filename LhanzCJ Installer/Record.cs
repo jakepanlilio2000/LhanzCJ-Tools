@@ -183,11 +183,13 @@ namespace LhanzCJ_Installer
             RecordSN_Load();
 
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string cDrivePath = @"C:\MS Account.txt"; // Path for the additional copy in C:\ drive
             string msAccountFilePath = Path.Combine(desktopPath, "MS Account.txt");
             string recordsFilePath = Path.Combine(Application.StartupPath, "Records.txt");
 
             try
             {
+                // Ensure the file is not read-only before writing
                 if (File.Exists(msAccountFilePath))
                 {
                     FileAttributes attributes = File.GetAttributes(msAccountFilePath);
@@ -200,6 +202,8 @@ namespace LhanzCJ_Installer
                 File.WriteAllText(msAccountFilePath, msAccountContent);
                 File.SetAttributes(msAccountFilePath, File.GetAttributes(msAccountFilePath) | FileAttributes.ReadOnly);
                 File.AppendAllText(recordsFilePath, SNOutput.Text + Environment.NewLine);
+                File.WriteAllText(cDrivePath, msAccountContent);
+                File.SetAttributes(cDrivePath, File.GetAttributes(cDrivePath) | FileAttributes.ReadOnly);
 
                 Process.Start(new ProcessStartInfo()
                 {
@@ -215,7 +219,12 @@ namespace LhanzCJ_Installer
                     UseShellExecute = true
                 });
 
-                MessageBox.Show("Record saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                MessageBox.Show("Record saved successfully and copied to C:\\ drive.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Access denied! Try running the application as an administrator.", "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {

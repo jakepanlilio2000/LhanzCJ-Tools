@@ -89,7 +89,6 @@ namespace LhanzCJ_Installer
 
             if (m.Msg == WM_KEYDOWN || m.Msg == WM_KEYUP)
             {
-                // Safely convert WParam and LParam to avoid overflow
                 int vkCode = (int)((long)m.WParam & 0xFF);
                 int flags = (int)((long)m.LParam);
                 bool isExtended = (flags & KF_EXTENDED) != 0;
@@ -310,7 +309,7 @@ namespace LhanzCJ_Installer
             keyButtonMap[Keys.End] = endBtn;
             keyButtonMap[Keys.PageUp] = pgUpBtn;
             keyButtonMap[Keys.PageDown] = pgDnBtn;
-            keyButtonMap[Keys.NumLock] = numBtn; 
+            keyButtonMap[Keys.NumLock] = numBtn;
             keyButtonMap[Keys.CapsLock] = capsBtn;
             keyButtonMap[Keys.Scroll] = scrollBtn;
             keyButtonMap[Keys.Divide] = divBtn;

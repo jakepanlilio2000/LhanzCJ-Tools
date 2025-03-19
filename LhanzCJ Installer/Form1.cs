@@ -15,6 +15,7 @@ using Microsoft.Win32;
 using System.Text.RegularExpressions;
 using System.Net.Http;
 using System.Management;
+using System.Threading.Tasks;
 
 
 namespace LhanzCJ_Installer
@@ -94,55 +95,6 @@ namespace LhanzCJ_Installer
             public IntPtr hStdOutput;
             public IntPtr hStdError;
         }
-
-        private bool StartProcessAsUser(string filePath, string arguments)
-        {
-            IntPtr hToken = WindowsIdentity.GetCurrent().Token;
-            IntPtr hDupedToken = IntPtr.Zero;
-
-            try
-            {
-                if (!DuplicateTokenEx(
-                    hToken,
-                    TOKEN_QUERY | TOKEN_DUPLICATE | TOKEN_ASSIGN_PRIMARY,
-                    IntPtr.Zero,
-                    SecurityImpersonation,
-                    TokenPrimary,
-                    out hDupedToken))
-                {
-                    return false;
-                }
-
-                STARTUPINFO si = new STARTUPINFO();
-                si.cb = Marshal.SizeOf(si);
-
-                string commandLine = $"\"{filePath}\" {arguments}";
-
-                bool result = CreateProcessWithTokenW(
-                    hDupedToken,
-                    0,
-                    null,
-                    commandLine,
-                    0,
-                    IntPtr.Zero,
-                    null,
-                    ref si,
-                    out PROCESS_INFORMATION pi);
-
-                if (result)
-                {
-                    CloseHandle(pi.hProcess);
-                    CloseHandle(pi.hThread);
-                    return true;
-                }
-                return false;
-            }
-            finally
-            {
-                if (hDupedToken != IntPtr.Zero)
-                    CloseHandle(hDupedToken);
-            }
-        }
         private readonly CancellationTokenSource cts = new CancellationTokenSource();
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int GetScrollPos(IntPtr hWnd, int nBar);
@@ -174,9 +126,10 @@ namespace LhanzCJ_Installer
         private string tempDownloadPath;
         public LhanzCJ()
         {
+            ForceRunAsAdmin();
             InitializeComponent();
             CheckAdminPrivileges();
-            this.FormClosing += LhanzCJ_FormClosing;
+            FormClosing += LhanzCJ_FormClosing;
         }
         private void CheckAdminPrivileges()
         {
@@ -192,6 +145,29 @@ namespace LhanzCJ_Installer
             button19.Enabled = isAdmin;
             oobe.Enabled = isAdmin;
             button20.Enabled = isAdmin;
+        }
+        private void ForceRunAsAdmin()
+        {
+            if (!IsAdministrator())
+            {
+                try
+                {
+                    ProcessStartInfo psi = new ProcessStartInfo
+                    {
+                        FileName = Application.ExecutablePath,
+                        Verb = "runas",
+                        UseShellExecute = true
+                    };
+                    Process.Start(psi);
+                    Environment.Exit(0);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Admin privileges are required. Please restart as administrator.\n" + ex.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(1);
+                }
+            }
         }
 
         private bool IsAdministrator()
@@ -281,6 +257,11 @@ namespace LhanzCJ_Installer
             Directory.CreateDirectory(tempDownloadPath);
             InstallPrograms(false, tempDownloadPath);
             button21.Visible = true;
+            button16.Enabled = false;
+            button20.Enabled = false;
+            wifiConnectBtn.Enabled = false;
+            setclockBtn.Enabled = false;
+            officeEdition.Enabled = false;
         }
 
         private void button18_Click(object sender, EventArgs e)
@@ -289,6 +270,12 @@ namespace LhanzCJ_Installer
             button5.Enabled = false;
             InstallPrograms(true, downloadPath);
             button21.Visible = true;
+            button16.Enabled = false;
+            button20.Enabled = false;
+            wifiConnectBtn.Enabled = false;
+            setclockBtn.Enabled = false;
+            officeEdition.Enabled = false;
+
         }
 
 
@@ -299,20 +286,24 @@ namespace LhanzCJ_Installer
 
             List<InstallStep> steps = new List<InstallStep>();
 
-            steps.Add(new InstallStep("Spotify", "Spotify.exe", "https://download.scdn.co/SpotifySetup.exe", "/S", runAsAdmin: false));
             if (!excludeComponents)
             {
                 steps.Add(new InstallStep("DirectX", "directx.exe", "https://download.microsoft.com/download/8/4/a/84a35bf1-dafe-4ae8-82af-ad2ae20b6b14/directx_Jun2010_redist.exe", "directx.exe /Q /T:C:\\DirectX"));
             }
+            steps.Add(new InstallStep(".NET 5.0", "net5.exe", "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/5.0.17/windowsdesktop-runtime-5.0.17-win-x64.exe", "/quiet"));
+            steps.Add(new InstallStep(".NET 6.0", "net6.exe", "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/6.0.36/windowsdesktop-runtime-6.0.36-win-x64.exe", "/quiet"));
+            steps.Add(new InstallStep(".NET 7.0", "net7.exe", "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/7.0.20/windowsdesktop-runtime-7.0.20-win-x64.exe", "/quiet"));
+            steps.Add(new InstallStep(".net 8.0", "net8.exe", "https://download.visualstudio.microsoft.com/download/pr/64760cc4-228f-48e4-b57d-55f882dedc69/b181f927cb937ef06fbb6eb41e81fbd0/windowsdesktop-runtime-8.0.14-win-x64.exe", "/quiet"));
+            steps.Add(new InstallStep(".net 9.0", "net9.exe", "https://download.visualstudio.microsoft.com/download/pr/63f0335a-6012-4017-845f-5d655d56a44f/f8d5150469889387a1de578d45415201/windowsdesktop-runtime-9.0.3-win-x64.exe", "/quiet"));
             steps.Add(new InstallStep("7zip", "7zip.exe", "https://www.7-zip.org/a/7z2409-x64.exe", "/S"));
             steps.Add(new InstallStep("Zoom", "zoom.exe", "https://zoom.us/client/6.3.11.60501/ZoomInstallerFull.exe", "zoom.exe /silent"));
             steps.Add(new InstallStep("Google Chrome", "chrome.exe", "https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BF3CAB977-BF22-F629-B1C4-B9D9234DDFD5%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26ap%3Dx64-stable/update2/installers/ChromeSetup.exe", "chrome.exe /silent /install"));
-            steps.Add(new InstallStep("VLC", "vlc.exe", "https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe", "vlc.exe /S"));
+            steps.Add(new InstallStep("VLC", "vlc.exe", "https://get.videolan.org/vlc/3.0.21/win64/vlc-3.0.21-win64.exe", "/S"));
             steps.Add(new InstallStep("Acrobat Reader", "acrobat.exe", "https://ardownload2.adobe.com/pub/adobe/reader/win/AcrobatDC/2400520414/AcroRdrDC2400520414_en_US.exe", "/sAll /rs /l /msi /qb- /L*v"));
 
             if (!excludeComponents)
             {
-                steps.Add(new InstallStep("Winget CLI", "winget.msixbundle", "https://aka.ms/getwinget", "/q", runAsAdmin: true));
+                steps.Add(new InstallStep("Winget CLI", "winget.msixbundle", "https://aka.ms/getwinget", "/q"));
             }
 
             int totalSteps = steps.Count * 2;
@@ -325,16 +316,9 @@ namespace LhanzCJ_Installer
                 try
                 {
                     int currentProgress = 0;
-                    bool spotifyInstalled = false;
-                    var spotifyStep = steps.FirstOrDefault(s => s.Name == "Spotify");
                     foreach (var step in steps)
                     {
-                        if (step.Name == "Spotify" && !IsRunningAsAdmin())
-                        {
-                            AppendText("Restarting as administrator to continue installations...\n", Color.Blue);
-                            RestartAsAdmin();
-                            return;
-                        }
+
                         currentDownloadFile = step.FileName;
                         if (cts.IsCancellationRequested)
                         {
@@ -360,15 +344,7 @@ namespace LhanzCJ_Installer
                             UpdateProgressBar(currentProgress, totalSteps);
                             continue;
                         }
-                        if (spotifyStep != null)
-                        {
-                            if (!IsRunningAsAdmin())
-                            {
-                                AppendText("Restarting as administrator to continue installations...\n", Color.Blue);
-                                RestartAsAdmin();
-                                return;
-                            }
-                        }
+
 
                         bool downloadSuccess = false;
                         int downloadAttempts = 0;
@@ -484,7 +460,7 @@ namespace LhanzCJ_Installer
                             }
                             else
                             {
-                                installationSuccess = RunInstaller(filePath, step.InstallArgs, step.RunAsAdmin || spotifyInstalled);
+                                installationSuccess = RunInstaller(filePath, step.InstallArgs);
                             }
 
 
@@ -497,10 +473,9 @@ namespace LhanzCJ_Installer
                                 if (installationSuccess)
                                 {
                                     AppendText("Updating packages via Winget...\n", Color.Blue);
-                                    RestartAsAdmin();
-                                    StoreUpdate();
-                                    UpdatePackagesWithWinget();
                                     InstallVCRedistsWithWinget();
+                                    UpdatePackagesWithWinget();
+
                                 }
                                 else
                                 {
@@ -538,6 +513,13 @@ namespace LhanzCJ_Installer
                 {
                     Invoke(new Action(() => button5.Enabled = true));
                     Invoke(new Action(() => button18.Enabled = true));
+                    Invoke(new Action(() => button21.Visible = false));
+                    Invoke(new Action(() => button16.Enabled = true));
+                    Invoke(new Action(() => button20.Enabled = true));
+                    Invoke(new Action(() => wifiConnectBtn.Enabled = true));
+                    Invoke(new Action(() => setclockBtn.Enabled = true));
+                    Invoke(new Action(() => officeEdition.Enabled = true));
+
 
                     if (downloadDirectory.StartsWith(Path.GetTempPath()))
                     {
@@ -598,35 +580,7 @@ namespace LhanzCJ_Installer
             {
             }
         }
-        private void RestartAsAdmin()
-        {
-            try
-            {
-                ProcessStartInfo procInfo = new ProcessStartInfo
-                {
-                    UseShellExecute = true,
-                    FileName = Application.ExecutablePath,
-                    WorkingDirectory = Environment.CurrentDirectory,
-                    Verb = "runas"
-                };
 
-                Process.Start(procInfo);
-                Application.Exit();
-            }
-            catch (Exception ex)
-            {
-                AppendText($"Failed to restart as admin: {ex.Message}\n", Color.Red);
-            }
-        }
-
-        private bool IsRunningAsAdmin()
-        {
-            using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
-            {
-                WindowsPrincipal principal = new WindowsPrincipal(identity);
-                return principal.IsInRole(WindowsBuiltInRole.Administrator);
-            }
-        }
         private bool InstallWinget(string msixPath)
         {
             try
@@ -668,20 +622,6 @@ namespace LhanzCJ_Installer
             RunPowerShellCommand(command, true);
         }
 
-        private void StoreUpdate()
-        {
-            string command = "Get-AppxPackage -AllUsers | Foreach-Object {Add-AppxPackage -DisableDevelopmentMode -Register \"$($_.InstallLocation)\\AppXManifest.xml\"}";
-            bool success = RunPowerShellCommand(command, true);
-
-            if (success)
-            {
-                AppendText("Store apps updated successfully.\n", Color.Green);
-            }
-            else
-            {
-                AppendText("Failed to update store apps.\n", Color.Red);
-            }
-        }
         private void InstallVCRedistsWithWinget()
         {
             string[] vcRedistCommands = new string[]
@@ -709,18 +649,18 @@ namespace LhanzCJ_Installer
                     if (command.Contains("winget install"))
                     {
                         string packageId = command.Replace("winget install --exact --locale \"en-US\" --id=\"", "").TrimEnd('"');
-                        AppendText($"Update version already installed for package: {packageId}\n", Color.Orange);
+                        AppendText($"{packageId}\n", Color.Orange);
                     }
                     else
                     {
                         string packageId = command.Replace("winget install --exact --locale \"en-US\" --id=\"", "").TrimEnd('"');
-                        AppendText($"Failed to install package using command: {command}\n", Color.Red);
+                        AppendText($"{command}\n", Color.Red);
                     }
                 }
                 else
                 {
                     string packageId = command.Replace("winget install --exact --locale \"en-US\" --id=\"", "").TrimEnd('"');
-                    AppendText($"Successfully installed package using command: {command}\n", Color.Green);
+                    AppendText($"{command}\n", Color.Green);
                 }
             }
         }
@@ -1017,40 +957,24 @@ namespace LhanzCJ_Installer
             }
         }
 
-        private bool RunInstaller(string filePath, string arguments, bool runAsAdmin)
+        private bool RunInstaller(string filePath, string arguments)
         {
             try
             {
-                if (runAsAdmin)
+                ProcessStartInfo psi = new ProcessStartInfo
                 {
-                    ProcessStartInfo psi = new ProcessStartInfo
-                    {
-                        FileName = filePath,
-                        Arguments = arguments,
-                        UseShellExecute = true,
-                        Verb = "runas",
-                        CreateNoWindow = true
-                    };
-
-                    using (Process process = Process.Start(psi))
-                    {
-                        process.WaitForExit();
-                        return process.ExitCode == 0;
-                    }
-                }
-                else
-                {
-                    return StartProcessAsUser(filePath, arguments);
-                }
+                    FileName = filePath,
+                    Arguments = arguments,
+                    Verb = "runas",
+                    UseShellExecute = true
+                };
+                Process.Start(psi)?.WaitForExit(300000);
+                return true;
             }
             catch (Exception ex)
             {
-                if (!filePath.EndsWith("winget.msixbundle", StringComparison.OrdinalIgnoreCase))
-                {
-                    AppendText($"Installer error: {ex.Message}\n", Color.Red);
-                }
+                AppendText($"Installation Error: {ex.Message}\n", Color.Red);
                 return false;
-
             }
         }
 
@@ -1262,32 +1186,6 @@ namespace LhanzCJ_Installer
                 }
             }
 
-            if (appName.Equals("Spotify", StringComparison.OrdinalIgnoreCase))
-            {
-                try
-                {
-                    string[] possiblePaths = {
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Spotify", "Spotify.exe"),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Spotify", "Spotify.exe"),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Spotify", "Spotify.exe"),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Spotify", "Spotify.exe")
-            };
-
-                    foreach (string path in possiblePaths)
-                    {
-                        if (File.Exists(path))
-                            return true;
-                    }
-
-                    return CheckRegistryForPartialName(new[] { "Spotify" });
-
-                }
-                catch (Exception ex)
-                {
-                    AppendText($"Error checking Spotify: {ex.Message}\n", Color.Red);
-                    return false;
-                }
-            }
 
             if (appName.Equals("Zoom", StringComparison.OrdinalIgnoreCase))
             {
@@ -1467,15 +1365,13 @@ namespace LhanzCJ_Installer
             public string FileName { get; }
             public string DownloadUrl { get; }
             public string InstallArgs { get; }
-            public bool RunAsAdmin { get; }
 
-            public InstallStep(string name, string fileName, string downloadUrl, string installArgs, bool runAsAdmin = true)
+            public InstallStep(string name, string fileName, string downloadUrl, string installArgs)
             {
                 Name = name;
                 FileName = fileName;
                 DownloadUrl = downloadUrl;
                 InstallArgs = installArgs;
-                RunAsAdmin = runAsAdmin;
             }
         }
         private void button6_Click(object sender, EventArgs e)
@@ -1563,33 +1459,35 @@ namespace LhanzCJ_Installer
 
         private void button8_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "microsoft.windows.camera:",
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception)
-            {
-                DialogResult result = MessageBox.Show(
-                    "An error occurred while trying to open the Camera app. Open Camera Tester instead?",
-                    "Camera App Missing",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning
-                );
+            DialogResult choice = MessageBox.Show(
+                "Choose a camera option:\n\nYes - Use Windows Camera\nNo - Use Software Camera",
+                "Select Camera",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question
+            );
 
-                if (result == DialogResult.Yes)
+            if (choice == DialogResult.Yes)
+            {
+                try
                 {
-                    CamTest camTest = new CamTest();
-                    camTest.Show();
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "microsoft.windows.camera:",
+                        UseShellExecute = true
+                    });
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("An error occurred while opening the Windows Camera app.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            //CamTest camTest = new CamTest();
-            //camTest.Show();
+            else if (choice == DialogResult.No)
+            {
+                CamTest camTest = new CamTest();
+                camTest.Show();
+            }
         }
+
 
 
         private void button9_Click(object sender, EventArgs e)
@@ -1706,48 +1604,108 @@ namespace LhanzCJ_Installer
 
         private void wifiConnectBtn_Click(object sender, EventArgs e)
         {
-            new Thread(() => ConnectToWiFi()).Start();
+            DialogResult result = MessageBox.Show(
+                "Do you want to connect to the current configured WiFi?\n\n" +
+                "Click 'Yes' to use the existing connection.\n" +
+                "Click 'No' to enter a custom SSID and Password.",
+                "WiFi Connection", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                new Thread(() => ConnectToCurrentWiFi()).Start();
+            }
+            else if (result == DialogResult.No)
+            {
+                new Thread(() => ConnectToCustomWiFi()).Start();
+            }
         }
 
-        private void ConnectToWiFi()
+        private void ConnectToCurrentWiFi()
         {
             try
             {
-                string ssid = "Test_Wifi 2.4G";
-                string password = "admin123";
-                string profileName = "Test_Wifi_Profile";
+                string ssid = GetCurrentWiFiSSID();
+                if (string.IsNullOrEmpty(ssid))
+                {
+                    AppendText("No active WiFi connection found!\n", Color.Red);
+                    return;
+                }
 
+                AppendText($"Reconnecting to {ssid}...\n", Color.Blue);
+                RunCommand("netsh", $"wlan connect name=\"{ssid}\"");
+            }
+            catch (Exception ex)
+            {
+                AppendText($"WiFi Connection Error: {ex.Message}\n", Color.Red);
+            }
+        }
+
+        private void ConnectToCustomWiFi()
+        {
+            try
+            {
+                string settingsPath = Path.Combine(Application.StartupPath, "settings.ini");
+                string ssid = "", password = "";
+
+                if (File.Exists(settingsPath))
+                {
+                    string[] settings = File.ReadAllLines(settingsPath);
+                    if (settings.Length >= 2)
+                    {
+                        ssid = settings[0];
+                        password = settings[1];
+                    }
+                }
+
+                if (string.IsNullOrEmpty(ssid) || string.IsNullOrEmpty(password))
+                {
+                    using (var inputForm = new WiFiInputForm())
+                    {
+                        if (inputForm.ShowDialog() == DialogResult.OK)
+                        {
+                            ssid = inputForm.SSID;
+                            password = inputForm.Password;
+
+                            File.WriteAllText(settingsPath, $"{ssid}\n{password}");
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                }
+
+                string profileName = $"{ssid}_Profile";
                 string xml = $@"<?xml version=""1.0""?>
-                <WLANProfile xmlns=""http://www.microsoft.com/networking/WLAN/profile/v1"">
-                    <name>{profileName}</name>
-                    <SSIDConfig>
-                        <SSID>
-                            <name>{ssid}</name>
-                        </SSID>
-                    </SSIDConfig>
-                    <connectionType>ESS</connectionType>
-                    <connectionMode>auto</connectionMode>
-                    <MSM>
-                        <security>
-                            <authEncryption>
-                                <authentication>WPA2PSK</authentication>
-                                <encryption>AES</encryption>
-                                <useOneX>false</useOneX>
-                            </authEncryption>
-                            <sharedKey>
-                                <keyType>passPhrase</keyType>
-                                <protected>false</protected>
-                                <keyMaterial>{password}</keyMaterial>
-                            </sharedKey>
-                        </security>
-                    </MSM>
-                </WLANProfile>";
+        <WLANProfile xmlns=""http://www.microsoft.com/networking/WLAN/profile/v1"">
+            <name>{profileName}</name>
+            <SSIDConfig>
+                <SSID>
+                    <name>{ssid}</name>
+                </SSID>
+            </SSIDConfig>
+            <connectionType>ESS</connectionType>
+            <connectionMode>auto</connectionMode>
+            <MSM>
+                <security>
+                    <authEncryption>
+                        <authentication>WPA2PSK</authentication>
+                        <encryption>AES</encryption>
+                        <useOneX>false</useOneX>
+                    </authEncryption>
+                    <sharedKey>
+                        <keyType>passPhrase</keyType>
+                        <protected>false</protected>
+                        <keyMaterial>{password}</keyMaterial>
+                    </sharedKey>
+                </security>
+            </MSM>
+        </WLANProfile>";
 
                 string tempPath = Path.GetTempPath();
                 string xmlPath = Path.Combine(tempPath, $"{profileName}.xml");
                 File.WriteAllText(xmlPath, xml);
 
-                richTextBox1.Clear();
                 AppendText($"Creating WiFi profile for {ssid}...\n", Color.Blue);
                 RunCommand("netsh", $"wlan add profile filename=\"{xmlPath}\"");
 
@@ -1758,34 +1716,60 @@ namespace LhanzCJ_Installer
             }
             catch (Exception ex)
             {
-                richTextBox1.Clear();
                 AppendText($"WiFi Connection Error: {ex.Message}\n", Color.Red);
-
             }
         }
 
-        private void RunCommand(string command, string args)
+        private string GetCurrentWiFiSSID()
         {
             try
             {
                 ProcessStartInfo psi = new ProcessStartInfo
                 {
-                    FileName = command,
-                    Arguments = args,
-                    UseShellExecute = false,
+                    FileName = "netsh",
+                    Arguments = "wlan show interfaces",
                     RedirectStandardOutput = true,
+                    UseShellExecute = false,
                     CreateNoWindow = true
                 };
 
                 using (Process process = Process.Start(psi))
+                using (StreamReader reader = process.StandardOutput)
                 {
-                    string output = process.StandardOutput.ReadToEnd();
-                    AppendText(output + "\n", Color.Black);
+                    string output = reader.ReadToEnd();
+                    foreach (string line in output.Split('\n'))
+                    {
+                        if (line.Trim().StartsWith("SSID") && !line.Contains("BSSID"))
+                        {
+                            return line.Split(':')[1].Trim();
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                AppendText($"Command Error ({command}): {ex.Message}\n", Color.Red);
+                AppendText($"Error retrieving current WiFi SSID: {ex.Message}\n", Color.Red);
+            }
+            return string.Empty;
+        }
+
+        private void RunCommand(string fileName, string arguments)
+        {
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = fileName,
+                Arguments = arguments,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (Process process = Process.Start(psi))
+            using (StreamReader reader = process.StandardOutput)
+            {
+                string result = reader.ReadToEnd();
+                AppendText(result, Color.Black);
             }
         }
 
@@ -1840,7 +1824,7 @@ namespace LhanzCJ_Installer
 
             officeDownloadClient = new WebClient();
 
-            Thread officeThread = new Thread(() =>
+            Thread officeThread = new Thread(async () =>
             {
                 try
                 {
@@ -1867,7 +1851,7 @@ namespace LhanzCJ_Installer
                         }
                     }
 
-                    bool downloadSuccess = DownloadOfficeInstaller(url, downloadFilePath);
+                    bool downloadSuccess = await DownloadOfficeInstallerAsync(url, downloadFilePath);
 
                     if (!downloadSuccess)
                     {
@@ -1908,6 +1892,7 @@ namespace LhanzCJ_Installer
             };
             officeThread.Start();
         }
+
         private void OfficeInstallCancelHandler(object sender, EventArgs e)
         {
             if (officeDownloadClient?.IsBusy == true)
@@ -1935,54 +1920,47 @@ namespace LhanzCJ_Installer
             }
         }
 
-        private bool DownloadOfficeInstaller(string url, string destination)
+        private async Task<bool> DownloadOfficeInstallerAsync(string url, string destination)
         {
             try
             {
-                using (WebClient client = new WebClient())
+                using (HttpClient client = new HttpClient())
+                using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
                 {
-                    ManualResetEvent downloadCompleted = new ManualResetEvent(false);
-                    bool success = false;
-
-                    client.DownloadProgressChanged += (s, e) =>
+                    if (!response.IsSuccessStatusCode)
                     {
-                        int percent = e.ProgressPercentage;
-                        Invoke(new Action(() =>
-                        {
-                            progressBar2.Value = percent;
-                            UpdateDownloadProgress(Path.GetFileName(destination), percent);
-                        }));
-                    };
+                        Invoke(new Action(() => AppendText($"Download error: {response.ReasonPhrase}\n", Color.Red)));
+                        return false;
+                    }
 
-                    client.DownloadFileCompleted += (s, e) =>
+                    long? totalBytes = response.Content.Headers.ContentLength;
+                    using (Stream contentStream = await response.Content.ReadAsStreamAsync(),
+                           fileStream = new FileStream(destination, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true))
                     {
-                        if (e.Error != null)
+                        byte[] buffer = new byte[8192];
+                        long totalRead = 0;
+                        int bytesRead;
+
+                        while ((bytesRead = await contentStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                         {
-                            Invoke(new Action(() => AppendText($"Download error: {e.Error.Message}\n", Color.Red)));
-                            success = false;
-                        }
-                        else if (e.Cancelled)
-                        {
-                            Invoke(new Action(() => AppendText("Download cancelled.\n", Color.DarkGray)));
-                            success = false;
-                        }
-                        else
-                        {
-                            success = true;
+                            await fileStream.WriteAsync(buffer, 0, bytesRead);
+                            totalRead += bytesRead;
+
+                            int percent = totalBytes.HasValue ? (int)((totalRead * 100) / totalBytes.Value) : 0;
                             Invoke(new Action(() =>
                             {
-                                progressBar2.Value = 100;
-                                AppendText("Download completed successfully.\n", Color.Green);
+                                progressBar2.Value = percent;
+                                UpdateDownloadProgress(Path.GetFileName(destination), percent);
                             }));
                         }
-                        downloadCompleted.Set();
-                    };
+                    }
 
-                    Invoke(new Action(() => AppendText($"Downloading Office installer...\n", Color.Blue)));
-                    client.DownloadFileAsync(new Uri(url), destination);
-                    downloadCompleted.WaitOne();
-
-                    return success && File.Exists(destination);
+                    Invoke(new Action(() =>
+                    {
+                        progressBar2.Value = 100;
+                        AppendText("Download completed successfully.\n", Color.Green);
+                    }));
+                    return File.Exists(destination);
                 }
             }
             catch (Exception ex)
@@ -1991,6 +1969,7 @@ namespace LhanzCJ_Installer
                 return false;
             }
         }
+
 
         private bool RunOfficeInstaller(string installerPath)
         {
@@ -2113,11 +2092,10 @@ namespace LhanzCJ_Installer
         }
 
 
-
         private void oobe_Click(object sender, EventArgs e)
         {
             DialogResult firstConfirm = MessageBox.Show(
-                "Are you sure you want to run the OOBE setup? This will restart your computer.",
+                "Are you sure you want to run the OOBE setup? This will restart or shut down your computer.",
                 "Confirm OOBE Setup",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
@@ -2125,7 +2103,7 @@ namespace LhanzCJ_Installer
             if (firstConfirm == DialogResult.Yes)
             {
                 DialogResult secondConfirm = MessageBox.Show(
-                    "This action is irreversible and will reboot your system immediately.\n\nDo you want to proceed?",
+                    "This action is irreversible and will restart or shut down your system immediately.\n\nDo you want to proceed?",
                     "Final Confirmation",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Exclamation);
@@ -2136,19 +2114,50 @@ namespace LhanzCJ_Installer
                     {
                         Process.Start(new ProcessStartInfo
                         {
+                            FileName = "cmd.exe",
+                            Arguments = "/c netsh wlan delete profile name=*",
+                            UseShellExecute = false,
+                            CreateNoWindow = true
+                        });
+
+                        DialogResult rebootOrShutdown = MessageBox.Show(
+                            "Do you want to reboot or shut down?",
+                            "Choose Action",
+                            MessageBoxButtons.YesNoCancel,
+                            MessageBoxIcon.Question,
+                            MessageBoxDefaultButton.Button1);
+
+                        string sysprepArgument = "";
+
+                        if (rebootOrShutdown == DialogResult.Yes)
+                        {
+                            sysprepArgument = "/oobe /reboot";
+                        }
+                        else if (rebootOrShutdown == DialogResult.No)
+                        {
+                            sysprepArgument = "/oobe /shutdown";
+                        }
+                        else
+                        {
+                            return;
+                        }
+
+                        Process.Start(new ProcessStartInfo
+                        {
                             FileName = Environment.ExpandEnvironmentVariables(@"%windir%\system32\sysprep\sysprep.exe"),
-                            Arguments = "/oobe /reboot",
+                            Arguments = sysprepArgument,
                             UseShellExecute = false,
                             CreateNoWindow = true
                         });
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error launching Sysprep: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error executing commands: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
+
 
         private void button20_Click(object sender, EventArgs e)
         {
@@ -2159,9 +2168,6 @@ namespace LhanzCJ_Installer
 
                 AppendText("Checking Windows image health...\n", Color.Blue);
                 RunPowerShellCommand("DISM /Online /Cleanup-Image /RestoreHealth", true);
-
-                AppendText("Checking disk for errors...\n", Color.Blue);
-                RunPowerShellCommand("chkdsk C: /f /r /x", true);
 
                 AppendText("Flushing DNS and resetting network settings...\n", Color.Blue);
                 RunPowerShellCommand("ipconfig /flushdns", true);
@@ -2208,6 +2214,12 @@ namespace LhanzCJ_Installer
 
             AppendText("Installation cancelled by user.\n", Color.Orange);
             button21.Visible = false;
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            AboutForm aboutForm = new AboutForm();
+            aboutForm.ShowDialog();
         }
     }
 }

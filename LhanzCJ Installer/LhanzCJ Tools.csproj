@@ -189,6 +189,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,6 +245,15 @@
     <Compile Include="webcam.Designer.cs">
       <DependentUpon>webcam.cs</DependentUpon>
     </Compile>
+    <Compile Include="WiFiInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WiFiInputForm.Designer.cs">
+      <DependentUpon>WiFiInputForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.aa.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -278,6 +293,9 @@
     <EmbeddedResource Include="webcam.resx">
       <DependentUpon>webcam.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WiFiInputForm.resx">
+      <DependentUpon>WiFiInputForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -305,9 +323,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="apps\HardDiskValidator.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="apps\MemoryChecker.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
