@@ -117,16 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Program: LhanzCJ Toolbox v3.4
-Author: Jake Ashley Panlilio
-
-I created this program as a personal project, specifically 
-for LhanzCJ technicians, to help streamline tasks and 
-improve efficiency. It’s completely free, with no financial 
-transactions involved, and is designed to simplify workflows 
-by automating repetitive processes.
-
-Follow me on:</value>
-  </data>
 </root>

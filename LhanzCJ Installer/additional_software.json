@@ -1,0 +1,42 @@
+[
+  {
+    "Name": "Revo Uninstaller",
+    "Url": "https://81081bb5bd2a290e19d0-73f958688cc73e14784b0be099708265.ssl.cf1.rackcdn.com/revosetup.exe"
+  },
+  {
+    "Name": "Notepad++",
+    "Url": "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.7.8/npp.8.7.8.Installer.x64.exe"
+  },
+  {
+    "Name": "Brave",
+    "Url": "https://referrals.brave.com/latest/BraveBrowserSetup-BRV040.exe"
+  },
+  {
+    "Name": "Google Drive",
+    "Url": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe"
+  },
+  {
+    "Name": "Malwarebytes",
+    "Url": "https://data-cdn.mbamupdates.com/web/mb5-setup-consumer/MBSetup.exe"
+  },
+  {
+    "Name": "Opera GX",
+    "Url": "https://get.opera.com/ftp/pub/opera_gx/117.0.5408.140/win/Opera_GX_117.0.5408.140_Setup.exe"
+  },
+  {
+    "Name": "Discord",
+    "Url": "https://dl.discordapp.net/apps/win/0.0.309/DiscordSetup.exe"
+  },
+  {
+    "Name": "Steam",
+    "Url": "https://cdn.cloudflare.steamstatic.com/client/installer/SteamSetup.exe"
+  },
+  {
+    "Name": "Mozilla Firefox",
+    "Url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/136.0.2/win32/en-US/Firefox%20Installer.exe"
+  },
+  {
+    "Name": "Winrar",
+    "Url": "https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-602.exe"
+  }
+]

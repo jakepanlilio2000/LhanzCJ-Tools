@@ -12,9 +12,9 @@ namespace LhanzCJ_Installer
         [DllImport("user32.dll")]
 
         public static extern short GetAsyncKeyState(Keys vKey);
-        private Timer keyPollTimer;
+        private readonly Timer keyPollTimer;
 
-        private Dictionary<Keys, Button> keyButtonMap = new Dictionary<Keys, Button>();
+        private readonly Dictionary<Keys, Button> keyButtonMap = new Dictionary<Keys, Button>();
         public KBTest()
         {
             KeyPreview = true;

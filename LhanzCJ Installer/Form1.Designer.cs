@@ -36,7 +36,6 @@
             this.button5 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -47,7 +46,6 @@
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
-            this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.wifiConnectBtn = new System.Windows.Forms.Button();
             this.DrvUptBtn = new System.Windows.Forms.Button();
@@ -125,11 +123,6 @@
             this.richTextBox1.ReadOnly = true;
             this.richTextBox1.TabStop = false;
             // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
             // button6
             // 
             this.button6.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -140,8 +133,8 @@
             // 
             // button7
             // 
-            resources.ApplyResources(this.button7, "button7");
             this.button7.ForeColor = System.Drawing.SystemColors.ControlText;
+            resources.ApplyResources(this.button7, "button7");
             this.button7.Name = "button7";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
@@ -199,13 +192,6 @@
             this.button13.Name = "button13";
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.button13_Click);
-            // 
-            // button14
-            // 
-            resources.ApplyResources(this.button14, "button14");
-            this.button14.Name = "button14";
-            this.button14.UseVisualStyleBackColor = true;
-            this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
             // button15
             // 
@@ -266,8 +252,8 @@
             // 
             // button16
             // 
-            resources.ApplyResources(this.button16, "button16");
             this.button16.ForeColor = System.Drawing.SystemColors.ControlText;
+            resources.ApplyResources(this.button16, "button16");
             this.button16.Name = "button16";
             this.button16.UseVisualStyleBackColor = true;
             this.button16.Click += new System.EventHandler(this.button16_Click);
@@ -287,7 +273,8 @@
             resources.GetString("officeEdition.Items1"),
             resources.GetString("officeEdition.Items2"),
             resources.GetString("officeEdition.Items3"),
-            resources.GetString("officeEdition.Items4")});
+            resources.GetString("officeEdition.Items4"),
+            resources.GetString("officeEdition.Items5")});
             resources.ApplyResources(this.officeEdition, "officeEdition");
             this.officeEdition.Name = "officeEdition";
             // 
@@ -314,8 +301,8 @@
             // 
             // oobe
             // 
-            resources.ApplyResources(this.oobe, "oobe");
             this.oobe.ForeColor = System.Drawing.SystemColors.ControlText;
+            resources.ApplyResources(this.oobe, "oobe");
             this.oobe.Name = "oobe";
             this.oobe.UseVisualStyleBackColor = true;
             this.oobe.Click += new System.EventHandler(this.oobe_Click);
@@ -374,7 +361,6 @@
             this.Controls.Add(this.DrvUptBtn);
             this.Controls.Add(this.wifiConnectBtn);
             this.Controls.Add(this.button15);
-            this.Controls.Add(this.button14);
             this.Controls.Add(this.button13);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.button11);
@@ -385,7 +371,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button5);
@@ -411,7 +396,6 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Label label2;
@@ -422,7 +406,6 @@
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
-        private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button wifiConnectBtn;
         private System.Windows.Forms.Button DrvUptBtn;

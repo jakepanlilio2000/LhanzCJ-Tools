@@ -47,7 +47,7 @@ namespace LhanzCJ_Installer
             {
                 foreach (var device in deviceCollection)
                 {
-                    if (captureMode == CaptureMode.LoopbackCapture ? device.DeviceFormat.Channels > 1 : true)
+                    if (captureMode != CaptureMode.LoopbackCapture || device.DeviceFormat.Channels > 1)
                     {
                         var deviceFormat = WaveFormatFromBlob(device.PropertyStore[
             new PropertyKey(new Guid(0xf19f064d, 0x82c, 0x4e27, 0xbc, 0x73, 0x68, 0x82, 0xa1, 0xbb, 0x8e, 0x4c), 0)].BlobValue);
@@ -91,7 +91,7 @@ namespace LhanzCJ_Installer
                     _soundIn.Initialize();
 
                     var soundInSource = new SoundInSource(_soundIn)
-                    { FillWithZeros = SelectedDevice.DeviceFormat.Channels <= 1 ? true : false };
+                    { FillWithZeros = SelectedDevice.DeviceFormat.Channels <= 1 };
 
                     var singleBlockNotificationStream = new SingleBlockNotificationStream(soundInSource.ToStereo().ToSampleSource());
                     _finalSource = singleBlockNotificationStream.ToWaveSource();
@@ -191,8 +191,7 @@ namespace LhanzCJ_Installer
             progressBarR.Value = Math.Abs(Convert.ToInt32(r * 100));
             var image = pictureBoxGraphVisualizer.Image;
             pictureBoxGraphVisualizer.Image = _graphVisualization.Draw(pictureBoxGraphVisualizer.Width, pictureBoxGraphVisualizer.Height);
-            if (image != null)
-                image.Dispose();
+            image?.Dispose();
         }
 
         private void MicTest_FormClosing(object sender, FormClosingEventArgs e)

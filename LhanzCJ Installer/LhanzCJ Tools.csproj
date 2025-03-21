@@ -195,6 +195,19 @@
     <Compile Include="AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddSoftwareForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddSoftwareForm.Designer.cs">
+      <DependentUpon>AddSoftwareForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChoiceDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChoiceDialogForm.Designer.cs">
+      <DependentUpon>ChoiceDialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomSoftware.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,6 +246,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Record.resx</DependentUpon>
     </Compile>
+    <Compile Include="SoftwareSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SoftwareSelectionForm.Designer.cs">
+      <DependentUpon>SoftwareSelectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SoundCheck.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -253,6 +272,9 @@
     </Compile>
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddSoftwareForm.resx">
+      <DependentUpon>AddSoftwareForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.aa.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -296,6 +318,9 @@
     <EmbeddedResource Include="WiFiInputForm.resx">
       <DependentUpon>WiFiInputForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="additional_software.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -323,9 +348,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="apps\MemoryChecker.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="assets\AIO_Test.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

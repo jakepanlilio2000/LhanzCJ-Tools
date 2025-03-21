@@ -83,20 +83,13 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(12, 0);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.label1.Location = new System.Drawing.Point(13, 28);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label1.Size = new System.Drawing.Size(346, 190);
+            this.label1.Size = new System.Drawing.Size(341, 150);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Program: LhanzCJ Toolbox\n" +
-              "Author: Jake Ashley Panlilio\n\n" +
-              "This program was developed as a free tool with no \n" +
-              "monetary transactions involved. It is designed to \n" +
-              "assist technicians by streamlining their tasks,\n" +
-              "enabling them to work more efficiently and \n" +
-              "automate processes.\n\n" +
-              "Follow me on:";
+            this.label1.Text = resources.GetString("label1.Text");
             // 
             // AboutForm
             // 
